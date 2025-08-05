@@ -1,0 +1,300 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { type PropertyData, type RoomData, parseCSVData, parseCSVDataWithAllRooms } from "@/lib/data-parser"
+import {
+  Home,
+  BarChart3,
+  Package,
+  TrendingUp,
+  Users,
+  FileText,
+  Bed,
+  Bath,
+  Car,
+  Ruler,
+  Download,
+  ArrowLeft,
+  Activity,
+} from "lucide-react"
+import { RoomDetailModal } from "@/components/room-detail-modal"
+import { OverviewTab } from "@/components/tabs/overview-tab"
+import { RoomInsightsTab } from "@/components/tabs/room-insights-tab"
+import { AssetsTab } from "@/components/tabs/assets-tab"
+import { AudienceTab } from "@/components/tabs/audience-tab"
+import { PlatformEngagementTab } from "@/components/tabs/platform-engagement-tab"
+import { LeadsTab } from "@/components/tabs/leads-tab"
+import { ReportsTab } from "@/components/tabs/reports-tab"
+import { SearchPage } from "@/components/search-page"
+
+export default function PropertyInsightsTool() {
+  const [propertyData, setPropertyData] = useState<PropertyData | null>(null)
+  const [selectedRoom, setSelectedRoom] = useState<RoomData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [showRoomDetail, setShowRoomDetail] = useState(false)
+  const [showSearch, setShowSearch] = useState(true)
+  const [selectedAddress, setSelectedAddress] = useState<string>("")
+  const [audienceSubTab, setAudienceSubTab] = useState("analytics")
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/data/property-data.csv")
+        const csvText = await response.text()
+
+        // Try to use the enhanced parser with all rooms
+        try {
+          const parsedData = await parseCSVDataWithAllRooms(csvText)
+          setPropertyData(parsedData)
+        } catch (error) {
+          console.warn("Failed to load all rooms data, using basic parser:", error)
+          const parsedData = parseCSVData(csvText)
+          setPropertyData(parsedData)
+        }
+      } catch (error) {
+        console.error("Error fetching property data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (!showSearch) {
+      fetchData()
+    }
+  }, [showSearch])
+
+  const handlePropertySelect = (address: string) => {
+    setSelectedAddress(address)
+    setShowSearch(false)
+  }
+
+  const handleBackToSearch = () => {
+    setShowSearch(true)
+    setSelectedAddress("")
+  }
+
+  const handleRoomClick = (room: RoomData) => {
+    setSelectedRoom(room)
+    setShowRoomDetail(true)
+  }
+
+  if (showSearch) {
+    return <SearchPage onPropertySelect={handlePropertySelect} />
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading property data...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!propertyData) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-600">Failed to load property data</p>
+      </div>
+    )
+  }
+
+  // Clean address by removing quotes
+  const cleanAddress = propertyData.address.replace(/"/g, "")
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Enhanced Header - CORRECTED DATA DISPLAY */}
+        <div className="mb-8">
+          <Card className="bg-white shadow-sm border-0 rounded-2xl">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleBackToSearch}
+                    className="flex items-center gap-2 bg-transparent"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Back to Search
+                  </Button>
+                  <div className="w-8 h-8 bg-gray-200 rounded border border-gray-300 flex items-center justify-center">
+                    <span className="text-xs font-medium text-gray-600">Hinges</span>
+                  </div>
+                  <h1 className="text-xl font-semibold text-gray-900">Little Hinges Property Insights</h1>
+                </div>
+                <Button variant="outline" className="flex items-center gap-2 bg-transparent">
+                  <Download className="h-4 w-4" />
+                  Export Data
+                </Button>
+              </div>
+
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-2">{cleanAddress}</h2>
+                <div className="flex items-center justify-center gap-6 mb-4">
+                  <div className="flex items-center gap-2">
+                    <Home className="h-5 w-5 text-gray-600" />
+                    <span className="text-gray-700 font-medium">{propertyData.propertyType}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Bed className="h-5 w-5 text-gray-600" />
+                    <span className="text-gray-700">{propertyData.bedrooms} bed</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Bath className="h-5 w-5 text-gray-600" />
+                    <span className="text-gray-700">{propertyData.bathrooms} bath</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Car className="h-5 w-5 text-gray-600" />
+                    <span className="text-gray-700">{propertyData.carSpaces} car</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Ruler className="h-5 w-5 text-gray-600" />
+                    <span className="text-gray-700">{Math.round(propertyData.totalArea)} sqm</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Package className="h-5 w-5 text-gray-600" />
+                    <span className="text-gray-700">{propertyData.rooms.length} rooms</span>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-gray-900">
+                    ${propertyData.estimatedPrice.toLocaleString()}
+                  </div>
+                  <div className="text-sm text-gray-500">Est. Value</div>
+                  <div className="text-sm text-gray-400 mt-1">
+                    Property Valuation: ${propertyData.propertyValuation.toLocaleString()} • Last Sale: $
+                    {propertyData.lastSalePrice.toLocaleString()}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Navigation Tabs */}
+        <Tabs defaultValue="overview" className="w-full">
+          <div className="mb-8">
+            <Card className="bg-white shadow-sm border-0 rounded-2xl">
+              <CardContent className="p-2">
+                <TabsList className="grid w-full grid-cols-6 bg-transparent gap-1">
+                  <TabsTrigger
+                    value="overview"
+                    className="flex items-center gap-2 data-[state=active]:bg-gray-100 rounded-xl py-3"
+                  >
+                    <Home className="h-4 w-4" />
+                    Overview
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="room-insights"
+                    className="flex items-center gap-2 data-[state=active]:bg-gray-100 rounded-xl py-3"
+                  >
+                    <BarChart3 className="h-4 w-4" />
+                    Room Insights
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="assets"
+                    className="flex items-center gap-2 data-[state=active]:bg-gray-100 rounded-xl py-3"
+                  >
+                    <Package className="h-4 w-4" />
+                    Assets
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="leads"
+                    className="flex items-center gap-2 data-[state=active]:bg-gray-100 rounded-xl py-3"
+                  >
+                    <TrendingUp className="h-4 w-4" />
+                    Lead Capture
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="audience"
+                    className="flex items-center gap-2 data-[state=active]:bg-gray-100 rounded-xl py-3"
+                  >
+                    <Users className="h-4 w-4" />
+                    Audience Tracking
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="reports"
+                    className="flex items-center gap-2 data-[state=active]:bg-gray-100 rounded-xl py-3"
+                  >
+                    <FileText className="h-4 w-4" />
+                    Reports
+                  </TabsTrigger>
+                </TabsList>
+              </CardContent>
+            </Card>
+          </div>
+
+          <TabsContent value="overview">
+            <OverviewTab propertyData={propertyData} />
+          </TabsContent>
+
+          <TabsContent value="room-insights">
+            <RoomInsightsTab propertyData={propertyData} onRoomClick={handleRoomClick} />
+          </TabsContent>
+
+          <TabsContent value="assets">
+            <AssetsTab propertyData={propertyData} />
+          </TabsContent>
+
+          <TabsContent value="leads">
+            <LeadsTab />
+          </TabsContent>
+
+          <TabsContent value="audience">
+            <div className="space-y-6">
+              {/* Sub-navigation for Audience Tracking */}
+              <Card className="bg-white shadow-sm border-0 rounded-2xl">
+                <CardContent className="p-2">
+                  <div className="flex gap-1">
+                    <Button
+                      variant={audienceSubTab === "analytics" ? "default" : "ghost"}
+                      onClick={() => setAudienceSubTab("analytics")}
+                      className={`flex-1 ${
+                        audienceSubTab === "analytics"
+                          ? "bg-gray-100 text-gray-900"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                      }`}
+                    >
+                      <Users className="h-4 w-4 mr-2" />
+                      Visitor Analytics
+                    </Button>
+                    <Button
+                      variant={audienceSubTab === "platform" ? "default" : "ghost"}
+                      onClick={() => setAudienceSubTab("platform")}
+                      className={`flex-1 ${
+                        audienceSubTab === "platform"
+                          ? "bg-gray-100 text-gray-900"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                      }`}
+                    >
+                      <Activity className="h-4 w-4 mr-2" />
+                      Platform Engagement
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {audienceSubTab === "analytics" && <AudienceTab propertyData={propertyData} />}
+              {audienceSubTab === "platform" && <PlatformEngagementTab propertyData={propertyData} />}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reports">
+            <ReportsTab />
+          </TabsContent>
+        </Tabs>
+
+        {/* Room Detail Modal */}
+        <RoomDetailModal room={selectedRoom} isOpen={showRoomDetail} onClose={() => setShowRoomDetail(false)} />
+      </div>
+    </div>
+  )
+}
