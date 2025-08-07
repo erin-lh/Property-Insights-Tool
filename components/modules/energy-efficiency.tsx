@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { PropertyData } from "@/lib/data-parser"
-import { Zap, TrendingUp, CheckCircle, AlertTriangle, XCircle, ChevronDown, ChevronUp, Info, Thermometer } from 'lucide-react'
+import { Zap, CheckCircle, AlertTriangle, XCircle, ChevronDown, ChevronUp, Info, Thermometer } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
@@ -91,11 +91,6 @@ export function EnergyEfficiency({ propertyData }: EnergyEfficiencyProps) {
     }
   }
 
-  const isPassingResult = (result: string) => {
-    const lowerResult = result.toLowerCase()
-    return lowerResult.includes('yes') || lowerResult.includes('good') || lowerResult.includes('excellent')
-  }
-
   // Get overview sections (3,7,11,12,14,20) and calculate pass rate
   const getOverviewData = () => {
     const overviewSections = ['3', '7', '11', '12', '14', '20']
@@ -147,19 +142,6 @@ export function EnergyEfficiency({ propertyData }: EnergyEfficiencyProps) {
     return energyData['1'] || []
   }
 
-  // Check if there's an "Efficient heating and cooling" item
-  const getHeatingCoolingItem = () => {
-    let heatingCoolingItem = null
-    Object.values(energyData).forEach(sectionItems => {
-      sectionItems.forEach(item => {
-        if (item.nameLabel.toLowerCase().includes('efficient heating and cooling')) {
-          heatingCoolingItem = item
-        }
-      })
-    })
-    return heatingCoolingItem
-  }
-
   if (loading) {
     return (
       <Card className="bg-white shadow-sm border-0 rounded-2xl">
@@ -177,7 +159,6 @@ export function EnergyEfficiency({ propertyData }: EnergyEfficiencyProps) {
   const remainingSections = getRemainingData()
   const infoData = getInfoData()
   const climateZoneItem = getClimateZoneData()
-  const heatingCoolingItem = getHeatingCoolingItem()
 
   return (
     <Card className="bg-white shadow-sm border-0 rounded-2xl">
@@ -185,25 +166,16 @@ export function EnergyEfficiency({ propertyData }: EnergyEfficiencyProps) {
         <CardTitle className="text-lg font-semibold text-gray-900 flex items-center gap-2">
           <Zap className="h-5 w-5 text-blue-600" />
           Energy Efficiency
+          <Badge variant="outline" className="bg-green-100 text-green-800">
+            5/11
+          </Badge>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Feature Count and Score */}
-        <div className="p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border border-blue-200">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-blue-600" />
-              <span className="font-medium text-gray-900">Energy Features</span>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-blue-600">
-                5/11
-              </div>
-              <div className="text-sm text-gray-600">
-                Features Passing
-              </div>
-            </div>
-          </div>
+        {/* Overall Rating */}
+        <div className="text-center p-4 bg-muted rounded-lg">
+          <div className="text-3xl font-bold text-green-600">7.5</div>
+          <div className="text-sm text-muted-foreground">Energy Rating (out of 10)</div>
         </div>
 
         {/* Climate Zone Info */}
