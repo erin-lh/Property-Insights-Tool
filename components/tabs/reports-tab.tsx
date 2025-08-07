@@ -7,34 +7,34 @@ import { FileText, Download, ExternalLink, Calendar, FileIcon as FileSize } from
 import type { PropertyData } from "@/lib/data-parser"
 
 interface ReportsTabProps {
-  propertyData: PropertyData
+  propertyData?: PropertyData
 }
 
 export function ReportsTab({ propertyData }: ReportsTabProps) {
   const reports = [
     {
       id: 1,
-      title: "Energy Efficiency Report",
-      description: "Comprehensive analysis of energy systems, HVAC efficiency, and sustainability recommendations",
+      title: "Energy Efficiency Assessment Report",
+      description: "Comprehensive analysis of energy systems, HVAC efficiency, and sustainability recommendations for 3 Bellavista Terrace",
       type: "Energy Analysis",
-      date: "2024-07-24",
-      size: "2.4 MB",
+      date: "2024-08-02",
+      size: "1.8 MB",
       status: "Complete",
-      downloadUrl: "https://drive.google.com/file/d/1example_energy_report/view?usp=sharing",
-      previewUrl: "https://drive.google.com/file/d/1example_energy_report/preview",
+      downloadUrl: "/reports/energy-efficiency-report.pdf",
+      previewUrl: "/reports/energy-efficiency-report.pdf",
       icon: <FileText className="h-5 w-5 text-green-600" />,
       color: "bg-green-50 border-green-200"
     },
     {
       id: 2,
       title: "Home Contents Report",
-      description: "Detailed inventory of fixtures, fittings, and permanent installations throughout the property",
+      description: "Detailed inventory of fixtures, fittings, and permanent installations throughout the property with total valuation of $77,750 AUD",
       type: "Contents Inventory",
-      date: "2024-07-24",
-      size: "3.1 MB",
+      date: "2024-08-02",
+      size: "2.1 MB",
       status: "Complete",
-      downloadUrl: "https://drive.google.com/file/d/1example_contents_report/view?usp=sharing",
-      previewUrl: "https://drive.google.com/file/d/1example_contents_report/preview",
+      downloadUrl: "/reports/home-contents-report.pdf",
+      previewUrl: "/reports/home-contents-report.pdf",
       icon: <FileText className="h-5 w-5 text-blue-600" />,
       color: "bg-blue-50 border-blue-200"
     }
@@ -58,7 +58,7 @@ export function ReportsTab({ propertyData }: ReportsTabProps) {
             Property Reports
           </CardTitle>
           <p className="text-gray-600">
-            Comprehensive reports generated from property scan data for {propertyData.address}
+            Comprehensive reports generated from property scan data for {propertyData?.address || "3 Bellavista Terrace, Paddington"}
           </p>
         </CardHeader>
         <CardContent>
@@ -153,12 +153,12 @@ export function ReportsTab({ propertyData }: ReportsTabProps) {
             <div>
               <h4 className="font-semibold text-gray-900 mb-2">Report Generation Details</h4>
               <div className="space-y-2 text-sm text-gray-700">
-                <p>• Reports generated from scan data collected on {new Date(propertyData.scannedDate).toLocaleDateString()}</p>
-                <p>• Scan purpose: {propertyData.scanPurpose}</p>
-                <p>• Property ID: {propertyData.id}</p>
-                <p>• Total panoramas analyzed: {propertyData.panoramaCount}</p>
-                <p>• Room data points: {propertyData.rooms.length} rooms analyzed</p>
-                {propertyData.energySummary && (
+                <p>• Reports generated from scan data collected on {propertyData?.scannedDate ? new Date(propertyData.scannedDate).toLocaleDateString() : "2nd August 2024"}</p>
+                <p>• Scan purpose: {propertyData?.scanPurpose || "Property assessment and valuation"}</p>
+                <p>• Property ID: {propertyData?.id || "3576988532719121"}</p>
+                <p>• Total panoramas analyzed: {propertyData?.panoramaCount || "12"}</p>
+                <p>• Room data points: {propertyData?.rooms?.length || "14"} rooms analyzed</p>
+                {propertyData?.energySummary && (
                   <p>• Energy summary includes {propertyData.energySummary.airconUnits} AC units and {propertyData.energySummary.smokeAlarms} smoke alarms</p>
                 )}
               </div>
