@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { type PropertyData } from '@/lib/data-parser'
-import { Home, Layers, Palette, Hammer } from 'lucide-react'
+import { Home, Layers, Hammer } from 'lucide-react'
 
 interface PropertySpecificationsProps {
   propertyData: PropertyData
@@ -48,7 +48,7 @@ export function PropertySpecifications({ propertyData }: PropertySpecificationsP
     {
       icon: <Hammer className="h-4 w-4 text-orange-600" />,
       label: 'Ceiling Height',
-      value: `${safePropertyData.ceilingHeight.toFixed(2)}m`
+      value: `Living/Dining = 3.3m, Other Rooms: ${safePropertyData.ceilingHeight.toFixed(9)}m`
     }
   ]
 
@@ -90,62 +90,6 @@ export function PropertySpecifications({ propertyData }: PropertySpecificationsP
                 <Badge variant="outline" className={area.color}>{area.value}</Badge>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Primary Materials */}
-        <div className="space-y-3">
-          <h4 className="font-medium text-gray-800">Primary Materials</h4>
-          <div className="space-y-3">
-            {/* Flooring Type */}
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <Layers className="h-4 w-4 text-amber-600" />
-                <span className="font-medium text-gray-700">Flooring Type</span>
-              </div>
-              <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 capitalize">
-                {safePropertyData.primaryFlooringType}
-              </Badge>
-            </div>
-
-            {/* Wall Material */}
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <Home className="h-4 w-4 text-stone-600" />
-                <span className="font-medium text-gray-700">Wall Material</span>
-              </div>
-              <Badge variant="outline" className="bg-stone-50 text-stone-700 border-stone-200 capitalize">
-                {safePropertyData.primaryWallType}
-              </Badge>
-            </div>
-
-            {/* Internal Wall Color */}
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <Palette className="h-4 w-4 text-pink-600" />
-                <span className="font-medium text-gray-700">Internal Wall Colour</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div 
-                  className="w-6 h-6 rounded-full border-2 border-gray-300"
-                  style={{ backgroundColor: safePropertyData.primaryInternalColor }}
-                />
-                <Badge variant="outline" className="bg-pink-50 text-pink-700 border-pink-200 font-mono">
-                  {safePropertyData.primaryInternalColor}
-                </Badge>
-              </div>
-            </div>
-
-            {/* Ceiling Type */}
-            <div className="flex items-start justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center gap-3">
-                <Layers className="h-4 w-4 text-indigo-600 mt-0.5" />
-                <span className="font-medium text-gray-700">Ceiling Type</span>
-              </div>
-              <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-200 text-right max-w-[200px] whitespace-normal leading-relaxed capitalize">
-                {safePropertyData.primaryCeilingType}
-              </Badge>
-            </div>
           </div>
         </div>
       </CardContent>

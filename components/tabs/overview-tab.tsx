@@ -1,29 +1,33 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { PropertyInventory } from '@/components/modules/property-inventory'
-import { PropertyCondition } from '@/components/modules/property-condition'
 import { PropertySpecifications } from '@/components/modules/property-specifications'
-import { EnergyEfficiency } from '@/components/modules/energy-efficiency'
 import { LocationDetails } from '@/components/modules/location-details'
 import { ScanInformation } from '@/components/modules/scan-information'
+import { PropertyCondition } from '@/components/modules/property-condition'
+import { EnergyEfficiency } from '@/components/modules/energy-efficiency'
+import { PropertyInventory } from '@/components/modules/property-inventory'
+import { type PropertyData } from '@/lib/data-parser'
 
-export function OverviewTab({ propertyData }) {
+interface OverviewTabProps {
+  propertyData: PropertyData
+}
+
+export function OverviewTab({ propertyData }: OverviewTabProps) {
   return (
     <div className="space-y-6">
-      {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="space-y-6">
-          <PropertyInventory data={propertyData.inventory} />
-          <PropertyCondition propertyData={propertyData} />
-          <EnergyEfficiency propertyData={propertyData} />
-        </div>
-        <div className="space-y-6">
-          <PropertySpecifications propertyData={propertyData} />
-          <LocationDetails propertyData={propertyData} />
-          <ScanInformation propertyData={propertyData} />
-        </div>
+        <PropertySpecifications propertyData={propertyData} />
+        <LocationDetails propertyData={propertyData} />
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <ScanInformation propertyData={propertyData} />
+        <PropertyCondition propertyData={propertyData} />
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <EnergyEfficiency propertyData={propertyData} />
+        <PropertyInventory propertyData={propertyData} />
       </div>
     </div>
   )
