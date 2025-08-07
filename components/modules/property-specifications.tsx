@@ -2,13 +2,27 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { PropertyData } from "@/lib/data-parser"
-import { Ruler, Layers } from "lucide-react"
+import { Home, Bed, Bath, Car, Ruler, Building, Calendar, MapPin } from 'lucide-react'
 
 interface PropertySpecificationsProps {
   propertyData: PropertyData
 }
 
 export function PropertySpecifications({ propertyData }: PropertySpecificationsProps) {
+  // Add null check to prevent errors
+  if (!propertyData) {
+    return (
+      <Card className="bg-white shadow-sm border-0 rounded-2xl">
+        <CardContent className="p-6">
+          <div className="animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card className="bg-white shadow-sm border-0 rounded-2xl">
       <CardHeader className="pb-4">
@@ -58,28 +72,6 @@ export function PropertySpecifications({ propertyData }: PropertySpecificationsP
           <div className="space-y-1">
             <div className="text-sm text-gray-500">Hallway Width</div>
             <div className="font-medium text-gray-900">{propertyData.hallwayAvgWidth.toFixed(2)}m</div>
-          </div>
-        </div>
-
-        {/* Primary Materials */}
-        <div className="pt-4 border-t border-gray-100">
-          <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
-            <Layers className="h-4 w-4 text-gray-600" />
-            Primary Materials
-          </h4>
-          <div className="grid grid-cols-1 gap-3">
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-sm font-medium text-gray-900">Ceiling Type</span>
-              <span className="text-sm text-gray-600 capitalize">{propertyData.primaryCeilingType}</span>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-sm font-medium text-gray-900">Wall Type</span>
-              <span className="text-sm text-gray-600 capitalize">{propertyData.primaryWallType}</span>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-sm font-medium text-gray-900">Flooring Type</span>
-              <span className="text-sm text-gray-600 capitalize">{propertyData.primaryFlooringType}</span>
-            </div>
           </div>
         </div>
       </CardContent>

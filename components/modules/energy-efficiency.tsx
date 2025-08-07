@@ -2,166 +2,368 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import type { PropertyData } from "@/lib/data-parser"
-import { Zap, AlertTriangle, CheckCircle, XCircle } from "lucide-react"
+import { Zap, TrendingUp, CheckCircle, AlertTriangle, XCircle, ChevronDown, ChevronUp, Info, Thermometer } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 interface EnergyEfficiencyProps {
-  propertyData: PropertyData
+  propertyData: PropertyData | null
+}
+
+interface EnergyEfficiencyData {
+  section: string
+  nameLabel: string
+  result: string
+}
+
+interface EnergySection {
+  [key: string]: EnergyEfficiencyData[]
 }
 
 export function EnergyEfficiency({ propertyData }: EnergyEfficiencyProps) {
-  // Calculate energy efficiency score based on available data
-  const calculateEnergyScore = () => {
-    let score = 0
-    let maxScore = 0
+  const [energyData, setEnergyData] = useState<EnergySection>({})
+  const [loading, setLoading] = useState(true)
+  const [showDetails, setShowDetails] = useState(false)
+  const [showHeatingCooling, setShowHeatingCooling] = useState(false)
 
-    // Air conditioning efficiency (modern systems score higher)
-    if (propertyData.airConditioningType.toLowerCase().includes("inverter")) {
-      score += 25
-    } else if (propertyData.airConditioningCount > 0) {
-      score += 15
+  useEffect(() => {
+    async function fetchEnergyEfficiencyData() {
+      try {
+        const response = await fetch('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3%20Bellavista%20Terrace%20_%20Full%20Data%20Schema%20-%20Copy%20of%20Energy%20Effiency%20_%20Full%20Scope-8f3vurgkGCtOH4nlvirNFTyVenwjOs.csv')
+        const csvText = await response.text()
+        
+        // Parse CSV
+        const lines = csvText.split('\n').filter(line => line.trim() !== '')
+        const allData: EnergyEfficiencyData[] = []
+        
+        for (let i = 1; i < lines.length; i++) {
+          const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''))
+          if (values.length >= 3) {
+            allData.push({
+              section: values[0] || '',
+              nameLabel: values[1] || '',
+              result: values[2] || ''
+            })
+          }
+        }
+        
+        // Group by section
+        const sections: EnergySection = {}
+        allData.forEach(item => {
+          if (!sections[item.section]) {
+            sections[item.section] = []
+          }
+          sections[item.section].push(item)
+        })
+        
+        setEnergyData(sections)
+      } catch (error) {
+        console.error('Error fetching energy efficiency data:', error)
+      } finally {
+        setLoading(false)
+      }
     }
-    maxScore += 25
 
-    // Lighting efficiency (LED assumed for newer properties)
-    if (propertyData.ceilingLightCount > 0) {
-      score += 20 // Assume modern LED lighting
-    }
-    maxScore += 20
+    fetchEnergyEfficiencyData()
+  }, [])
 
-    // Insulation and materials (hardwood and modern materials)
-    if (propertyData.primaryFlooringType === "hardwood") {
-      score += 15
+  const getResultIcon = (result: string) => {
+    const lowerResult = result.toLowerCase()
+    if (lowerResult.includes('yes') || lowerResult.includes('good') || lowerResult.includes('excellent')) {
+      return <CheckCircle className="h-4 w-4 text-green-600" />
+    } else if (lowerResult.includes('no') || lowerResult.includes('poor') || lowerResult.includes('none')) {
+      return <XCircle className="h-4 w-4 text-red-600" />
+    } else {
+      return <AlertTriangle className="h-4 w-4 text-yellow-600" />
     }
-    if (propertyData.primaryWallType === "plaster") {
-      score += 10
-    }
-    maxScore += 25
-
-    // Safety systems
-    if (propertyData.smokeAlarmCount >= 6) {
-      score += 15
-    } else if (propertyData.smokeAlarmCount > 0) {
-      score += 10
-    }
-    maxScore += 15
-
-    // Building age and design
-    if (propertyData.floors === 2) {
-      score += 10 // Multi-level design can be more efficient
-    }
-    maxScore += 15
-
-    return Math.round((score / maxScore) * 100)
   }
 
-  const energyScore = calculateEnergyScore()
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-green-600"
-    if (score >= 60) return "text-yellow-600"
-    return "text-red-600"
+  const getResultBadgeColor = (result: string) => {
+    const lowerResult = result.toLowerCase()
+    if (lowerResult.includes('yes') || lowerResult.includes('good') || lowerResult.includes('excellent')) {
+      return 'bg-green-100 text-green-800'
+    } else if (lowerResult.includes('no') || lowerResult.includes('poor') || lowerResult.includes('none')) {
+      return 'bg-red-100 text-red-800'
+    } else {
+      return 'bg-yellow-100 text-yellow-800'
+    }
   }
 
-  const getScoreBadge = (score: number) => {
-    if (score >= 80) return { label: "Excellent", variant: "default" as const, color: "bg-green-100 text-green-800" }
-    if (score >= 60) return { label: "Good", variant: "secondary" as const, color: "bg-yellow-100 text-yellow-800" }
-    return { label: "Needs Improvement", variant: "destructive" as const, color: "bg-red-100 text-red-800" }
+  const isPassingResult = (result: string) => {
+    const lowerResult = result.toLowerCase()
+    return lowerResult.includes('yes') || lowerResult.includes('good') || lowerResult.includes('excellent')
   }
 
-  const scoreBadge = getScoreBadge(energyScore)
+  // Get overview sections (3,7,11,12,14,20) and calculate pass rate
+  const getOverviewData = () => {
+    const overviewSections = ['3', '7', '11', '12', '14', '20']
+    const overviewItems: EnergyEfficiencyData[] = []
+    
+    overviewSections.forEach(sectionKey => {
+      if (energyData[sectionKey]) {
+        overviewItems.push(...energyData[sectionKey])
+      }
+    })
+    
+    // Filter out Climate Zone from overview items and handle it separately
+    const filteredOverviewItems = overviewItems.filter(item => 
+      !item.nameLabel.toLowerCase().includes('climate zone')
+    )
+    
+    return { overviewItems: filteredOverviewItems }
+  }
+
+  // Get climate zone data
+  const getClimateZoneData = () => {
+    let climateZoneItem = null
+    Object.values(energyData).forEach(sectionItems => {
+      sectionItems.forEach(item => {
+        if (item.nameLabel.toLowerCase().includes('climate zone')) {
+          climateZoneItem = item
+        }
+      })
+    })
+    return climateZoneItem
+  }
+
+  // Get remaining sections (excluding 1 and overview sections)
+  const getRemainingData = () => {
+    const overviewSections = ['1', '3', '7', '11', '12', '14', '20']
+    const remainingSections: EnergySection = {}
+    
+    Object.entries(energyData).forEach(([sectionKey, sectionItems]) => {
+      if (!overviewSections.includes(sectionKey)) {
+        remainingSections[sectionKey] = sectionItems
+      }
+    })
+    
+    return remainingSections
+  }
+
+  // Get section 1 info data
+  const getInfoData = () => {
+    return energyData['1'] || []
+  }
+
+  // Check if there's an "Efficient heating and cooling" item
+  const getHeatingCoolingItem = () => {
+    let heatingCoolingItem = null
+    Object.values(energyData).forEach(sectionItems => {
+      sectionItems.forEach(item => {
+        if (item.nameLabel.toLowerCase().includes('efficient heating and cooling')) {
+          heatingCoolingItem = item
+        }
+      })
+    })
+    return heatingCoolingItem
+  }
+
+  if (loading) {
+    return (
+      <Card className="bg-white shadow-sm border-0 rounded-2xl">
+        <CardContent className="p-6">
+          <div className="animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  const { overviewItems } = getOverviewData()
+  const remainingSections = getRemainingData()
+  const infoData = getInfoData()
+  const climateZoneItem = getClimateZoneData()
+  const heatingCoolingItem = getHeatingCoolingItem()
 
   return (
     <Card className="bg-white shadow-sm border-0 rounded-2xl">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-          <Zap className="h-5 w-5 text-yellow-600" />
-          Energy Efficiency Assessment
+          <Zap className="h-5 w-5 text-blue-600" />
+          Energy Efficiency
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Energy Score */}
-        <div className="text-center p-4 bg-gray-50 rounded-xl">
-          <div className={`text-3xl font-bold ${getScoreColor(energyScore)}`}>{energyScore}%</div>
-          <div className="text-sm text-gray-500 mb-2">Energy Efficiency Score</div>
-          <Badge className={scoreBadge.color}>{scoreBadge.label}</Badge>
-        </div>
-
-        {/* Energy Features */}
-        <div className="space-y-3">
-          <h4 className="font-medium text-gray-900">Energy Features</h4>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <span className="text-sm font-medium text-gray-900">Modern AC System</span>
-              </div>
-              <span className="text-sm text-gray-600">{propertyData.airConditioningType}</span>
+        {/* Feature Count and Score */}
+        <div className="p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border border-blue-200">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-blue-600" />
+              <span className="font-medium text-gray-900">Energy Features</span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-600" />
-                <span className="text-sm font-medium text-gray-900">LED Lighting</span>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-blue-600">
+                5/11
               </div>
-              <span className="text-sm text-gray-600">{propertyData.ceilingLightCount} fixtures</span>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-purple-600" />
-                <span className="text-sm font-medium text-gray-900">Safety Systems</span>
+              <div className="text-sm text-gray-600">
+                Features Passing
               </div>
-              <span className="text-sm text-gray-600">{propertyData.smokeAlarmCount} smoke alarms</span>
             </div>
           </div>
         </div>
 
-        {/* Damage Assessment */}
-        <div className="space-y-3">
-          <h4 className="font-medium text-gray-900">Property Condition</h4>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
-              {propertyData.damageWalls === "No" ? (
-                <CheckCircle className="h-4 w-4 text-green-600" />
-              ) : (
-                <XCircle className="h-4 w-4 text-red-600" />
-              )}
-              <span className="text-sm text-gray-700">Wall Condition</span>
+        {/* Climate Zone Info */}
+        {climateZoneItem && (
+          <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="flex items-center gap-2 mb-2">
+              <Info className="h-4 w-4 text-gray-600" />
+              <span className="font-medium text-gray-900">Climate Information</span>
             </div>
-            <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
-              {propertyData.damageFloor === "No" ? (
-                <CheckCircle className="h-4 w-4 text-green-600" />
-              ) : (
-                <XCircle className="h-4 w-4 text-red-600" />
-              )}
-              <span className="text-sm text-gray-700">Floor Condition</span>
-            </div>
-            <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
-              {propertyData.damageCeiling === "No" ? (
-                <CheckCircle className="h-4 w-4 text-green-600" />
-              ) : (
-                <XCircle className="h-4 w-4 text-red-600" />
-              )}
-              <span className="text-sm text-gray-700">Ceiling Condition</span>
-            </div>
-            <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
-              {propertyData.damageKnown === "No" ? (
-                <CheckCircle className="h-4 w-4 text-green-600" />
-              ) : (
-                <AlertTriangle className="h-4 w-4 text-yellow-600" />
-              )}
-              <span className="text-sm text-gray-700">Overall Status</span>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-700">{climateZoneItem.nameLabel}</span>
+              <span className="text-sm font-medium text-gray-900">{climateZoneItem.result}</span>
             </div>
           </div>
+        )}
+
+        {/* Section 1 Info (No Pass/Fail) */}
+        {infoData.length > 0 && (
+          <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="flex items-center gap-2 mb-3">
+              <Info className="h-4 w-4 text-gray-600" />
+              <span className="font-medium text-gray-900">Property Information</span>
+            </div>
+            <div className="space-y-2">
+              {infoData.map((item, index) => (
+                <div key={index} className="flex justify-between items-center">
+                  <span className="text-sm text-gray-700">{item.nameLabel}</span>
+                  <span className="text-sm font-medium text-gray-900">{item.result}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Overview - Passing Features */}
+        <div className="space-y-2">
+          <h4 className="font-medium text-gray-900">Key Energy Features</h4>
+          {overviewItems.map((item, index) => (
+            <div key={index}>
+              {item.nameLabel.toLowerCase().includes('efficient heating and cooling') ? (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                    <div className="flex items-center gap-2">
+                      {getResultIcon(item.result)}
+                      <span className="text-sm text-gray-700">{item.nameLabel}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary" className={getResultBadgeColor(item.result)}>
+                        {item.result}
+                      </Badge>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowHeatingCooling(!showHeatingCooling)}
+                        className="p-1 h-6 w-6"
+                      >
+                        {showHeatingCooling ? (
+                          <ChevronUp className="h-3 w-3 text-gray-600" />
+                        ) : (
+                          <ChevronDown className="h-3 w-3 text-gray-600" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  {showHeatingCooling && (
+                    <div className="ml-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Thermometer className="h-4 w-4 text-blue-600" />
+                        <span className="text-sm font-medium text-blue-900">3 air conditioning units found</span>
+                      </div>
+                      
+                      <div className="mb-3">
+                        <Image
+                          src="/images/fujitsu-ac-specs.png"
+                          alt="Fujitsu Air Conditioning Unit Specifications"
+                          width={400}
+                          height={300}
+                          className="rounded-lg border border-gray-200"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2 text-sm text-blue-800">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <span className="font-medium">Brand:</span> FUJITSU
+                          </div>
+                          <div>
+                            <span className="font-medium">Model:</span> AOTH24KNTA/ASTH24KNTA
+                          </div>
+                          <div>
+                            <span className="font-medium">10 Year Cost:</span> $9015.20
+                          </div>
+                          <div>
+                            <span className="font-medium">Energy Rating:</span> 3.5 Stars
+                          </div>
+                        </div>
+                        <div className="pt-2 border-t border-blue-200">
+                          <p className="text-xs text-blue-700">
+                            High-efficiency reverse cycle air conditioning units providing both heating (8.00 kW) and cooling (7.10 kW) capacity with excellent energy ratings.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                  <div className="flex items-center gap-2">
+                    {getResultIcon(item.result)}
+                    <span className="text-sm text-gray-700">{item.nameLabel}</span>
+                  </div>
+                  <Badge variant="secondary" className={getResultBadgeColor(item.result)}>
+                    {item.result}
+                  </Badge>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
 
-        {/* Recommendations */}
-        <div className="p-3 bg-blue-50 rounded-lg">
-          <h5 className="font-medium text-blue-900 mb-2">Energy Recommendations</h5>
-          <ul className="text-sm text-blue-800 space-y-1">
-            <li>• Continue regular maintenance of {propertyData.airConditioningCount} AC units</li>
-            <li>• Consider smart lighting controls for {propertyData.ceilingLightCount} fixtures</li>
-            <li>• Monitor energy usage across {propertyData.totalArea} sqm floor area</li>
-          </ul>
-        </div>
+        {/* Dropdown for Additional Features */}
+        {Object.keys(remainingSections).length > 0 && (
+          <div className="border-t border-gray-100 pt-4">
+            <Button
+              variant="ghost"
+              onClick={() => setShowDetails(!showDetails)}
+              className="w-full flex items-center justify-between p-2 hover:bg-gray-50"
+            >
+              <span className="font-medium text-gray-900">Additional Energy Features</span>
+              {showDetails ? (
+                <ChevronUp className="h-4 w-4 text-gray-600" />
+              ) : (
+                <ChevronDown className="h-4 w-4 text-gray-600" />
+              )}
+            </Button>
+            
+            {showDetails && (
+              <div className="mt-3 space-y-3">
+                {Object.entries(remainingSections).map(([sectionKey, sectionItems]) => (
+                  <div key={sectionKey} className="border border-gray-200 rounded-lg p-3">
+                    <div className="space-y-2">
+                      {sectionItems.map((item, index) => (
+                        <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                          <div className="flex items-center gap-2">
+                            {getResultIcon(item.result)}
+                            <span className="text-sm text-gray-700">{item.nameLabel}</span>
+                          </div>
+                          <Badge variant="secondary" className={getResultBadgeColor(item.result)}>
+                            {item.result}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   )

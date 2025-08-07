@@ -5,21 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { type PropertyData, type RoomData, parseCSVData, parseCSVDataWithAllRooms } from "@/lib/data-parser"
-import {
-  Home,
-  BarChart3,
-  Package,
-  TrendingUp,
-  Users,
-  FileText,
-  Bed,
-  Bath,
-  Car,
-  Ruler,
-  Download,
-  ArrowLeft,
-  Activity,
-} from "lucide-react"
+import { Home, BarChart3, Package, TrendingUp, Users, FileText, Bed, Bath, Car, Ruler, Download, ArrowLeft, Activity } from 'lucide-react'
 import { RoomDetailModal } from "@/components/room-detail-modal"
 import { OverviewTab } from "@/components/tabs/overview-tab"
 import { RoomInsightsTab } from "@/components/tabs/room-insights-tab"
