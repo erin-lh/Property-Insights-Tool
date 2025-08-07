@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type { PropertyData } from "@/lib/data-parser"
-import { BarChart3, Camera, Home } from "lucide-react"
+import { BarChart3, Camera, Home } from 'lucide-react'
 import { RoomPanoramaGrid } from "@/components/google-drive-panorama"
 
 interface AssetsTabProps {
@@ -13,10 +13,17 @@ export function AssetsTab({ propertyData }: AssetsTabProps) {
   return (
     <div className="space-y-6">
       {/* Asset Navigation */}
-      <Tabs defaultValue="panoramas" className="w-full">
+      <Tabs defaultValue="virtualtour" className="w-full">
         <Card className="bg-white shadow-sm border-0 rounded-2xl">
           <CardContent className="p-2">
-            <TabsList className="grid w-full grid-cols-3 bg-transparent gap-1">
+            <TabsList className="grid w-full grid-cols-4 bg-transparent gap-1">
+              <TabsTrigger
+                value="virtualtour"
+                className="data-[state=active]:bg-gray-100 rounded-xl py-3 text-sm flex items-center gap-2"
+              >
+                <Home className="h-4 w-4" />
+                Virtual Tour
+              </TabsTrigger>
               <TabsTrigger
                 value="panoramas"
                 className="data-[state=active]:bg-gray-100 rounded-xl py-3 text-sm flex items-center gap-2"
@@ -41,6 +48,49 @@ export function AssetsTab({ propertyData }: AssetsTabProps) {
             </TabsList>
           </CardContent>
         </Card>
+
+        {/* Virtual Tour Section */}
+        <TabsContent value="virtualtour">
+          <Card className="bg-white shadow-sm border-0 rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-xl font-semibold text-gray-800">Virtual Tour</CardTitle>
+              <p className="text-gray-600">Interactive 360° property walkthrough</p>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {/* Virtual Tour Embed */}
+                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                  <iframe
+                    src="https://openhouse.littlehinges.com.au/tour/3_Bellavista_Terrace-_PADDINGTON_QLD_4064-3576988532719121"
+                    className="w-full h-full border-0"
+                    title="Virtual Property Tour"
+                    allowFullScreen
+                  />
+                </div>
+                
+                {/* Copy Link Section */}
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-800 mb-1">Share Virtual Tour</p>
+                    <p className="text-xs text-gray-600 font-mono break-all">
+                      https://openhouse.littlehinges.com.au/tour/3_Bellavista_Terrace-_PADDINGTON_QLD_4064-3576988532719121
+                    </p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="bg-white"
+                    onClick={() => {
+                      navigator.clipboard.writeText('https://openhouse.littlehinges.com.au/tour/3_Bellavista_Terrace-_PADDINGTON_QLD_4064-3576988532719121')
+                    }}
+                  >
+                    Copy Link
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         {/* Google Drive Panoramas */}
         <TabsContent value="panoramas">
