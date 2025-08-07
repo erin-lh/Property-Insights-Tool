@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type { PropertyData } from "@/lib/data-parser"
-import { BarChart3, Camera, Home } from 'lucide-react'
+import { BarChart3, Camera, Home, Copy } from 'lucide-react'
 import { RoomPanoramaGrid } from "@/components/google-drive-panorama"
 
 interface AssetsTabProps {
@@ -10,6 +10,19 @@ interface AssetsTabProps {
 }
 
 export function AssetsTab({ propertyData }: AssetsTabProps) {
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+  }
+
+  const downloadFile = (url: string, filename: string) => {
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <div className="space-y-6">
       {/* Asset Navigation */}
@@ -42,7 +55,7 @@ export function AssetsTab({ propertyData }: AssetsTabProps) {
                 value="images"
                 className="data-[state=active]:bg-gray-100 rounded-xl py-3 text-sm flex items-center gap-2"
               >
-                <Home className="h-4 w-4" />
+                <Camera className="h-4 w-4" />
                 Property Images
               </TabsTrigger>
             </TabsList>
@@ -80,10 +93,9 @@ export function AssetsTab({ propertyData }: AssetsTabProps) {
                     size="sm"
                     variant="outline"
                     className="bg-white"
-                    onClick={() => {
-                      navigator.clipboard.writeText('https://openhouse.littlehinges.com.au/tour/3_Bellavista_Terrace-_PADDINGTON_QLD_4064-3576988532719121')
-                    }}
+                    onClick={() => copyToClipboard('https://openhouse.littlehinges.com.au/tour/3_Bellavista_Terrace-_PADDINGTON_QLD_4064-3576988532719121')}
                   >
+                    <Copy className="h-4 w-4 mr-1" />
                     Copy Link
                   </Button>
                 </div>
@@ -106,76 +118,165 @@ export function AssetsTab({ propertyData }: AssetsTabProps) {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {/* Ground Floor Plan */}
+                {/* Marketing Floorplan */}
                 <div className="bg-gray-100 rounded-lg overflow-hidden group hover:shadow-md transition-shadow">
-                  <div className="aspect-square bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                    <BarChart3 className="h-12 w-12 text-blue-600" />
+                  <div className="aspect-square bg-white flex items-center justify-center p-2">
+                    <img 
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Marketing%20Floorplan.jpg-SK2XdyMVNBuVnfBWmzyHJbN4GraY8Y.jpeg" 
+                      alt="Marketing Floorplan"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div className="p-3">
-                    <h4 className="font-medium text-sm text-gray-800 mb-1">Ground Floor Plan</h4>
-                    <p className="text-xs text-gray-500 mb-2">2.4 MB • PNG</p>
+                    <h4 className="font-medium text-sm text-gray-800 mb-1">Marketing Floorplan</h4>
+                    <p className="text-xs text-gray-500 mb-2">2.4 MB • JPG</p>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => window.open('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Marketing%20Floorplan.jpg-SK2XdyMVNBuVnfBWmzyHJbN4GraY8Y.jpeg', '_blank')}
+                      >
                         Preview
                       </Button>
-                      <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => downloadFile('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Marketing%20Floorplan.jpg-SK2XdyMVNBuVnfBWmzyHJbN4GraY8Y.jpeg', 'Marketing Floorplan.jpg')}
+                      >
                         Download
                       </Button>
                     </div>
                   </div>
                 </div>
 
-                {/* Upper Floor Plan */}
+                {/* Floor 1 */}
                 <div className="bg-gray-100 rounded-lg overflow-hidden group hover:shadow-md transition-shadow">
-                  <div className="aspect-square bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
-                    <BarChart3 className="h-12 w-12 text-green-600" />
+                  <div className="aspect-square bg-white flex items-center justify-center p-2">
+                    <img 
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Floor%201-prIgbJqhgcZHz3e3KScv59LVtAaNye.png" 
+                      alt="Floor 1"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div className="p-3">
-                    <h4 className="font-medium text-sm text-gray-800 mb-1">Upper Floor Plan</h4>
+                    <h4 className="font-medium text-sm text-gray-800 mb-1">Floor 1</h4>
                     <p className="text-xs text-gray-500 mb-2">2.1 MB • PNG</p>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => window.open('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Floor%201-prIgbJqhgcZHz3e3KScv59LVtAaNye.png', '_blank')}
+                      >
                         Preview
                       </Button>
-                      <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => downloadFile('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Floor%201-prIgbJqhgcZHz3e3KScv59LVtAaNye.png', 'Floor 1.png')}
+                      >
                         Download
                       </Button>
                     </div>
                   </div>
                 </div>
 
-                {/* Site Plan */}
+                {/* Floor 2 */}
                 <div className="bg-gray-100 rounded-lg overflow-hidden group hover:shadow-md transition-shadow">
-                  <div className="aspect-square bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
-                    <BarChart3 className="h-12 w-12 text-purple-600" />
+                  <div className="aspect-square bg-white flex items-center justify-center p-2">
+                    <img 
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Floor%202-374tKBjQIizwATFYNb4IhxtYa2mLbJ.png" 
+                      alt="Floor 2"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div className="p-3">
-                    <h4 className="font-medium text-sm text-gray-800 mb-1">Site Plan</h4>
+                    <h4 className="font-medium text-sm text-gray-800 mb-1">Floor 2</h4>
                     <p className="text-xs text-gray-500 mb-2">1.8 MB • PNG</p>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => window.open('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Floor%202-374tKBjQIizwATFYNb4IhxtYa2mLbJ.png', '_blank')}
+                      >
                         Preview
                       </Button>
-                      <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => downloadFile('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Floor%202-374tKBjQIizwATFYNb4IhxtYa2mLbJ.png', 'Floor 2.png')}
+                      >
                         Download
                       </Button>
                     </div>
                   </div>
                 </div>
 
-                {/* 3D Floor Plan */}
+                {/* Colour Schematic- Floor 1 */}
                 <div className="bg-gray-100 rounded-lg overflow-hidden group hover:shadow-md transition-shadow">
-                  <div className="aspect-square bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
-                    <BarChart3 className="h-12 w-12 text-orange-600" />
+                  <div className="aspect-square bg-white flex items-center justify-center p-2">
+                    <img 
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Colour%20Schematic-%20Floor%201-o0l0JWtxDn7JBcgccwrusFcYOLoove.jpeg" 
+                      alt="Colour Schematic- Floor 1"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div className="p-3">
-                    <h4 className="font-medium text-sm text-gray-800 mb-1">3D Floor Plan</h4>
-                    <p className="text-xs text-gray-500 mb-2">3.2 MB • PNG</p>
+                    <h4 className="font-medium text-sm text-gray-800 mb-1">Colour Schematic- Floor 1</h4>
+                    <p className="text-xs text-gray-500 mb-2">3.2 MB • JPEG</p>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => window.open('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Colour%20Schematic-%20Floor%201-o0l0JWtxDn7JBcgccwrusFcYOLoove.jpeg', '_blank')}
+                      >
                         Preview
                       </Button>
-                      <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => downloadFile('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Colour%20Schematic-%20Floor%201-o0l0JWtxDn7JBcgccwrusFcYOLoove.jpeg', 'Colour Schematic- Floor 1.jpeg')}
+                      >
+                        Download
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Colour Schematic- Floor 2 */}
+                <div className="bg-gray-100 rounded-lg overflow-hidden group hover:shadow-md transition-shadow">
+                  <div className="aspect-square bg-white flex items-center justify-center p-2">
+                    <img 
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Colour%20Schematic-%20Floor%202-kjwJ4X2GNRraI8k5DKlxdGixhaVcsO.jpeg" 
+                      alt="Colour Schematic- Floor 2"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="p-3">
+                    <h4 className="font-medium text-sm text-gray-800 mb-1">Colour Schematic- Floor 2</h4>
+                    <p className="text-xs text-gray-500 mb-2">2.9 MB • JPEG</p>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => window.open('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Colour%20Schematic-%20Floor%202-kjwJ4X2GNRraI8k5DKlxdGixhaVcsO.jpeg', '_blank')}
+                      >
+                        Preview
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs flex-1 bg-transparent"
+                        onClick={() => downloadFile('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Colour%20Schematic-%20Floor%202-kjwJ4X2GNRraI8k5DKlxdGixhaVcsO.jpeg', 'Colour Schematic- Floor 2.jpeg')}
+                      >
                         Download
                       </Button>
                     </div>
