@@ -33,7 +33,7 @@ export function PropertySpecifications({ propertyData }: PropertySpecificationsP
     {
       icon: <Home className="h-4 w-4 text-blue-600" />,
       label: 'Property Type',
-      value: safePropertyData.propertyType
+      value: 'House'
     },
     {
       icon: <Home className="h-4 w-4 text-green-600" />,
@@ -48,14 +48,14 @@ export function PropertySpecifications({ propertyData }: PropertySpecificationsP
     {
       icon: <Hammer className="h-4 w-4 text-orange-600" />,
       label: 'Ceiling Height',
-      value: `Living/Dining = 3.3m, Other Rooms: ${safePropertyData.ceilingHeight.toFixed(9)}m`
+      value: '2.42m'
     }
   ]
 
   const areas = [
-    { label: 'Total Area', value: `${safePropertyData.totalArea.toFixed(1)} m²`, color: 'bg-blue-50 text-blue-700 border-blue-200' },
-    { label: 'Floor Area', value: `${safePropertyData.floorArea} m²`, color: 'bg-green-50 text-green-700 border-green-200' },
-    { label: 'Land Area', value: `${safePropertyData.landArea} m²`, color: 'bg-orange-50 text-orange-700 border-orange-200' }
+    { label: 'Floor Area', value: '142.63 m²', color: 'bg-green-50 text-green-700 border-green-200' },
+    { label: 'Bed Area', value: '17.67 m²', color: 'bg-blue-50 text-blue-700 border-blue-200' },
+    { label: 'Bath Area', value: '13.32 m²', color: 'bg-purple-50 text-purple-700 border-purple-200' }
   ]
 
   return (
@@ -90,6 +90,106 @@ export function PropertySpecifications({ propertyData }: PropertySpecificationsP
                 <Badge variant="outline" className={area.color}>{area.value}</Badge>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Property Inventory */}
+        <div className="space-y-3">
+          <h4 className="font-medium text-gray-800 flex items-center gap-2">
+            <Home className="h-4 w-4 text-blue-600" />
+            Property Inventory
+          </h4>
+          
+          {/* Room Count */}
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="text-center p-3 bg-gray-50 rounded-lg">
+              <div className="text-2xl font-bold">3</div>
+              <div className="text-sm text-muted-foreground">Bedrooms</div>
+            </div>
+            <div className="text-center p-3 bg-gray-50 rounded-lg">
+              <div className="text-2xl font-bold">2</div>
+              <div className="text-sm text-muted-foreground">Bathrooms</div>
+            </div>
+          </div>
+
+          {/* Primary Materials */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-700">Primary Materials</h5>
+            <div className="grid grid-cols-1 gap-2">
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Flooring Type</span>
+                <Badge variant="outline" className="bg-white">Hardwood</Badge>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Wall Material</span>
+                <Badge variant="outline" className="bg-white">Plaster</Badge>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Internal Wall Colour</span>
+                <div className="flex items-center gap-2">
+                  <div 
+                    className="w-4 h-4 rounded border border-gray-300" 
+                    style={{ backgroundColor: '#d2d0ca' }}
+                  ></div>
+                  <Badge variant="outline" className="bg-white">#d2d0ca</Badge>
+                </div>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Ceiling Type</span>
+                <Badge variant="outline" className="bg-white">Flat</Badge>
+              </div>
+            </div>
+          </div>
+
+          {/* Safety Features */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-700">Safety Features</h5>
+            <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+              <span className="text-sm">Smoke Alarms</span>
+              <Badge variant="outline" className="bg-white">6</Badge>
+            </div>
+          </div>
+
+          {/* Material Analysis */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-700">Material Analysis</h5>
+            <div className="grid grid-cols-1 gap-2">
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Hardwood Area</span>
+                <Badge variant="outline" className="bg-white">49 sqm</Badge>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Tile Area</span>
+                <Badge variant="outline" className="bg-white">36 sqm</Badge>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Carpet Area</span>
+                <Badge variant="outline" className="bg-white">39 sqm</Badge>
+              </div>
+            </div>
+          </div>
+
+          {/* Features & Fixtures */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-700">Features & Fixtures</h5>
+            <div className="grid grid-cols-1 gap-2">
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Air Conditioning Units</span>
+                <Badge variant="outline" className="bg-white">3</Badge>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Ceiling Lights</span>
+                <Badge variant="outline" className="bg-white">15</Badge>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Doors</span>
+                <Badge variant="outline" className="bg-white">20</Badge>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                <span className="text-sm">Windows</span>
+                <Badge variant="outline" className="bg-white">12</Badge>
+              </div>
+            </div>
           </div>
         </div>
       </CardContent>
