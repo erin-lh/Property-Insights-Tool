@@ -2,8 +2,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { MapPin, Calendar, Upload, RotateCcw, Copy, Building } from 'lucide-react'
 import { type PropertyData } from '@/lib/data-parser'
+import { MapPin, Calendar, Upload, RotateCcw, FileText, Camera } from 'lucide-react'
+import Image from 'next/image'
 
 interface LocationDetailsProps {
   propertyData?: PropertyData
@@ -11,111 +12,112 @@ interface LocationDetailsProps {
 
 export function LocationDetails({ propertyData }: LocationDetailsProps) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <MapPin className="h-5 w-5" />
+    <Card className="bg-white shadow-sm border-0 rounded-2xl">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+          <MapPin className="h-5 w-5 text-blue-600" />
           Location Details
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 gap-4">
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium">Street Address</span>
-            <span className="text-sm text-muted-foreground">3 Bellavista Terrace</span>
+      <CardContent className="space-y-6">
+        {/* Street Details */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span className="font-medium text-gray-700">Street Address</span>
+            <Badge variant="outline" className="bg-white">3 Bellavista Terrace</Badge>
           </div>
-          
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium">Suburb</span>
-            <span className="text-sm text-muted-foreground">PADDINGTON</span>
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span className="font-medium text-gray-700">Suburb</span>
+            <Badge variant="outline" className="bg-white">PADDINGTON</Badge>
           </div>
-          
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium">State</span>
-            <span className="text-sm text-muted-foreground">QLD</span>
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span className="font-medium text-gray-700">State</span>
+            <Badge variant="outline" className="bg-white">QLD</Badge>
           </div>
-          
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium">Postcode</span>
-            <span className="text-sm text-muted-foreground">4064</span>
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span className="font-medium text-gray-700">Postcode</span>
+            <Badge variant="outline" className="bg-white">4064</Badge>
           </div>
-          
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium">LGA</span>
-            <span className="text-sm text-muted-foreground">City of Brisbane; (Paddington Ward)</span>
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span className="font-medium text-gray-700">LGA</span>
+            <Badge variant="outline" className="bg-white">City of Brisbane; (Paddington Ward)</Badge>
           </div>
         </div>
 
         {/* Map */}
-        <div className="mt-6 mb-6">
-          <img 
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Ipnf2XodU88pDi12N9n3ebe9nz8PLk.png" 
-            alt="Property location map showing Paddington area in Brisbane" 
-            className="w-full h-64 object-cover rounded-lg border"
-          />
+        <div className="space-y-3">
+          <div className="rounded-lg overflow-hidden">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Ipnf2XodU88pDi12N9n3ebe9nz8PLk.png"
+              alt="Property Location Map"
+              width={600}
+              height={400}
+              className="w-full h-64 object-cover"
+            />
+          </div>
         </div>
 
         {/* Scan Information */}
-        <div className="border-t pt-4">
-          <div className="flex items-center gap-2 mb-4">
-            <Building className="h-5 w-5" />
-            <h3 className="font-semibold">Scan Information</h3>
-          </div>
+        <div className="space-y-3">
+          <h4 className="font-medium text-gray-800 flex items-center gap-2">
+            <Camera className="h-4 w-4 text-blue-600" />
+            Scan Information
+          </h4>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Calendar className="h-4 w-4" />
-                <span className="text-sm font-medium">Scan Date</span>
+                <span className="font-medium">Scan Date</span>
               </div>
-              <p className="text-sm text-muted-foreground">24 July 2025, 07:30 pm</p>
+              <div className="text-gray-900">24 July 2025, 07:30 pm</div>
             </div>
             
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Building className="h-4 w-4" />
-                <span className="text-sm font-medium">Scan Purpose</span>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <FileText className="h-4 w-4" />
+                <span className="font-medium">Scan Purpose</span>
               </div>
-              <Badge variant="secondary">Residential</Badge>
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Residential</Badge>
             </div>
           </div>
-          
-          <div className="mt-4 space-y-2">
-            <div className="flex items-center gap-2">
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
               <Upload className="h-4 w-4" />
-              <span className="text-sm font-medium">Upload Time</span>
+              <span className="font-medium">Upload Time</span>
             </div>
-            <p className="text-sm text-muted-foreground">24 June 2025, 10:12 am</p>
+            <div className="text-gray-900">24 June 2025, 10:12 am</div>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
                 <RotateCcw className="h-4 w-4" />
-                <span className="text-sm font-medium">Scan Type</span>
+                <span className="font-medium">Scan Type</span>
               </div>
-              <p className="text-sm text-muted-foreground">Original</p>
+              <div className="text-gray-900">Original</div>
             </div>
             
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Building className="h-4 w-4" />
-                <span className="text-sm font-medium">Multiple Scans</span>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <FileText className="h-4 w-4" />
+                <span className="font-medium">Multiple Scans</span>
               </div>
-              <p className="text-sm text-muted-foreground">1- Carport</p>
+              <div className="text-gray-900">1- Carport</div>
             </div>
           </div>
-          
-          <div className="mt-4">
-            <h4 className="font-medium mb-2">Tour Details</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex justify-between items-center">
+
+          <div className="space-y-3 pt-3 border-t border-gray-200">
+            <h5 className="font-medium text-gray-700">Tour Details</h5>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
                 <span className="text-sm font-medium">Tour ID:</span>
-                <span className="text-sm text-muted-foreground">ZUCRWEgFkxk</span>
+                <Badge variant="outline" className="bg-white">ZUCRWEgFkxk</Badge>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
                 <span className="text-sm font-medium">Property ID:</span>
-                <span className="text-sm text-muted-foreground">25763</span>
+                <Badge variant="outline" className="bg-white">25763</Badge>
               </div>
             </div>
           </div>

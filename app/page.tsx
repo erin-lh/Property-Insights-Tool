@@ -15,6 +15,7 @@ import { PlatformEngagementTab } from "@/components/tabs/platform-engagement-tab
 import { LeadsTab } from "@/components/tabs/leads-tab"
 import { ReportsTab } from "@/components/tabs/reports-tab"
 import { SearchPage } from "@/components/search-page"
+import Image from 'next/image'
 
 export default function PropertyInsightsTool() {
   const [propertyData, setPropertyData] = useState<PropertyData | null>(null)
@@ -111,9 +112,13 @@ export default function PropertyInsightsTool() {
                     <ArrowLeft className="h-4 w-4" />
                     Back to Search
                   </Button>
-                  <div className="w-8 h-8 bg-gray-200 rounded border border-gray-300 flex items-center justify-center">
-                    <span className="text-xs font-medium text-gray-600">Hinges</span>
-                  </div>
+                  <Image
+                    src="/images/little-hinges-logo.png"
+                    alt="Little Hinges Logo"
+                    width={32}
+                    height={32}
+                    className="object-contain"
+                  />
                   <h1 className="text-xl font-semibold text-gray-900">Little Hinges Property Insights</h1>
                 </div>
                 <Button variant="outline" className="flex items-center gap-2 bg-transparent">
@@ -152,7 +157,7 @@ export default function PropertyInsightsTool() {
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-gray-900">
-                    ${propertyData.estimatedPrice.toLocaleString()}
+                    $1,340,589
                   </div>
                   <div className="text-sm text-gray-500">Est. Value</div>
                   <div className="text-sm text-gray-400 mt-1">

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, MapPin, Home, Bed, Bath, Car, TrendingUp } from 'lucide-react'
+import Image from 'next/image'
 
 interface SearchPageProps {
   onPropertySelect: (address: string) => void
@@ -13,11 +14,11 @@ interface SearchPageProps {
 const sampleProperties = [
   {
     address: "3 Bellavista Terrace, Paddington, QLD",
-    price: "$1,250,000",
+    price: "$1,340,589",
     bedrooms: 3,
     bathrooms: 2,
     carSpaces: 1,
-    propertyType: "Townhouse",
+    propertyType: "House",
     lastScanned: "2 days ago",
     insights: "High engagement",
   },
@@ -56,9 +57,13 @@ export function SearchPage({ onPropertySelect }: SearchPageProps) {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-gray-200 rounded border border-gray-300 flex items-center justify-center">
-              <span className="text-sm font-medium text-gray-600">Hinges</span>
-            </div>
+            <Image
+              src="/images/little-hinges-logo.png"
+              alt="Little Hinges Logo"
+              width={60}
+              height={60}
+              className="object-contain"
+            />
             <h1 className="text-3xl font-bold text-gray-900">Little Hinges Property Insights</h1>
           </div>
           <p className="text-gray-600 text-lg">
@@ -67,7 +72,7 @@ export function SearchPage({ onPropertySelect }: SearchPageProps) {
         </div>
 
         {/* Search Bar */}
-        <div className="mb-8">
+        <div className="mb-2">
           <Card className="bg-white shadow-sm border-0 rounded-2xl">
             <CardContent className="p-6">
               <div className="relative">
@@ -82,6 +87,11 @@ export function SearchPage({ onPropertySelect }: SearchPageProps) {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Property Count */}
+        <div className="text-center mb-8">
+          <p className="text-gray-500 text-sm">18,456 active properties</p>
         </div>
 
         {/* Property Results */}
