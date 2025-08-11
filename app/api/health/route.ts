@@ -10,13 +10,30 @@ export async function GET() {
       vercel: {
         region: process.env.VERCEL_REGION || 'unknown',
         url: process.env.VERCEL_URL || 'localhost',
+        env: process.env.VERCEL_ENV || 'local',
       },
       nextjs: {
         version: process.version,
       },
       services: {
-        googleAuth: !!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        googleAuth: {
+          emailConfigured: !!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+          privateKeyConfigured: !!process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
+          privateKeyLength: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.length || 0,
+          projectIdConfigured: !!process.env.GOOGLE_PROJECT_ID,
+          keyIdConfigured: !!process.env.GOOGLE_SERVICE_ACCOUNT_KEY_ID,
+        },
         supabase: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+      },
+      // Debug info for environment variables
+      debug: {
+        googleVarsFound: Object.keys(process.env).filter(key => key.startsWith('GOOGLE_')).length,
+        allGoogleVars: Object.keys(process.env)
+          .filter(key => key.startsWith('GOOGLE_'))
+          .map(key => ({ name: key, hasValue: !!process.env[key] })),
+        envVarSample: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ? 
+          `${process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL.substring(0, 10)}...` : 
+          'not-found'
       }
     }
 
