@@ -4,7 +4,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import type { RoomData } from "@/lib/data-parser"
-import { Eye, Maximize, ExternalLink, Ruler, Camera } from "lucide-react"
+import { Eye, Maximize, ExternalLink, Ruler, Camera, CheckCircle, XCircle } from "lucide-react"
+import { hasRecentSheetsData, getSyncStatusMessage } from "@/lib/sheets-utils"
 
 interface RoomCardProps {
   room: RoomData
@@ -44,6 +45,29 @@ export function RoomCard({ room, onViewDetails }: RoomCardProps) {
             Room {room.roomNumber}
           </Badge>
         </div>
+        
+        {/* Sync Status Indicator */}
+        <div className="absolute top-3 left-3 mt-8">
+          {room.sheetData ? (
+            <Badge 
+              variant="outline" 
+              className={`bg-white/90 text-xs ${
+                hasRecentSheetsData(room) 
+                  ? 'text-green-700 border-green-300' 
+                  : 'text-orange-700 border-orange-300'
+              }`}
+              title={getSyncStatusMessage(room)}
+            >
+              {hasRecentSheetsData(room) ? (
+                <CheckCircle className="h-3 w-3 mr-1" />
+              ) : (
+                <XCircle className="h-3 w-3 mr-1" />
+              )}
+              Sheets
+            </Badge>
+          ) : null}
+        </div>
+        
         <div className="absolute top-3 right-3">
           <Badge variant="secondary" className="bg-blue-100 text-blue-800">
             {room.panoramaCount} 360° Views

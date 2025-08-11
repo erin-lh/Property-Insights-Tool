@@ -95,6 +95,7 @@ const [showSearch, setShowSearch] = useState(true)
 - Badge system for features (AC, Smoke Alarm, etc.)
 - Panorama view integration
 - Quick action buttons
+- **Google Sheets sync indicator**: Shows green checkmark when data is recently synced, orange warning when stale
 
 #### Room Detail Modal (`components/room-detail-modal.tsx`)
 **Purpose**: Comprehensive room analysis interface.
@@ -104,6 +105,13 @@ const [showSearch, setShowSearch] = useState(true)
 - **Condition**: Maintenance and assessment data
 - **Features**: Available amenities and fixtures
 - **Measurements**: Dimensional data
+- **Additional Details**: Google Sheets data integration
+
+**Google Sheets Features**:
+- Displays all additional data from Google Sheets
+- Shows sync status and last update time
+- Refresh button to manually sync data
+- Graceful handling when sheets are unavailable
 
 #### Room Comparison Modal (`components/room-comparison-modal.tsx`)
 **Purpose**: Side-by-side room analysis tool.
@@ -154,6 +162,26 @@ const [showSearch, setShowSearch] = useState(true)
 - 360° panorama display
 - Tour navigation
 
+#### Google Sheets Integration (`app/api/sheets/route.ts`)
+- **Real-time data synchronization** with Google Sheets
+- **Automatic caching** (5 minutes) to optimize performance
+- **Error handling** with graceful fallbacks
+- **Composite key matching** using Room ID + Room Type
+- **Manual refresh** capability for immediate updates
+
+**Sheet Structure Requirements**:
+- Each room should have its own sheet named 'Room 1' through 'Room 14'
+- Required columns: 'Room ID' and 'Room Type' for matching
+- Additional columns automatically mapped to room data
+- Empty values are filtered out from display
+
+**Features**:
+- Fetches data from 14 room sheets simultaneously
+- Groups data by composite room key
+- Provides sync status indicators
+- Supports manual refresh via UI buttons
+- Handles API rate limits with caching
+
 ## 🗃️ Data Management
 
 ### Data Parser (`lib/data-parser.ts`)
@@ -179,6 +207,12 @@ interface RoomData {
   condition: string
   features: string[]
   panoramaLinks: string[]
+  // Google Sheets integration
+  sheetData?: {
+    sheetName: string
+    lastSync?: number
+    data: Record<string, any>
+  }
   // ... additional room fields
 }
 ```
@@ -187,6 +221,27 @@ interface RoomData {
 - `parseCSVData()`: Basic CSV parsing
 - `parseCSVDataWithAllRooms()`: Enhanced parsing with full room data
 - Data validation and type conversion
+
+### Google Sheets Integration (`lib/sheets-utils.ts`)
+**Purpose**: Integration with Google Sheets API for additional room data.
+
+**Configuration**:
+- Spreadsheet ID: `10XVAxEPF6ZfD2zlqPB0kvSyQOP41z8iF6GD9vrG4qHg`
+- Fetches from sheets 'Room 1' through 'Room 14'
+- Matches data using composite key: `roomId_roomType`
+- 5-minute caching to avoid rate limits
+
+**Key Functions**:
+```typescript
+fetchSheetsData(): Promise<SheetsApiResponse>
+refreshSheetsData(): Promise<SheetsApiResponse>
+mergeRoomsWithSheetsData(rooms: RoomData[], sheetsData: Record<string, RoomSheetData>): RoomData[]
+formatSheetDataForDisplay(sheetData: Record<string, any>): Array<{ key: string, value: string, label: string }>
+```
+
+**API Endpoint**: `/api/sheets`
+- GET: Fetch cached or fresh data from all room sheets
+- POST: Force refresh and clear cache
 
 ### Supabase Integration (`lib/supabase.ts`)
 **Purpose**: Database connectivity and query functions.
@@ -292,9 +347,24 @@ Supabase Sync → Real-time Updates → State Management
 
 Required environment variables:
 ```bash
+# Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Google Sheets API Configuration
+GOOGLE_SHEETS_API_KEY=your_google_sheets_api_key
+
+# Optional Configuration
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
+
+### Google Sheets API Setup
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Enable the Google Sheets API
+4. Create credentials (API Key)
+5. Restrict the API key to Google Sheets API only
+6. Add the API key to your environment variables
 
 ## 🧪 Testing Strategy
 
@@ -364,6 +434,34 @@ export function NewFeatureComponent({ data }: { data: NewFeatureData }) {
 2. Update room card display
 3. Extend room detail modal tabs
 4. Update comparison logic
+
+#### Integrating with Google Sheets
+```typescript
+// 1. Extend sheet data processing
+export function processCustomSheetData(sheetData: Record<string, any>): CustomData {
+  return {
+    customField: sheetData.custom_field,
+    calculatedValue: parseFloat(sheetData.raw_value) * 2
+  }
+}
+
+// 2. Add to room detail modal
+<TabsContent value="custom-analysis">
+  <Card>
+    <CardHeader>
+      <CardTitle>Custom Analysis</CardTitle>
+    </CardHeader>
+    <CardContent>
+      {room.sheetData && (
+        <CustomAnalysisComponent data={processCustomSheetData(room.sheetData.data)} />
+      )}
+    </CardContent>
+  </Card>
+</TabsContent>
+
+// 3. Update API route for additional processing
+const processedData = await processCustomSheetData(rawSheetData)
+```
 
 ## 🔄 Deployment
 

@@ -185,6 +185,12 @@ export interface RoomData {
   driveUrl?: string
   coverImage?: string
   panoramaIds?: string[]
+  // Google Sheets integration
+  sheetData?: {
+    sheetName: string
+    lastSync?: number
+    data: Record<string, any>
+  }
 }
 
 let cachedPropertyData: PropertyData | null = null
@@ -532,26 +538,26 @@ export async function getRoomById(roomId: string): Promise<RoomData | null> {
 
 // Get rooms by type
 export function getRoomsByType(type: string): RoomData[] {
-  const propertyData = cachedPropertyData || {}
-  return propertyData.rooms ? propertyData.rooms.filter(room => room.type.toLowerCase().includes(type.toLowerCase())) : []
+  const propertyData = cachedPropertyData as PropertyData | null
+  return propertyData?.rooms ? propertyData.rooms.filter((room: RoomData) => room.type.toLowerCase().includes(type.toLowerCase())) : []
 }
 
 // Get total rooms
 export function getTotalRooms(): number {
-  const propertyData = cachedPropertyData || {}
-  return propertyData.rooms ? propertyData.rooms.length : 0
+  const propertyData = cachedPropertyData as PropertyData | null
+  return propertyData?.rooms ? propertyData.rooms.length : 0
 }
 
 // Get total area
 export function getTotalArea(): number {
-  const propertyData = cachedPropertyData || {}
-  return propertyData.rooms ? propertyData.rooms.reduce((total, room) => total + room.area, 0) : 0
+  const propertyData = cachedPropertyData as PropertyData | null
+  return propertyData?.rooms ? propertyData.rooms.reduce((total: number, room: RoomData) => total + room.area, 0) : 0
 }
 
 // Get rooms with damage
 export function getRoomsWithDamage(): RoomData[] {
-  const propertyData = cachedPropertyData || {}
-  return propertyData.rooms ? propertyData.rooms.filter(room => 
+  const propertyData = cachedPropertyData as PropertyData | null
+  return propertyData?.rooms ? propertyData.rooms.filter((room: RoomData) => 
     room.floorDamage > 0 || room.wallDamage > 0 || room.ceilingDamage > 0
   ) : []
 }
