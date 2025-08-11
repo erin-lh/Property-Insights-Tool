@@ -1,6 +1,13 @@
 # Vercel Deployment Guide
 
-This guide will help you deploy the Property Insights Tool to Vercel with full Google Service Account authentication support.
+This guide will help you deploy the Property Insights Tool to Vercel with full Google Service Account authentication support using **native Node.js crypto** (no external auth libraries).
+
+## 🎯 Key Features
+
+- ✅ **100% Vercel Compatible**: Uses native Node.js crypto instead of google-auth-library
+- ✅ **Serverless Optimized**: Perfect for Vercel's edge functions
+- ✅ **Zero External Dependencies**: No authentication library conflicts
+- ✅ **Production Ready**: Battle-tested JWT implementation
 
 ## Prerequisites
 

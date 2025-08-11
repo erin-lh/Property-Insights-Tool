@@ -2,7 +2,13 @@
 
 ## Overview
 
-The Property Insights Tool now uses Google Service Account authentication for Google Sheets integration. This is more secure and reliable than API keys, especially for production environments.
+The Property Insights Tool uses Google Service Account authentication for Google Sheets integration. This implementation uses **native Node.js crypto functions** instead of external libraries, making it **100% compatible with Vercel** and other serverless platforms.
+
+**Key Benefits:**
+- ✅ **Vercel Compatible**: No external auth libraries that cause deployment issues
+- ✅ **Lightweight**: Uses built-in Node.js crypto module
+- ✅ **Secure**: Direct JWT-based authentication with Google
+- ✅ **Production Ready**: Works seamlessly in serverless environments
 
 ## 🔐 Service Account Details
 
