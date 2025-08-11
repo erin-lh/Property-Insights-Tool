@@ -70,7 +70,7 @@ export function LocationDetails({ propertyData }: LocationDetailsProps) {
                 <Calendar className="h-4 w-4" />
                 <span className="font-medium">Scan Date</span>
               </div>
-              <div className="text-gray-900">2025-07-24 09:30:00PM UTC</div>
+              <div className="text-gray-900">24 July 2025, 07:30 pm</div>
             </div>
             
             <div className="space-y-2">
@@ -87,7 +87,7 @@ export function LocationDetails({ propertyData }: LocationDetailsProps) {
               <Upload className="h-4 w-4" />
               <span className="font-medium">Upload Time</span>
             </div>
-            <div className="text-gray-900">2025-07-24 12:12:52PM</div>
+            <div className="text-gray-900">24 June 2025, 10:12 am</div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -104,7 +104,7 @@ export function LocationDetails({ propertyData }: LocationDetailsProps) {
                 <FileText className="h-4 w-4" />
                 <span className="font-medium">Multiple Scans</span>
               </div>
-              <div className="text-gray-900">Additional space- carport</div>
+              <div className="text-gray-900">1- Carport</div>
             </div>
           </div>
 
