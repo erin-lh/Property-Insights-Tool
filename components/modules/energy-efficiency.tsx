@@ -11,24 +11,24 @@ export function EnergyEfficiency() {
   const [isHeatingCoolingOpen, setIsHeatingCoolingOpen] = useState(false)
 
   const energyData = {
-    overallRating: "B",
+    overallRating: "7.5",
     climateZone: "6",
     heatingCooling: [
       {
         type: "Split System Air Conditioner",
         brand: "Fujitsu",
-        model: "ASTG09KMCA",
-        capacity: "2.5kW",
-        energyRating: "5 Star",
+        model: "AOTH24KNTA",
+        capacity: "7.10kW-8.00kW",
+        energyRating: "3.5 Star",
         location: "Living Room",
         image: "/images/fujitsu-ac-specs.png",
       },
       {
         type: "Split System Air Conditioner",
         brand: "Mitsubishi",
-        model: "MSZ-AP25VG",
-        capacity: "2.5kW",
-        energyRating: "7 Star",
+        model: "SRC35ZSA",
+        capacity: "3.5kW-3.7kW",
+        energyRating: "H3.5 C4",
         location: "Master Bedroom",
         image: "/images/mitsubishi-ac-specs.png",
       },

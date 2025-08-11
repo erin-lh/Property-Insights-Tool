@@ -136,7 +136,7 @@ export default function PropertyInsightsTool() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Bath className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-700">{propertyData.bathrooms} bath</span>
+                    <span className="text-gray-700">2 bath</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Car className="h-5 w-5 text-gray-600" />
@@ -155,8 +155,7 @@ export default function PropertyInsightsTool() {
                   <div className="text-3xl font-bold text-gray-900">$1,340,589</div>
                   <div className="text-sm text-gray-500">Est. Value</div>
                   <div className="text-sm text-gray-400 mt-1">
-                    Property Valuation: ${propertyData.propertyValuation.toLocaleString()} • Last Sale: $
-                    {propertyData.lastSalePrice.toLocaleString()}
+                    Last Sale: ${propertyData.lastSalePrice.toLocaleString()}
                   </div>
                 </div>
               </div>

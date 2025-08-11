@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { type PropertyData } from '@/lib/data-parser'
-import { MapPin, Calendar, Upload, RotateCcw, FileText, Camera } from 'lucide-react'
-import Image from 'next/image'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import type { PropertyData } from "@/lib/data-parser"
+import { MapPin, Calendar, Upload, RotateCcw, FileText, Camera } from "lucide-react"
+import Image from "next/image"
 
 interface LocationDetailsProps {
   propertyData?: PropertyData
@@ -24,23 +24,33 @@ export function LocationDetails({ propertyData }: LocationDetailsProps) {
         <div className="space-y-3">
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <span className="font-medium text-gray-700">Street Address</span>
-            <Badge variant="outline" className="bg-white">3 Bellavista Terrace</Badge>
+            <Badge variant="outline" className="bg-white">
+              3 Bellavista Terrace
+            </Badge>
           </div>
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <span className="font-medium text-gray-700">Suburb</span>
-            <Badge variant="outline" className="bg-white">PADDINGTON</Badge>
+            <Badge variant="outline" className="bg-white">
+              PADDINGTON
+            </Badge>
           </div>
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <span className="font-medium text-gray-700">State</span>
-            <Badge variant="outline" className="bg-white">QLD</Badge>
+            <Badge variant="outline" className="bg-white">
+              QLD
+            </Badge>
           </div>
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <span className="font-medium text-gray-700">Postcode</span>
-            <Badge variant="outline" className="bg-white">4064</Badge>
+            <Badge variant="outline" className="bg-white">
+              4064
+            </Badge>
           </div>
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <span className="font-medium text-gray-700">LGA</span>
-            <Badge variant="outline" className="bg-white">City of Brisbane; (Paddington Ward)</Badge>
+            <Badge variant="outline" className="bg-white">
+              City of Brisbane; (Paddington Ward)
+            </Badge>
           </div>
         </div>
 
@@ -63,7 +73,7 @@ export function LocationDetails({ propertyData }: LocationDetailsProps) {
             <Camera className="h-4 w-4 text-blue-600" />
             Scan Information
           </h4>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -72,13 +82,15 @@ export function LocationDetails({ propertyData }: LocationDetailsProps) {
               </div>
               <div className="text-gray-900">24 July 2025, 07:30 pm</div>
             </div>
-            
+
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <FileText className="h-4 w-4" />
                 <span className="font-medium">Scan Purpose</span>
               </div>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Residential</Badge>
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                Residential
+              </Badge>
             </div>
           </div>
 
@@ -87,7 +99,7 @@ export function LocationDetails({ propertyData }: LocationDetailsProps) {
               <Upload className="h-4 w-4" />
               <span className="font-medium">Upload Time</span>
             </div>
-            <div className="text-gray-900">24 June 2025, 10:12 am</div>
+            <div className="text-gray-900">24 July 2025, 3:30pm</div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -98,7 +110,7 @@ export function LocationDetails({ propertyData }: LocationDetailsProps) {
               </div>
               <div className="text-gray-900">Original</div>
             </div>
-            
+
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <FileText className="h-4 w-4" />
@@ -113,11 +125,15 @@ export function LocationDetails({ propertyData }: LocationDetailsProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
                 <span className="text-sm font-medium">Tour ID:</span>
-                <Badge variant="outline" className="bg-white">ZUCRWEgFkxk</Badge>
+                <Badge variant="outline" className="bg-white">
+                  ZUCRWEgFkxk
+                </Badge>
               </div>
               <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
                 <span className="text-sm font-medium">Property ID:</span>
-                <Badge variant="outline" className="bg-white">25763</Badge>
+                <Badge variant="outline" className="bg-white">
+                  25763
+                </Badge>
               </div>
             </div>
           </div>
