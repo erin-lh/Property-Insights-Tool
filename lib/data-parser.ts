@@ -355,15 +355,32 @@ function safeParseInt(value: string | undefined, defaultValue = 0): number {
 // Fetch Google Sheets data and merge with room data
 async function fetchAndMergeSheetData(rooms: RoomData[]): Promise<RoomData[]> {
   try {
+    console.log("Attempting to fetch Google Sheets data...")
     const response = await fetch("/api/sheets")
+    
     if (!response.ok) {
-      console.warn("Failed to fetch sheet data, using existing room data")
+      if (response.status === 503) {
+        // Service unavailable - authentication failed
+        const errorData = await response.json().catch(() => ({}))
+        console.warn("Google Sheets authentication failed:", errorData.message || 'Service unavailable')
+        console.log("Falling back to CSV data only")
+      } else {
+        console.warn(`Failed to fetch sheet data (HTTP ${response.status}), using existing room data`)
+      }
       return rooms
     }
 
     const result = await response.json()
-    if (!result.success || !result.data) {
-      console.warn("Invalid sheet data response, using existing room data")
+    
+    // Check if the response indicates authentication failure
+    if (result.error === 'sheets_authentication_failed') {
+      console.warn("Google Sheets authentication failed:", result.message)
+      console.log("Application will continue using CSV data")
+      return rooms
+    }
+    
+    if (!result.data) {
+      console.warn("No sheet data in response, using existing room data")
       return rooms
     }
 
@@ -372,11 +389,15 @@ async function fetchAndMergeSheetData(rooms: RoomData[]): Promise<RoomData[]> {
     // Create a map of sheet data using composite key (roomId + roomType)
     result.data.forEach((item: any) => {
       const key = `${item.roomId}-${item.roomType.toLowerCase()}`
-      sheetDataMap.set(key, item.sheetData)
+      
+      // Skip items with authentication errors
+      if (item.sheetData && !item.sheetData.error) {
+        sheetDataMap.set(key, item.sheetData)
+      }
     })
 
     // Merge sheet data with existing room data
-    return rooms.map((room) => {
+    const mergedRooms = rooms.map((room) => {
       const key = `${room.id}-${room.type.toLowerCase()}`
       const sheetData = sheetDataMap.get(key)
 
@@ -390,6 +411,9 @@ async function fetchAndMergeSheetData(rooms: RoomData[]): Promise<RoomData[]> {
 
       return room
     })
+    
+    console.log(`Successfully merged sheet data for ${sheetDataMap.size} rooms`)
+    return mergedRooms
   } catch (error) {
     console.error("Error fetching sheet data:", error)
     return rooms
@@ -611,29 +635,29 @@ export async function getRoomById(roomId: string): Promise<RoomData | null> {
 
 // Get rooms by type
 export function getRoomsByType(type: string): RoomData[] {
-  const propertyData = cachedPropertyData || {}
-  return propertyData.rooms
-    ? propertyData.rooms.filter((room) => room.type.toLowerCase().includes(type.toLowerCase()))
+  const propertyData = cachedPropertyData
+  return propertyData?.rooms
+    ? propertyData.rooms.filter((room: RoomData) => room.type.toLowerCase().includes(type.toLowerCase()))
     : []
 }
 
 // Get total rooms
 export function getTotalRooms(): number {
-  const propertyData = cachedPropertyData || {}
-  return propertyData.rooms ? propertyData.rooms.length : 0
+  const propertyData = cachedPropertyData
+  return propertyData?.rooms ? propertyData.rooms.length : 0
 }
 
 // Get total area
 export function getTotalArea(): number {
-  const propertyData = cachedPropertyData || {}
-  return propertyData.rooms ? propertyData.rooms.reduce((total, room) => total + room.area, 0) : 0
+  const propertyData = cachedPropertyData
+  return propertyData?.rooms ? propertyData.rooms.reduce((total: number, room: RoomData) => total + room.area, 0) : 0
 }
 
 // Get rooms with damage
 export function getRoomsWithDamage(): RoomData[] {
-  const propertyData = cachedPropertyData || {}
-  return propertyData.rooms
-    ? propertyData.rooms.filter((room) => room.floorDamage > 0 || room.wallDamage > 0 || room.ceilingDamage > 0)
+  const propertyData = cachedPropertyData
+  return propertyData?.rooms
+    ? propertyData.rooms.filter((room: RoomData) => room.floorDamage > 0 || room.wallDamage > 0 || room.ceilingDamage > 0)
     : []
 }
 

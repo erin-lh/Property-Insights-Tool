@@ -25,20 +25,47 @@ export default function PropertyInsightsTool() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/data/property-data.csv")
+        console.log("Attempting to fetch property data...")
+        const response = await fetch("/data/property-data.csv", {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'text/csv',
+          },
+        })
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        
         const csvText = await response.text()
+        
+        if (!csvText || csvText.trim().length === 0) {
+          throw new Error("CSV file is empty or could not be read")
+        }
+        
+        console.log("CSV data loaded successfully, parsing...")
 
         // Try to use the enhanced parser with all rooms
         try {
           const parsedData = await parseCSVDataWithAllRooms(csvText)
           setPropertyData(parsedData)
+          console.log("Successfully parsed data with all rooms")
         } catch (error) {
           console.warn("Failed to load all rooms data, using basic parser:", error)
-          const parsedData = parseCSVData(csvText)
-          setPropertyData(parsedData)
+          try {
+            const parsedData = await parseCSVData(csvText)
+            setPropertyData(parsedData)
+            console.log("Successfully parsed data with basic parser")
+          } catch (basicError) {
+            console.error("Both parsers failed:", basicError)
+            // Set to null to indicate error state
+            setPropertyData(null)
+          }
         }
       } catch (error) {
         console.error("Error fetching property data:", error)
+        // Set to null to indicate error state
+        setPropertyData(null)
       } finally {
         setLoading(false)
       }
@@ -46,6 +73,8 @@ export default function PropertyInsightsTool() {
 
     if (!showSearch) {
       fetchData()
+    } else {
+      setLoading(false)
     }
   }, [showSearch])
 
@@ -207,7 +236,7 @@ export default function PropertyInsightsTool() {
           </TabsContent>
 
           <TabsContent value="room-insights">
-            <RoomInsightsTab propertyData={propertyData} onRoomClick={handleRoomClick} />
+            <RoomInsightsTab />
           </TabsContent>
 
           <TabsContent value="assets">
@@ -220,7 +249,19 @@ export default function PropertyInsightsTool() {
         </Tabs>
 
         {/* Room Detail Modal */}
-        <RoomDetailModal room={selectedRoom} isOpen={showRoomDetail} onClose={() => setShowRoomDetail(false)} />
+        <RoomDetailModal 
+          room={selectedRoom ? {
+            id: selectedRoom.id,
+            name: selectedRoom.name || 'Unknown Room',
+            type: selectedRoom.type,
+            area: selectedRoom.area,
+            condition: 'Good', // Default value since RoomData doesn't have condition
+            features: [], // Default empty array since RoomData doesn't have features
+            hasSheetData: false
+          } : null} 
+          isOpen={showRoomDetail} 
+          onClose={() => setShowRoomDetail(false)} 
+        />
       </div>
     </div>
   )

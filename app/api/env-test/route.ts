@@ -13,7 +13,12 @@ export async function GET() {
     googleServiceAccountPrivateKey: {
       exists: !!process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
       length: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.length || 0,
-      startsWithBegin: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.startsWith('-----BEGIN') || false
+      startsWithBegin: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.startsWith('-----BEGIN') || false,
+      startsWithQuotedBegin: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.startsWith('"-----BEGIN') || false,
+      hasNewlines: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.includes('\\n') || false,
+      preview: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY ? 
+        process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.substring(0, 50) + '...' : 
+        'NOT_SET'
     },
     googleProjectId: {
       exists: !!process.env.GOOGLE_PROJECT_ID,

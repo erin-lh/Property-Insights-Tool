@@ -17,52 +17,80 @@ const cache = new Map<string, { data: RoomSheetData[]; timestamp: number }>()
 const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
 
 // Simple JWT implementation for Google Service Account authentication
-function base64UrlEncode(data: string): string {
-  return Buffer.from(data)
-    .toString('base64')
+function base64UrlEncode(data: string | Buffer): string {
+  let base64 = ''
+  if (typeof data === 'string') {
+    base64 = Buffer.from(data, 'utf8').toString('base64')
+  } else {
+    base64 = data.toString('base64')
+  }
+  
+  return base64
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
-    .replace(/=/g, '')
+    .replace(/=+$/, '') // Remove trailing padding
 }
 
 async function sign(message: string, privateKey: string): Promise<string> {
   try {
     const crypto = await import('crypto')
     
-    // Clean and validate the private key
     if (!privateKey || typeof privateKey !== 'string') {
-      throw new Error('Invalid private key: must be a non-empty string')
+      throw new Error('Private key is required and must be a string')
     }
     
-    // Normalize line endings and clean the private key
+    // Clean the private key - handle various formats
     let cleanKey = privateKey.trim()
     
-    // Replace literal \n with actual newlines
+    // Handle quoted keys
+    if (cleanKey.startsWith('"') && cleanKey.endsWith('"')) {
+      cleanKey = cleanKey.slice(1, -1)
+    }
+    
+    // Replace escaped newlines with actual newlines
     cleanKey = cleanKey.replace(/\\n/g, '\n')
     
     // Ensure proper PEM format
     if (!cleanKey.includes('-----BEGIN PRIVATE KEY-----')) {
-      cleanKey = `-----BEGIN PRIVATE KEY-----\n${cleanKey}\n-----END PRIVATE KEY-----`
+      throw new Error('Private key must be in PEM format with -----BEGIN PRIVATE KEY----- header')
     }
     
-    // Validate the PEM format
-    if (!cleanKey.includes('-----BEGIN PRIVATE KEY-----') || !cleanKey.includes('-----END PRIVATE KEY-----')) {
-      throw new Error('Invalid private key: missing PEM headers')
+    if (!cleanKey.includes('-----END PRIVATE KEY-----')) {
+      throw new Error('Private key must be in PEM format with -----END PRIVATE KEY----- footer')
     }
     
-    console.log('Using private key length:', cleanKey.length)
-    console.log('Private key preview:', cleanKey.substring(0, 50) + '...')
+    // Clean up the key format - remove extra whitespace and ensure proper line breaks
+    const lines = cleanKey.split('\n').map(line => line.trim()).filter(line => line.length > 0)
+    const beginIndex = lines.findIndex(line => line === '-----BEGIN PRIVATE KEY-----')
+    const endIndex = lines.findIndex(line => line === '-----END PRIVATE KEY-----')
     
-    // Create the signature using the cleaned PEM key
-    const sign = crypto.createSign('RSA-SHA256')
-    sign.update(message)
-    sign.end()
+    if (beginIndex === -1 || endIndex === -1) {
+      throw new Error('Invalid PEM format: could not find proper BEGIN/END markers')
+    }
     
-    const signature = sign.sign(cleanKey)
-    return base64UrlEncode(signature.toString('base64'))
+    // Extract the key content and reformat it properly
+    const keyContent = lines.slice(beginIndex + 1, endIndex).join('')
+    const formattedContent = keyContent.match(/.{1,64}/g)?.join('\n') || keyContent
+    
+    const finalKey = [
+      '-----BEGIN PRIVATE KEY-----',
+      formattedContent,
+      '-----END PRIVATE KEY-----'
+    ].join('\n')
+    
+    console.log('Private key format validated, length:', finalKey.length)
+    
+    // Create signature
+    const signer = crypto.createSign('RSA-SHA256')
+    signer.update(message, 'utf8')
+    signer.end()
+    
+    const signature = signer.sign(finalKey)
+    return base64UrlEncode(signature)
+    
   } catch (error) {
-    console.error('Error in sign function:', error)
-    throw new Error(`Failed to sign JWT: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    console.error('JWT signing error:', error)
+    throw new Error(`Failed to sign JWT: ${error instanceof Error ? error.message : 'Unknown signing error'}`)
   }
 }
 
@@ -71,41 +99,63 @@ async function createJWT(): Promise<string> {
   const serviceAccountKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
 
   if (!serviceAccountEmail || !serviceAccountKey) {
-    throw new Error("Google Service Account credentials not configured. Please set GOOGLE_SERVICE_ACCOUNT_EMAIL and GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY environment variables.")
+    throw new Error("Missing Google Service Account credentials. Please set GOOGLE_SERVICE_ACCOUNT_EMAIL and GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY environment variables.")
+  }
+
+  // Validate email format
+  if (!serviceAccountEmail.includes('@') || !serviceAccountEmail.includes('.iam.gserviceaccount.com')) {
+    throw new Error('Invalid service account email format. Expected format: name@project.iam.gserviceaccount.com')
   }
 
   const now = Math.floor(Date.now() / 1000)
-  const expiry = now + 3600 // 1 hour
+  const expiry = now + 3600 // 1 hour from now
 
+  // JWT Header
   const header = {
     alg: 'RS256',
-    typ: 'JWT',
-    kid: process.env.GOOGLE_SERVICE_ACCOUNT_KEY_ID || "06b21c8ec7bf451aaacfe0caea3a11b0483592bc"
+    typ: 'JWT'
   }
 
+  // JWT Payload for Google Service Account
   const payload = {
-    iss: serviceAccountEmail,
-    sub: serviceAccountEmail,
-    aud: 'https://oauth2.googleapis.com/token',
-    iat: now,
-    exp: expiry,
-    scope: 'https://www.googleapis.com/auth/spreadsheets.readonly'
+    iss: serviceAccountEmail,      // Issuer: service account email
+    sub: serviceAccountEmail,      // Subject: same as issuer for service accounts
+    aud: 'https://oauth2.googleapis.com/token',  // Audience: Google's token endpoint
+    iat: now,                      // Issued at
+    exp: expiry,                   // Expires at
+    scope: 'https://www.googleapis.com/auth/spreadsheets.readonly'  // Required scope
   }
 
-  const headerEncoded = base64UrlEncode(JSON.stringify(header))
-  const payloadEncoded = base64UrlEncode(JSON.stringify(payload))
-  const message = `${headerEncoded}.${payloadEncoded}`
+  try {
+    // Encode header and payload
+    const headerEncoded = base64UrlEncode(JSON.stringify(header))
+    const payloadEncoded = base64UrlEncode(JSON.stringify(payload))
+    const message = `${headerEncoded}.${payloadEncoded}`
 
-  const signature = await sign(message, serviceAccountKey.replace(/\\n/g, '\n'))
-  return `${message}.${signature}`
+    console.log('JWT creation - Email:', serviceAccountEmail.substring(0, 20) + '...')
+    console.log('JWT creation - Payload IAT:', new Date(now * 1000).toISOString())
+    console.log('JWT creation - Payload EXP:', new Date(expiry * 1000).toISOString())
+
+    // Sign the message
+    const signature = await sign(message, serviceAccountKey)
+    const jwt = `${message}.${signature}`
+
+    console.log('JWT created successfully, length:', jwt.length)
+    return jwt
+
+  } catch (error) {
+    console.error('JWT creation failed:', error)
+    throw new Error(`Failed to create JWT: ${error instanceof Error ? error.message : 'Unknown error'}`)
+  }
 }
 
 // Get access token using JWT assertion
 async function getAccessToken(): Promise<string> {
   try {
+    console.log('=== Google OAuth2 Token Request ===')
     const jwt = await createJWT()
     
-    const response = await fetch('https://oauth2.googleapis.com/token', {
+    const tokenRequest = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -114,23 +164,48 @@ async function getAccessToken(): Promise<string> {
         grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
         assertion: jwt,
       }),
-    })
+    }
+
+    console.log('Sending token request to Google OAuth2...')
+    const response = await fetch('https://oauth2.googleapis.com/token', tokenRequest)
+    
+    const responseText = await response.text()
+    console.log('OAuth2 response status:', response.status)
 
     if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`OAuth2 request failed: ${response.status} ${errorText}`)
+      console.error('OAuth2 error response:', responseText)
+      
+      // Try to parse error details
+      try {
+        const errorData = JSON.parse(responseText)
+        if (errorData.error === 'invalid_grant') {
+          throw new Error(`Google OAuth2 authentication failed: ${errorData.error_description || 'Invalid JWT signature'}. Please check your service account private key and email configuration.`)
+        } else {
+          throw new Error(`Google OAuth2 error: ${errorData.error} - ${errorData.error_description || 'Unknown error'}`)
+        }
+      } catch (parseError) {
+        throw new Error(`Google OAuth2 request failed with status ${response.status}: ${responseText}`)
+      }
     }
 
-    const data = await response.json()
-    
-    if (!data.access_token) {
-      throw new Error("No access token received from Google")
+    let tokenData
+    try {
+      tokenData = JSON.parse(responseText)
+    } catch (parseError) {
+      throw new Error('Invalid JSON response from Google OAuth2 service')
     }
     
-    return data.access_token
+    if (!tokenData.access_token) {
+      console.error('No access token in response:', tokenData)
+      throw new Error('Google OAuth2 response missing access_token')
+    }
+    
+    console.log('✓ Successfully obtained access token')
+    return tokenData.access_token
+
   } catch (error) {
-    console.error("Error getting access token:", error)
-    throw new Error(`Authentication failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    console.error('Access token request failed:', error)
+    throw new Error(`Authentication failed: ${error instanceof Error ? error.message : 'Unknown authentication error'}`)
   }
 }
 
@@ -304,6 +379,38 @@ async function getAllRoomData(): Promise<RoomSheetData[]> {
     { roomId: 'room-14', roomType: 'Bedroom', sheetName: 'Room 14' },
   ]
 
+  // Check if authentication is properly configured
+  const serviceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL
+  const serviceAccountKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+
+  if (!serviceAccountEmail || !serviceAccountKey) {
+    console.warn('Google Service Account not configured, returning error data')
+    return roomSheets.map(room => ({
+      roomId: room.roomId,
+      roomType: room.roomType,
+      sheetData: {
+        error: 'Google Service Account not configured. Please set environment variables.',
+        fallback: 'CSV data will be used instead'
+      }
+    }))
+  }
+
+  // Test authentication before attempting to fetch all sheets
+  try {
+    await getAccessToken()
+  } catch (authError) {
+    console.error('Authentication failed, returning error data:', authError)
+    return roomSheets.map(room => ({
+      roomId: room.roomId,
+      roomType: room.roomType,
+      sheetData: {
+        error: `Authentication failed: ${authError instanceof Error ? authError.message : 'Unknown error'}`,
+        fallback: 'CSV data will be used instead',
+        authIssue: true
+      }
+    }))
+  }
+
   const results = await Promise.allSettled(
     roomSheets.map(async (room) => {
       try {
@@ -319,7 +426,8 @@ async function getAllRoomData(): Promise<RoomSheetData[]> {
           roomId: room.roomId,
           roomType: room.roomType,
           sheetData: {
-            error: `Failed to load data: ${error instanceof Error ? error.message : 'Unknown error'}`
+            error: `Failed to load data: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            fallback: 'CSV data will be used instead'
           }
         }
       }
@@ -334,7 +442,8 @@ async function getAllRoomData(): Promise<RoomSheetData[]> {
         roomId: roomSheets[index].roomId,
         roomType: roomSheets[index].roomType,
         sheetData: {
-          error: `Failed to load: ${result.reason instanceof Error ? result.reason.message : 'Unknown error'}`
+          error: `Failed to load: ${result.reason instanceof Error ? result.reason.message : 'Unknown error'}`,
+          fallback: 'CSV data will be used instead'
         }
       }
     }
@@ -373,27 +482,47 @@ export async function GET(request: NextRequest) {
     }
 
     // Fetch fresh data
-    const roomData = await getAllRoomData()
-    
-    // Update cache
-    cache.set(cacheKey, {
-      data: roomData,
-      timestamp: Date.now()
-    })
+    try {
+      const roomData = await getAllRoomData()
+      
+      // Update cache
+      cache.set(cacheKey, {
+        data: roomData,
+        timestamp: Date.now()
+      })
 
-    return NextResponse.json({
-      data: roomData,
-      source: 'live',
-      timestamp: Date.now()
-    })
+      return NextResponse.json({
+        data: roomData,
+        source: 'live',
+        timestamp: Date.now()
+      })
+    } catch (authError) {
+      // If it's an authentication error, return a more helpful response
+      console.warn('Sheets API authentication failed, suggesting CSV fallback:', authError)
+      
+      return NextResponse.json({
+        error: 'sheets_authentication_failed',
+        message: 'Google Sheets API authentication failed. Application will use CSV data instead.',
+        details: authError instanceof Error ? authError.message : 'Unknown authentication error',
+        fallback: 'csv_data',
+        timestamp: Date.now()
+      }, { 
+        status: 503, // Service Unavailable - temporary issue
+        headers: {
+          'Retry-After': '300', // Suggest retry after 5 minutes
+          'Cache-Control': 'no-store, max-age=0',
+        }
+      })
+    }
 
   } catch (error) {
     console.error('Sheets API Error:', error)
     
     return NextResponse.json(
       {
-        error: 'Internal server error',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: 'internal_server_error',
+        message: 'An unexpected error occurred',
+        details: error instanceof Error ? error.message : 'Unknown error occurred',
         timestamp: new Date().toISOString()
       },
       { status: 500 }
