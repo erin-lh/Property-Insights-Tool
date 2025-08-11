@@ -31,14 +31,14 @@
 ## 🧪 **Testing the Fix:**
 
 Once the API is enabled, test with:
-```bash
+\`\`\`bash
 # Run diagnostic script
 $env:GOOGLE_SHEETS_API_KEY="AIzaSyDqXf0XMD1zBeeEQw4pa_4XeUFjZe33hVI"
 node scripts/test-sheets-connection.js
 
 # Start the application
 npm run dev
-```
+\`\`\`
 
 ## 📊 **Expected Results After Fix:**
 

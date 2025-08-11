@@ -26,13 +26,13 @@ You'll need to obtain the private key for the service account:
 
 Create a `.env.local` file in your project root:
 
-```bash
+\`\`\`bash
 # Google Service Account Configuration
 GOOGLE_SERVICE_ACCOUNT_EMAIL=lh-n8n-service@my-project-db-389005.iam.gserviceaccount.com
 GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_HERE\n-----END PRIVATE KEY-----\n"
 GOOGLE_SERVICE_ACCOUNT_KEY_ID=c5d7aaff84fb15c6df322dbb430228481418ec71
 GOOGLE_PROJECT_ID=my-project-db-389005
-```
+\`\`\`
 
 **Important**: 
 - Replace `YOUR_PRIVATE_KEY_HERE` with the actual private key
@@ -51,14 +51,14 @@ GOOGLE_PROJECT_ID=my-project-db-389005
 
 Run the setup helper script:
 
-```bash
+\`\`\`bash
 # Set environment variables and run the test
 npm run test:service-account
 
 # Or test using the API endpoint
 npm run dev
 # Then visit: http://localhost:3000/api/sheets?action=test
-```
+\`\`\`
 
 ## 🛠️ Vercel Deployment
 
@@ -94,7 +94,7 @@ For production deployment on Vercel:
 
 ### Test Commands:
 
-```bash
+\`\`\`bash
 # Test service account setup
 node scripts/setup-service-account.js
 
@@ -103,7 +103,7 @@ curl "http://localhost:3000/api/sheets?action=test"
 
 # Check environment variables
 echo $GOOGLE_SERVICE_ACCOUNT_EMAIL
-```
+\`\`\`
 
 ## 🎯 Benefits of Service Account Authentication
 

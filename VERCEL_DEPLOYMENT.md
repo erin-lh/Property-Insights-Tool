@@ -31,30 +31,30 @@ Vercel will automatically detect this as a Next.js project. The default settings
 In your Vercel project dashboard, go to **Settings > Environment Variables** and add:
 
 #### Required for Google Sheets API:
-```bash
+\`\`\`bash
 GOOGLE_SERVICE_ACCOUNT_EMAIL=lh-n8n-service@my-project-db-389005.iam.gserviceaccount.com
 GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_ACTUAL_PRIVATE_KEY_HERE\n-----END PRIVATE KEY-----"
 GOOGLE_PROJECT_ID=my-project-db-389005
 GOOGLE_SERVICE_ACCOUNT_KEY_ID=c5d7aaff84fb15c6df322dbb430228481418ec71
-```
+\`\`\`
 
 #### Optional for Supabase:
-```bash
+\`\`\`bash
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-```
+\`\`\`
 
 #### Optional for Custom Domain:
-```bash
+\`\`\`bash
 NEXT_PUBLIC_APP_URL=https://your-domain.vercel.app
-```
+\`\`\`
 
 ### 4. Important Notes for Environment Variables
 
 1. **Private Key Formatting**: The private key must include `\n` for newlines:
-   ```
+   \`\`\`
    "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC...\n-----END PRIVATE KEY-----"
-   ```
+   \`\`\`
 
 2. **Environment Scope**: Set all variables for **Production**, **Preview**, and **Development** environments.
 
@@ -71,7 +71,7 @@ NEXT_PUBLIC_APP_URL=https://your-domain.vercel.app
 This project includes several Vercel optimizations:
 
 ### vercel.json Configuration
-```json
+\`\`\`json
 {
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
@@ -83,10 +83,10 @@ This project includes several Vercel optimizations:
     }
   }
 }
-```
+\`\`\`
 
 ### Next.js Configuration (next.config.mjs)
-```javascript
+\`\`\`javascript
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -98,7 +98,7 @@ const nextConfig = {
     unoptimized: true,
   },
 }
-```
+\`\`\`
 
 ## Testing Your Deployment
 
@@ -136,9 +136,9 @@ In Vercel dashboard > Functions tab, you can monitor real-time logs and errors.
 ### Debug Mode
 
 You can enable debug mode by adding this environment variable:
-```bash
+\`\`\`bash
 DEBUG=true
-```
+\`\`\`
 
 This will provide more detailed error messages in the logs.
 

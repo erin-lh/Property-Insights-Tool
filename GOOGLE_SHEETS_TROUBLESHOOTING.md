@@ -3,23 +3,23 @@
 ## Quick Diagnostics
 
 ### 1. Test Service Account Authentication (Recommended)
-```bash
+\`\`\`bash
 # Test the service account connection
 curl "http://localhost:3000/api/sheets?action=test"
 
 # Or if you prefer the diagnostic script (API key method)
 node scripts/test-sheets-connection.js
-```
+\`\`\`
 
 ### 2. Check Environment Variables
-```bash
+\`\`\`bash
 # Verify your service account credentials are set
 echo $GOOGLE_SERVICE_ACCOUNT_EMAIL
 echo $GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
 # On Windows:
 echo %GOOGLE_SERVICE_ACCOUNT_EMAIL%
 echo %GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY%
-```
+\`\`\`
 
 ## Authentication Methods
 
@@ -40,12 +40,12 @@ Service Account authentication is more secure and reliable than API keys, especi
    - Project ID: `my-project-db-389005`
 
 2. **Set Environment Variables**
-   ```bash
+   \`\`\`bash
    GOOGLE_SERVICE_ACCOUNT_EMAIL=lh-n8n-service@my-project-db-389005.iam.gserviceaccount.com
    GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_HERE\n-----END PRIVATE KEY-----\n"
    GOOGLE_SERVICE_ACCOUNT_KEY_ID=c5d7aaff84fb15c6df322dbb430228481418ec71
    GOOGLE_PROJECT_ID=my-project-db-389005
-   ```
+   \`\`\`
 
 3. **Share Spreadsheet with Service Account**
    - Open your Google Spreadsheet
@@ -112,10 +112,10 @@ Service Account authentication is more secure and reliable than API keys, especi
 **Solutions:**
 
 1. **Local Development**
-   ```bash
+   \`\`\`bash
    # Create a .env.local file in your project root
    echo "GOOGLE_SHEETS_API_KEY=your_api_key_here" > .env.local
-   ```
+   \`\`\`
 
 2. **Production (Vercel)**
    - Go to your Vercel project dashboard
@@ -171,22 +171,22 @@ Service Account authentication is more secure and reliable than API keys, especi
 ## Testing Your Setup
 
 ### Manual API Test
-```bash
+\`\`\`bash
 # Replace YOUR_API_KEY and test basic connectivity
 curl "https://sheets.googleapis.com/v4/spreadsheets/10XVAxEPF6ZfD2zlqPB0kvSyQOP41z8iF6GD9vrG4qHg?key=YOUR_API_KEY"
-```
+\`\`\`
 
 ### Test Specific Sheet
-```bash
+\`\`\`bash
 # Test fetching data from Room 1
 curl "https://sheets.googleapis.com/v4/spreadsheets/10XVAxEPF6ZfD2zlqPB0kvSyQOP41z8iF6GD9vrG4qHg/values/Room%201!A:Z?key=YOUR_API_KEY"
-```
+\`\`\`
 
 ### Use Our Diagnostic Tool
-```bash
+\`\`\`bash
 # Run the comprehensive test script
 GOOGLE_SHEETS_API_KEY=your_key_here node scripts/test-sheets-connection.js
-```
+\`\`\`
 
 ## Security Best Practices
 
