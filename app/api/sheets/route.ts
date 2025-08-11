@@ -26,22 +26,44 @@ function base64UrlEncode(data: string): string {
 }
 
 async function sign(message: string, privateKey: string): Promise<string> {
-  const crypto = await import('crypto')
-  
-  // Remove the header and footer from the private key
-  const key = privateKey
-    .replace(/-----BEGIN PRIVATE KEY-----/, '')
-    .replace(/-----END PRIVATE KEY-----/, '')
-    .replace(/\s/g, '')
-  
-  // Create the signature
-  const keyBuffer = Buffer.from(key, 'base64')
-  const sign = crypto.createSign('RSA-SHA256')
-  sign.update(message)
-  sign.end()
-  
-  const signature = sign.sign(keyBuffer)
-  return base64UrlEncode(signature.toString('base64'))
+  try {
+    const crypto = await import('crypto')
+    
+    // Clean and validate the private key
+    if (!privateKey || typeof privateKey !== 'string') {
+      throw new Error('Invalid private key: must be a non-empty string')
+    }
+    
+    // Normalize line endings and clean the private key
+    let cleanKey = privateKey.trim()
+    
+    // Replace literal \n with actual newlines
+    cleanKey = cleanKey.replace(/\\n/g, '\n')
+    
+    // Ensure proper PEM format
+    if (!cleanKey.includes('-----BEGIN PRIVATE KEY-----')) {
+      cleanKey = `-----BEGIN PRIVATE KEY-----\n${cleanKey}\n-----END PRIVATE KEY-----`
+    }
+    
+    // Validate the PEM format
+    if (!cleanKey.includes('-----BEGIN PRIVATE KEY-----') || !cleanKey.includes('-----END PRIVATE KEY-----')) {
+      throw new Error('Invalid private key: missing PEM headers')
+    }
+    
+    console.log('Using private key length:', cleanKey.length)
+    console.log('Private key preview:', cleanKey.substring(0, 50) + '...')
+    
+    // Create the signature using the cleaned PEM key
+    const sign = crypto.createSign('RSA-SHA256')
+    sign.update(message)
+    sign.end()
+    
+    const signature = sign.sign(cleanKey)
+    return base64UrlEncode(signature.toString('base64'))
+  } catch (error) {
+    console.error('Error in sign function:', error)
+    throw new Error(`Failed to sign JWT: ${error instanceof Error ? error.message : 'Unknown error'}`)
+  }
 }
 
 async function createJWT(): Promise<string> {
@@ -58,7 +80,7 @@ async function createJWT(): Promise<string> {
   const header = {
     alg: 'RS256',
     typ: 'JWT',
-    kid: process.env.GOOGLE_SERVICE_ACCOUNT_KEY_ID || "c5d7aaff84fb15c6df322dbb430228481418ec71"
+    kid: process.env.GOOGLE_SERVICE_ACCOUNT_KEY_ID || "06b21c8ec7bf451aaacfe0caea3a11b0483592bc"
   }
 
   const payload = {
