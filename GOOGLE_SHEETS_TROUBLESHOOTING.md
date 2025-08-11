@@ -2,22 +2,58 @@
 
 ## Quick Diagnostics
 
-### 1. Test API Connection
+### 1. Test Service Account Authentication (Recommended)
 ```bash
-# Test the connection using our diagnostic endpoint
+# Test the service account connection
 curl "http://localhost:3000/api/sheets?action=test"
 
-# Or run the diagnostic script
+# Or if you prefer the diagnostic script (API key method)
 node scripts/test-sheets-connection.js
 ```
 
 ### 2. Check Environment Variables
 ```bash
-# Verify your API key is set
-echo $GOOGLE_SHEETS_API_KEY
+# Verify your service account credentials are set
+echo $GOOGLE_SERVICE_ACCOUNT_EMAIL
+echo $GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
 # On Windows:
-echo %GOOGLE_SHEETS_API_KEY%
+echo %GOOGLE_SERVICE_ACCOUNT_EMAIL%
+echo %GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY%
 ```
+
+## Authentication Methods
+
+### Method 1: Service Account Authentication (Recommended for Production)
+
+Service Account authentication is more secure and reliable than API keys, especially for server-to-server communication.
+
+**Advantages:**
+- More secure (no API key exposure)
+- Better for production environments
+- Granular permission control
+- Works reliably with Vercel and other hosting platforms
+
+**Setup:**
+
+1. **Ensure Service Account Exists**
+   - Service Account Email: `lh-n8n-service@my-project-db-389005.iam.gserviceaccount.com`
+   - Project ID: `my-project-db-389005`
+
+2. **Set Environment Variables**
+   ```bash
+   GOOGLE_SERVICE_ACCOUNT_EMAIL=lh-n8n-service@my-project-db-389005.iam.gserviceaccount.com
+   GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_HERE\n-----END PRIVATE KEY-----\n"
+   GOOGLE_SERVICE_ACCOUNT_KEY_ID=c5d7aaff84fb15c6df322dbb430228481418ec71
+   GOOGLE_PROJECT_ID=my-project-db-389005
+   ```
+
+3. **Share Spreadsheet with Service Account**
+   - Open your Google Spreadsheet
+   - Click "Share" button
+   - Add the service account email: `lh-n8n-service@my-project-db-389005.iam.gserviceaccount.com`
+   - Set permission to "Viewer"
+
+### Method 2: API Key Authentication (Legacy)
 
 ## Common Error Solutions
 
