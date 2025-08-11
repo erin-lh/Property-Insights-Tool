@@ -23,6 +23,59 @@ export function AssetsTab({ propertyData }: AssetsTabProps) {
     document.body.removeChild(link)
   }
 
+  const propertyImages = [
+    {
+      name: "Front Exterior",
+      url: "/images/property/front-exterior.jpg",
+      size: "3.2 MB"
+    },
+    {
+      name: "Main Living Area",
+      url: "/images/property/main-living-area.jpg",
+      size: "2.9 MB"
+    },
+    {
+      name: "Kitchen Area",
+      url: "/images/property/kitchen-area.jpg",
+      size: "2.8 MB"
+    },
+    {
+      name: "Kitchen & Dining",
+      url: "/images/property/kitchen-dining.jpg",
+      size: "2.5 MB"
+    },
+    {
+      name: "Master Bedroom",
+      url: "/images/property/master-bedroom.jpg",
+      size: "2.3 MB"
+    },
+    {
+      name: "Bedroom 1",
+      url: "/images/property/bedroom-1.jpg",
+      size: "1.9 MB"
+    },
+    {
+      name: "Bedroom 2/Study",
+      url: "/images/property/bedroom-2-study.jpg",
+      size: "2.1 MB"
+    },
+    {
+      name: "Upper Living Area",
+      url: "/images/property/upper-living.jpg",
+      size: "3.1 MB"
+    },
+    {
+      name: "Outdoor Balcony",
+      url: "/images/property/outdoor-balcony.jpg",
+      size: "2.7 MB"
+    },
+    {
+      name: "Backyard & Garden",
+      url: "/images/property/backyard-garden.jpg",
+      size: "2.4 MB"
+    }
+  ]
+
   return (
     <div className="space-y-6">
       {/* Asset Navigation */}
@@ -292,36 +345,41 @@ export function AssetsTab({ propertyData }: AssetsTabProps) {
           <Card className="bg-white shadow-sm border-0 rounded-2xl">
             <CardHeader>
               <CardTitle className="text-xl font-semibold text-gray-800">Property Images</CardTitle>
-              <p className="text-gray-600">Property photos and documentation (14 rooms + 6 exterior images)</p>
+              <p className="text-gray-600">Professional property photography ({propertyImages.length} images)</p>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {/* Property Photos */}
-                {[
-                  { name: "Property Exterior", color: "purple", size: "3.2 MB" },
-                  { name: "Front Entrance", color: "orange", size: "2.9 MB" },
-                  { name: "Living Room Overview", color: "blue", size: "2.8 MB" },
-                  { name: "Kitchen Detail", color: "green", size: "2.5 MB" },
-                  { name: "Master Bedroom", color: "purple", size: "2.3 MB" },
-                  { name: "Main Bathroom", color: "orange", size: "1.9 MB" },
-                  { name: "Outdoor Patio", color: "blue", size: "3.1 MB" },
-                  { name: "Garden Area", color: "green", size: "2.7 MB" },
-                ].map((image, index) => (
+                {propertyImages.map((image, index) => (
                   <div
                     key={index}
                     className="bg-gray-100 rounded-lg overflow-hidden group hover:shadow-md transition-shadow"
                   >
-                    <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                      <Camera className="h-12 w-12 text-gray-600" />
+                    <div className="aspect-square bg-white flex items-center justify-center p-2">
+                      <img 
+                        src={image.url || "/placeholder.svg"}
+                        alt={image.name}
+                        className="w-full h-full object-cover rounded"
+                      />
                     </div>
                     <div className="p-3">
                       <h4 className="font-medium text-sm text-gray-800 mb-1">{image.name}</h4>
                       <p className="text-xs text-gray-500 mb-2">{image.size} • JPG</p>
                       <div className="flex gap-2">
-                        <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="text-xs flex-1 bg-transparent"
+                          onClick={() => window.open(image.url, '_blank')}
+                        >
                           Preview
                         </Button>
-                        <Button size="sm" variant="outline" className="text-xs flex-1 bg-transparent">
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="text-xs flex-1 bg-transparent"
+                          onClick={() => downloadFile(image.url, `${image.name}.jpg`)}
+                        >
                           Download
                         </Button>
                       </div>
