@@ -11,14 +11,14 @@
 ## 📋 Component Quick Reference
 
 ### Core App Components
-```
+\`\`\`
 app/page.tsx              - Main application entry point
 app/layout.tsx            - Root layout with metadata
 app/room/[roomId]/page.tsx - Dynamic room pages
-```
+\`\`\`
 
 ### UI Component Library (`components/ui/`)
-```
+\`\`\`
 badge.tsx                 - Status and category indicators
 button.tsx                - Interactive buttons with variants
 card.tsx                  - Container component with header/content
@@ -26,10 +26,10 @@ checkbox.tsx              - Form checkbox input
 dialog.tsx                - Modal and popup dialogs
 input.tsx                 - Text input with validation
 tabs.tsx                  - Tab navigation and content
-```
+\`\`\`
 
 ### Feature Components (`components/`)
-```
+\`\`\`
 search-page.tsx           - Property search and selection
 room-card.tsx             - Individual room display cards
 room-detail-modal.tsx     - Detailed room analysis modal
@@ -37,10 +37,10 @@ room-comparison-modal.tsx - Side-by-side room comparison
 google-drive-panorama.tsx - 360° panorama integration
 metric-card.tsx           - Metric display component
 theme-provider.tsx        - Theme management
-```
+\`\`\`
 
 ### Tab Components (`components/tabs/`)
-```
+\`\`\`
 overview-tab.tsx          - Property overview dashboard
 room-insights-tab.tsx     - Room-specific analytics
 assets-tab.tsx            - Property asset management
@@ -48,10 +48,10 @@ reports-tab.tsx           - Report generation and export
 audience-tab.tsx          - Audience analytics
 leads-tab.tsx             - Lead management
 platform-engagement-tab.tsx - Engagement metrics
-```
+\`\`\`
 
 ### Module Components (`components/modules/`)
-```
+\`\`\`
 energy-efficiency.tsx     - Energy rating analysis
 flooring-materials.tsx    - Material specifications
 location-details.tsx      - Geographic information
@@ -60,36 +60,36 @@ property-inventory.tsx    - Asset inventory
 property-specifications.tsx - Technical specifications
 scan-information.tsx      - 3D scan metadata
 virtual-tour.tsx          - Virtual tour integration
-```
+\`\`\`
 
 ## 🔧 Utility Functions (`lib/`)
 
 ### Data Processing
-```typescript
+\`\`\`typescript
 // lib/data-parser.ts
 parseCSVData(csvText: string) -> PropertyData
 parseCSVDataWithAllRooms(csvText: string) -> PropertyData
-```
+\`\`\`
 
 ### Database Integration
-```typescript
+\`\`\`typescript
 // lib/supabase.ts
 getPropertyData(propertyId: string) -> PropertyData
 getRoomData(propertyId: string) -> RoomData[]
 getEnergyEfficiencyData(propertyId: string) -> EnergyData[]
 getDamageData(propertyId: string) -> DamageData[]
-```
+\`\`\`
 
 ### Utilities
-```typescript
+\`\`\`typescript
 // lib/utils.ts
 cn(...classes) -> string  // Tailwind class merger
-```
+\`\`\`
 
 ## 🎯 Key Data Interfaces
 
 ### PropertyData Interface
-```typescript
+\`\`\`typescript
 interface PropertyData {
   id: string
   address: string
@@ -105,10 +105,10 @@ interface PropertyData {
   propertyCondition: string
   // ... 50+ additional fields
 }
-```
+\`\`\`
 
 ### RoomData Interface
-```typescript
+\`\`\`typescript
 interface RoomData {
   id: string
   type: string
@@ -124,12 +124,12 @@ interface RoomData {
   panoramaCount: number
   // ... 30+ additional fields
 }
-```
+\`\`\`
 
 ## 🔄 Common Integration Patterns
 
 ### Adding a New Tab
-```typescript
+\`\`\`typescript
 // 1. Create tab component
 export function NewTab({ data }: { data: PropertyData }) {
   return (
@@ -149,10 +149,10 @@ export function NewTab({ data }: { data: PropertyData }) {
 <TabsContent value="new-tab">
   <NewTab data={propertyData} />
 </TabsContent>
-```
+\`\`\`
 
 ### Adding a New Room Feature
-```typescript
+\`\`\`typescript
 // 1. Extend RoomData interface in lib/data-parser.ts
 interface RoomData {
   // ... existing fields
@@ -169,10 +169,10 @@ interface RoomData {
   <span>New Feature:</span>
   <span>{room.newFeature}</span>
 </div>
-```
+\`\`\`
 
 ### Creating a New Module
-```typescript
+\`\`\`typescript
 // components/modules/new-module.tsx
 export function NewModule({ data }: { data: PropertyData }) {
   return (
@@ -188,7 +188,7 @@ export function NewModule({ data }: { data: PropertyData }) {
     </div>
   )
 }
-```
+\`\`\`
 
 ## 📊 Data Sources
 
@@ -201,7 +201,7 @@ Located: `public/data/property-data.csv`
 - Scan metadata
 
 ### Supabase Tables
-```sql
+\`\`\`sql
 -- Properties table
 properties (
   property_id,
@@ -230,12 +230,12 @@ energy_efficiency (
   rating,
   -- ... additional columns
 )
-```
+\`\`\`
 
 ## 🎨 Styling Guidelines
 
 ### Tailwind Classes
-```css
+\`\`\`css
 /* Layout */
 container mx-auto px-4 py-8 max-w-7xl
 
@@ -250,10 +250,10 @@ text-gray-600 font-medium text-sm
 
 /* Responsive */
 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
-```
+\`\`\`
 
 ### Component Variants
-```typescript
+\`\`\`typescript
 // Button variants
 <Button variant="default">Primary</Button>
 <Button variant="outline">Secondary</Button>
@@ -263,7 +263,7 @@ grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
 <Badge variant="default">Status</Badge>
 <Badge variant="outline">Category</Badge>
 <Badge variant="secondary">Info</Badge>
-```
+\`\`\`
 
 ## 🚨 Error Handling
 
@@ -274,7 +274,7 @@ grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
 4. **Type Mismatches**: Runtime type checking
 
 ### Error Boundary Pattern
-```typescript
+\`\`\`typescript
 try {
   const parsedData = await parseCSVDataWithAllRooms(csvText)
   setPropertyData(parsedData)
@@ -283,7 +283,7 @@ try {
   const parsedData = parseCSVData(csvText)
   setPropertyData(parsedData)
 }
-```
+\`\`\`
 
 ## 📱 Responsive Design
 
@@ -295,7 +295,7 @@ try {
 - `2xl`: 1536px and up
 
 ### Grid Patterns
-```css
+\`\`\`css
 /* Mobile-first responsive grid */
 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
 
@@ -304,11 +304,11 @@ grid grid-cols-1 md:grid-cols-2 gap-4
 
 /* Dashboard layout */
 grid grid-cols-12 gap-6
-```
+\`\`\`
 
 ## 🔧 Development Commands
 
-```bash
+\`\`\`bash
 # Development
 npm run dev           # Start development server
 npm run build         # Production build
@@ -318,7 +318,7 @@ npm run lint          # Run linting
 # Package management
 npm install --legacy-peer-deps  # Install with legacy deps
 npm update            # Update dependencies
-```
+\`\`\`
 
 ## 🚀 Deployment Status
 

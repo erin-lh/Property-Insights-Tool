@@ -40,14 +40,14 @@
 ## 🏗️ Architecture Summary
 
 ### Technology Stack
-```
+\`\`\`
 Frontend:     Next.js 15.2.4 + React 19 + TypeScript
 Styling:      Tailwind CSS 4.1.9 + Radix UI
 Database:     Supabase integration ready
 Components:   50+ reusable components
 Data:         CSV processing + real-time database
 Deployment:   Vercel with auto-sync from v0.dev
-```
+\`\`\`
 
 ### Core Features
 - **Property Search & Selection**: Interactive property discovery
@@ -66,14 +66,14 @@ Deployment:   Vercel with auto-sync from v0.dev
 - **Build**: ✅ Production-ready build completed
 
 ### Environment Requirements
-```bash
+\`\`\`bash
 # Required for Supabase integration
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
+\`\`\`
 
 ### Deployment Commands
-```bash
+\`\`\`bash
 # Local development
 npm run dev
 
@@ -82,7 +82,7 @@ npm run build
 
 # Start production server
 npm run start
-```
+\`\`\`
 
 ## 🎯 AI Agent Integration Points
 
@@ -93,7 +93,7 @@ npm run start
 4. **Feature Modules**: `components/modules/` - Specific functionality
 
 ### Common Extension Patterns
-```typescript
+\`\`\`typescript
 // Adding new features
 1. Extend data interfaces in lib/data-parser.ts
 2. Create new components following existing patterns
@@ -105,7 +105,7 @@ npm run start
 2. Update room cards and detail modals
 3. Extend comparison functionality
 4. Add to room insights tab
-```
+\`\`\`
 
 ### Quick Modification Guide
 - **New Tab**: Add to `components/tabs/` and integrate in main app

@@ -154,7 +154,12 @@ export interface EnergySummaryData {
   recommendations?: string[]
 }
 
-// Room data interface
+// Sheet data interface for Google Sheets integration
+export interface SheetData {
+  [key: string]: string | number | boolean
+}
+
+// Room data interface with Google Sheets integration
 export interface RoomData {
   id: string
   name?: string
@@ -186,11 +191,8 @@ export interface RoomData {
   coverImage?: string
   panoramaIds?: string[]
   // Google Sheets integration
-  sheetData?: {
-    sheetName: string
-    lastSync?: number
-    data: Record<string, any>
-  }
+  sheetData?: SheetData
+  hasSheetData?: boolean
 }
 
 let cachedPropertyData: PropertyData | null = null
@@ -337,17 +339,61 @@ const realRoom4: RoomData = {
 }
 
 // Helper function to safely parse numbers
-function safeParseNumber(value: string | undefined, defaultValue: number = 0): number {
-  if (!value || value === '') return defaultValue
-  const parsed = parseFloat(value)
+function safeParseNumber(value: string | undefined, defaultValue = 0): number {
+  if (!value || value === "") return defaultValue
+  const parsed = Number.parseFloat(value)
   return isNaN(parsed) ? defaultValue : parsed
 }
 
 // Helper function to safely parse integers
-function safeParseInt(value: string | undefined, defaultValue: number = 0): number {
-  if (!value || value === '') return defaultValue
-  const parsed = parseInt(value)
+function safeParseInt(value: string | undefined, defaultValue = 0): number {
+  if (!value || value === "") return defaultValue
+  const parsed = Number.parseInt(value)
   return isNaN(parsed) ? defaultValue : parsed
+}
+
+// Fetch Google Sheets data and merge with room data
+async function fetchAndMergeSheetData(rooms: RoomData[]): Promise<RoomData[]> {
+  try {
+    const response = await fetch("/api/sheets")
+    if (!response.ok) {
+      console.warn("Failed to fetch sheet data, using existing room data")
+      return rooms
+    }
+
+    const result = await response.json()
+    if (!result.success || !result.data) {
+      console.warn("Invalid sheet data response, using existing room data")
+      return rooms
+    }
+
+    const sheetDataMap = new Map<string, SheetData>()
+
+    // Create a map of sheet data using composite key (roomId + roomType)
+    result.data.forEach((item: any) => {
+      const key = `${item.roomId}-${item.roomType.toLowerCase()}`
+      sheetDataMap.set(key, item.sheetData)
+    })
+
+    // Merge sheet data with existing room data
+    return rooms.map((room) => {
+      const key = `${room.id}-${room.type.toLowerCase()}`
+      const sheetData = sheetDataMap.get(key)
+
+      if (sheetData) {
+        return {
+          ...room,
+          sheetData,
+          hasSheetData: true,
+        }
+      }
+
+      return room
+    })
+  } catch (error) {
+    console.error("Error fetching sheet data:", error)
+    return rooms
+  }
 }
 
 // Fetch damage assessment data from the new CSV - ensuring exact accuracy
@@ -357,38 +403,40 @@ async function fetchDamageData(): Promise<DamageData | null> {
   }
 
   try {
-    const response = await fetch('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3%20Bellavista%20Terrace%20_%20Full%20Data%20Schema%20-%20Damage-7l8AKi1bTAjX7N0KAshuoxgJZnCA8I.csv')
+    const response = await fetch(
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3%20Bellavista%20Terrace%20_%20Full%20Data%20Schema%20-%20Damage-7l8AKi1bTAjX7N0KAshuoxgJZnCA8I.csv",
+    )
     const csvText = await response.text()
-    
+
     // Parse CSV
-    const lines = csvText.split('\n').filter(line => line.trim() !== '')
+    const lines = csvText.split("\n").filter((line) => line.trim() !== "")
     if (lines.length < 2) {
-      throw new Error('Invalid CSV format')
+      throw new Error("Invalid CSV format")
     }
-    
-    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''))
-    const values = lines[1].split(',').map(v => v.trim().replace(/"/g, ''))
-    
+
+    const headers = lines[0].split(",").map((h) => h.trim().replace(/"/g, ""))
+    const values = lines[1].split(",").map((v) => v.trim().replace(/"/g, ""))
+
     // Create data map
     const dataMap: Record<string, string> = {}
     headers.forEach((header, index) => {
-      dataMap[header] = values[index] || ''
+      dataMap[header] = values[index] || ""
     })
-    
+
     // Use exact values from CSV - all should be "No" according to the schema
     const damageData: DamageData = {
-      propertyId: '25763',
-      wallDamage: dataMap['Wall Damage'] || 'No',
-      floorDamage: dataMap['Floor Damage'] || 'No', 
-      ceilingDamage: dataMap['Damage_Ceiling_PTY_LH'] || 'No',
-      anyKnownDamage: dataMap['Any Damage Known'] || 'No',
-      overallCondition: 'Property shows no notable visible damage on any surface'
+      propertyId: "25763",
+      wallDamage: dataMap["Wall Damage"] || "No",
+      floorDamage: dataMap["Floor Damage"] || "No",
+      ceilingDamage: dataMap["Damage_Ceiling_PTY_LH"] || "No",
+      anyKnownDamage: dataMap["Any Damage Known"] || "No",
+      overallCondition: "Property shows no notable visible damage on any surface",
     }
-    
+
     cachedDamageData = damageData
     return damageData
   } catch (error) {
-    console.error('Error fetching damage data:', error)
+    console.error("Error fetching damage data:", error)
     return null
   }
 }
@@ -401,165 +449,192 @@ export async function fetchPropertyData(): Promise<PropertyData | null> {
 
   try {
     // Use the new PTY (6) CSV URL provided
-    const response = await fetch('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3%20Bellavista%20Terrace%20_%20Full%20Data%20Schema%20-%20Schema-%20PTY%20%286%29-BoSsFFLIR36YaySJnWXKSFOO3TKjpG.csv')
+    const response = await fetch(
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3%20Bellavista%20Terrace%20_%20Full%20Data%20Schema%20-%20Schema-%20PTY%20%286%29-BoSsFFLIR36YaySJnWXKSFOO3TKjpG.csv",
+    )
     const csvText = await response.text()
-    
+
     // Parse CSV (simple implementation - assumes first row is headers, second row is data)
-    const lines = csvText.split('\n')
-    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''))
-    const values = lines[1].split(',').map(v => v.trim().replace(/"/g, ''))
-    
+    const lines = csvText.split("\n")
+    const headers = lines[0].split(",").map((h) => h.trim().replace(/"/g, ""))
+    const values = lines[1].split(",").map((v) => v.trim().replace(/"/g, ""))
+
     // Create data map for easier access
     const dataMap: Record<string, string> = {}
     headers.forEach((header, index) => {
-      dataMap[header] = values[index] || ''
+      dataMap[header] = values[index] || ""
     })
-    
+
     // Parse panorama IDs from the CSV
-    const panoramaIdsString = dataMap['Panorama IDs'] || ''
-    const panoramaIds = panoramaIdsString ? panoramaIdsString.split(',').map(id => id.trim()) : []
-    
+    const panoramaIdsString = dataMap["Panorama IDs"] || ""
+    const panoramaIds = panoramaIdsString ? panoramaIdsString.split(",").map((id) => id.trim()) : []
+
     // Fetch damage data to ensure accuracy
     const damageData = await fetchDamageData()
-    
+
+    // Base room data
+    const baseRooms = [sampleRoom1, sampleRoom2, realRoom3, realRoom4]
+
+    // Fetch and merge sheet data
+    const roomsWithSheetData = await fetchAndMergeSheetData(baseRooms)
+
     // Create property data object using the new CSV structure with corrected values
     const propertyData: PropertyData = {
-      id: dataMap['Property ID'] || '25763',
-      matterportTourId: dataMap['Tour ID'] || 'ZUCRWEgFkxk',
-      address: dataMap['Full Address'] || '3 Bellavista Terrace, PADDINGTON QLD 4064',
-      estimatedPrice: safeParseNumber(dataMap['EstimatePrice_PTY_CL'], 1340589),
-      lowPrice: safeParseNumber(dataMap['LowPrice_PTY_CL'], 1152907),
-      highPrice: safeParseNumber(dataMap['HighPrice_PTY_CL'], 1528271),
-      lastSalePrice: safeParseNumber(dataMap['LastSalePrice_PTY_CL'], 375000),
-      propertyValuation: safeParseNumber(dataMap['Property Valuation'], 470000),
-      totalArea: safeParseNumber(dataMap['Total Area'], 142.6283016),
-      floorArea: safeParseInt(dataMap['Floor Area'], 115),
-      landArea: safeParseInt(dataMap['Land Area'], 255),
-      bedArea: safeParseNumber(dataMap['Bed Area'], 17.66950035),
-      masterBedArea: safeParseNumber(dataMap['MasterBedArea_PTY_LH'], 9.166700363),
-      bathArea: safeParseNumber(dataMap['Bath Area'], 13.32430005),
-      bedrooms: safeParseInt(dataMap['Bed Count'], 3),
-      bathrooms: safeParseInt(dataMap['Bath Count'], 2),
-      carSpaces: safeParseInt(dataMap['Car Space Count'], 1),
-      buildYear: dataMap['Build Year'] || 'Unknown',
-      propertyType: dataMap['Property Type'] || 'HOUSE',
-      views: safeParseInt(dataMap['Virtual Tour Views Total'], 55),
-      avgDailyViews: safeParseNumber(dataMap['Virtual Tour Views- Average Daily'], 1.486486486),
-      avgSessionTime: safeParseNumber(dataMap['Virtual Tour- Average Session Time'], 132.8750731),
-      engagedInspections: safeParseInt(dataMap['Virtual Tour- Engaged Inspections'], 51),
-      engagedVisitors: safeParseInt(dataMap['Virtual Tour- Engaged Visitor'], 51),
-      panoramaCount: safeParseInt(dataMap['Panorama Count'], 73),
-      ceilingHeight: safeParseNumber(dataMap['Ceiling Height'], 2.415555451),
-      floors: safeParseInt(dataMap['Floors'], 2),
-      hallwayAvgWidth: safeParseNumber(dataMap['Hallway Avg Width'], 3.278478702),
-      climateZone: dataMap['Climate Zone'] || 'Zone 2',
-      postcode: dataMap['Postcode'] || '4064',
-      scanPurpose: dataMap['Scan Purpose'] || 'RESIDENTIAL_SALES',
-      sqft: safeParseNumber(dataMap['Sqft'], 1850),
-      yearBuilt: safeParseInt(dataMap['Year Built'], 2015),
-      lotSize: dataMap['Lot Size'] || '0.25 acres',
-      parkingSpaces: safeParseInt(dataMap['Parking Spaces'], 2),
-      scanDate: dataMap['Scan Date'] || '2024-01-15',
-      scanDuration: dataMap['Scan Duration'] || '45 minutes',
-      scanQuality: dataMap['Scan Quality'] || 'High',
-      propertyCondition: dataMap['Property Condition'] || 'Good',
-      maintenanceRequired: dataMap['Maintenance Required'] || 'Minor',
-      structuralIssues: dataMap['Structural Issues'] || 'None',
-      energyRating: dataMap['Energy Rating'] || '7.5/10',
-      heatingCooling: dataMap['Heating Cooling'] || 'Central HVAC',
-      insulation: dataMap['Insulation'] || 'R-15 walls, R-30 attic',
-      windows: dataMap['Windows'] || 'Double-pane',
-      flooringType: dataMap['Flooring Type'] || 'hardwood',
-      wallMaterial: dataMap['Wall Material'] || 'plaster',
-      internalWallColour: dataMap['Internal Wall Colour'] || '#d2d0ca',
-      smokeAlarms: safeParseInt(dataMap['Smoke Alarms'], 6),
-      fireExtinguisher: safeParseInt(dataMap['Fire Extinguisher'], 1),
-      windowCount: safeParseInt(dataMap['Window Count'], 12),
-      doorCount: safeParseInt(dataMap['Door Count'], 20),
-      lightFixtures: safeParseInt(dataMap['Light Fixtures'], 15),
-      ceilingFans: safeParseInt(dataMap['Ceiling Fans'], 3),
+      id: dataMap["Property ID"] || "25763",
+      matterportTourId: dataMap["Tour ID"] || "ZUCRWEgFkxk",
+      address: dataMap["Full Address"] || "3 Bellavista Terrace, PADDINGTON QLD 4064",
+      estimatedPrice: safeParseNumber(dataMap["EstimatePrice_PTY_CL"], 1340589),
+      lowPrice: safeParseNumber(dataMap["LowPrice_PTY_CL"], 1152907),
+      highPrice: safeParseNumber(dataMap["HighPrice_PTY_CL"], 1528271),
+      lastSalePrice: safeParseNumber(dataMap["LastSalePrice_PTY_CL"], 375000),
+      propertyValuation: safeParseNumber(dataMap["Property Valuation"], 470000),
+      totalArea: safeParseNumber(dataMap["Total Area"], 142.6283016),
+      floorArea: safeParseInt(dataMap["Floor Area"], 115),
+      landArea: safeParseInt(dataMap["Land Area"], 255),
+      bedArea: safeParseNumber(dataMap["Bed Area"], 17.66950035),
+      masterBedArea: safeParseNumber(dataMap["MasterBedArea_PTY_LH"], 9.166700363),
+      bathArea: safeParseNumber(dataMap["Bath Area"], 13.32430005),
+      bedrooms: safeParseInt(dataMap["Bed Count"], 3),
+      bathrooms: safeParseInt(dataMap["Bath Count"], 2),
+      carSpaces: safeParseInt(dataMap["Car Space Count"], 1),
+      buildYear: dataMap["Build Year"] || "Unknown",
+      propertyType: dataMap["Property Type"] || "HOUSE",
+      views: safeParseInt(dataMap["Virtual Tour Views Total"], 55),
+      avgDailyViews: safeParseNumber(dataMap["Virtual Tour Views- Average Daily"], 1.486486486),
+      avgSessionTime: safeParseNumber(dataMap["Virtual Tour- Average Session Time"], 132.8750731),
+      engagedInspections: safeParseInt(dataMap["Virtual Tour- Engaged Inspections"], 51),
+      engagedVisitors: safeParseInt(dataMap["Virtual Tour- Engaged Visitor"], 51),
+      panoramaCount: safeParseInt(dataMap["Panorama Count"], 73),
+      ceilingHeight: safeParseNumber(dataMap["Ceiling Height"], 2.415555451),
+      floors: safeParseInt(dataMap["Floors"], 2),
+      hallwayAvgWidth: safeParseNumber(dataMap["Hallway Avg Width"], 3.278478702),
+      climateZone: dataMap["Climate Zone"] || "Zone 2",
+      postcode: dataMap["Postcode"] || "4064",
+      scanPurpose: dataMap["Scan Purpose"] || "RESIDENTIAL_SALES",
+      sqft: safeParseNumber(dataMap["Sqft"], 1850),
+      yearBuilt: safeParseInt(dataMap["Year Built"], 2015),
+      lotSize: dataMap["Lot Size"] || "0.25 acres",
+      parkingSpaces: safeParseInt(dataMap["Parking Spaces"], 2),
+      scanDate: dataMap["Scan Date"] || "2024-01-15",
+      scanDuration: dataMap["Scan Duration"] || "45 minutes",
+      scanQuality: dataMap["Scan Quality"] || "High",
+      propertyCondition: dataMap["Property Condition"] || "Good",
+      maintenanceRequired: dataMap["Maintenance Required"] || "Minor",
+      structuralIssues: dataMap["Structural Issues"] || "None",
+      energyRating: dataMap["Energy Rating"] || "7.5/10",
+      heatingCooling: dataMap["Heating Cooling"] || "Central HVAC",
+      insulation: dataMap["Insulation"] || "R-15 walls, R-30 attic",
+      windows: dataMap["Windows"] || "Double-pane",
+      flooringType: dataMap["Flooring Type"] || "hardwood",
+      wallMaterial: dataMap["Wall Material"] || "plaster",
+      internalWallColour: dataMap["Internal Wall Colour"] || "#d2d0ca",
+      smokeAlarms: safeParseInt(dataMap["Smoke Alarms"], 6),
+      fireExtinguisher: safeParseInt(dataMap["Fire Extinguisher"], 1),
+      windowCount: safeParseInt(dataMap["Window Count"], 12),
+      doorCount: safeParseInt(dataMap["Door Count"], 20),
+      lightFixtures: safeParseInt(dataMap["Light Fixtures"], 15),
+      ceilingFans: safeParseInt(dataMap["Ceiling Fans"], 3),
       totalRooms: 14,
-      rooms: [sampleRoom1, sampleRoom2, realRoom3, realRoom4],
-      hardwoodArea: safeParseNumber(dataMap['Hardwood Total Sqm'], 48.99440193),
-      tileArea: safeParseNumber(dataMap['TileTotalSqm_PTY_LH'], 35.82769942),
-      carpetArea: safeParseNumber(dataMap['Carpet Total Sqm'], 38.89929986),
-      airConditioningCount: safeParseInt(dataMap['Airconditioning Unit Count'], 3),
-      airConditioningType: dataMap['Airconditioning Type'] || 'Fujitsu Inverter Split System',
-      smokeAlarmCount: safeParseInt(dataMap['Smoke Alarm Count'], 6),
-      ceilingLightCount: safeParseInt(dataMap['Ceiling Light Count'], 15),
-      fireplace: dataMap['Fireplace'] || 'No',
+      rooms: roomsWithSheetData,
+      hardwoodArea: safeParseNumber(dataMap["Hardwood Total Sqm"], 48.99440193),
+      tileArea: safeParseNumber(dataMap["TileTotalSqm_PTY_LH"], 35.82769942),
+      carpetArea: safeParseNumber(dataMap["Carpet Total Sqm"], 38.89929986),
+      airConditioningCount: safeParseInt(dataMap["Airconditioning Unit Count"], 3),
+      airConditioningType: dataMap["Airconditioning Type"] || "Fujitsu Inverter Split System",
+      smokeAlarmCount: safeParseInt(dataMap["Smoke Alarm Count"], 6),
+      ceilingLightCount: safeParseInt(dataMap["Ceiling Light Count"], 15),
+      fireplace: dataMap["Fireplace"] || "No",
       // Primary Materials - using exact values from the new CSV
-      primaryCeilingType: dataMap['Primary Ceiling Type'] || 'flat',
-      primaryWallType: dataMap['Primary Wall Type'] || 'plaster',
-      primaryFlooringType: dataMap['Primary Flooring Type'] || 'hardwood',
-      primaryInternalColor: dataMap['Primary Internal Hex Code'] || '#d2d0ca',
+      primaryCeilingType: dataMap["Primary Ceiling Type"] || "flat",
+      primaryWallType: dataMap["Primary Wall Type"] || "plaster",
+      primaryFlooringType: dataMap["Primary Flooring Type"] || "hardwood",
+      primaryInternalColor: dataMap["Primary Internal Hex Code"] || "#d2d0ca",
       // Use damage data with highest priority, fallback to main CSV if needed
-      damageWalls: damageData?.wallDamage || dataMap['Wall Damage'] || 'No',
-      damageFloor: damageData?.floorDamage || dataMap['Floor Damage'] || 'No',
-      damageCeiling: damageData?.ceilingDamage || dataMap['Damage_Ceiling_PTY_LH'] || 'No',
-      damageKnown: damageData?.anyKnownDamage || dataMap['Any Damage Known'] || 'No',
-      overallCondition: damageData?.overallCondition || 'Property shows no notable visible damage on any surface',
-      streetNo: dataMap['Street No.'] || '3',
-      streetName: dataMap['Street Name'] || 'Bellavista',
-      streetType: dataMap['Street Type'] || 'Terrace',
-      locality: dataMap['Locality'] || 'PADDINGTON',
-      state: dataMap['State'] || 'QLD',
-      latitude: safeParseNumber(dataMap['Latitude'], -27.455381),
-      longitude: safeParseNumber(dataMap['Longtitude'], 152.988639), // Note: typo in original CSV
-      gnafId: dataMap['GNAF'] || 'GAQLD155682091',
-      meshblock: dataMap['Meshblock'] || 'MB2130563208900',
-      meshblock2016: dataMap['Meshblock2016'] || 'MB1630563208900',
-      sa1Id: safeParseNumber(dataMap['SA1Id_PTY_LH'], 30504113517),
-      sa2Id: safeParseNumber(dataMap['SA2Id_PTY_LH'], 305041135),
-      uniqueFeatures: dataMap['Unique Features'] || 'Exceptionally Wide Hallway: The property features a hallway with an average width of approximately 3.28 meters, creating an unusually spacious central corridor that enhances the sense of openness.\n\n\nMulti-Level Layout: The home\'s design is spread across two distinct floors, allowing for separation between living and sleeping zones.\n\n\nComprehensive Climate Control: The residence is equipped with four air conditioning units, indicating a focus on thorough climate management throughout the interior.\n\n\nZoned Flooring: The layout utilizes three different primary flooring materials—hardwood, carpet, and tile —to define the different functional areas of the home, such as living spaces, bedrooms, and wet areas',
-      propertyDescription: dataMap['Property Description'] || 'This contemporary two-storey home is defined by a uniquely spacious layout and a seamless connection between its indoor and outdoor living areas. The interior features a practical and modern blend of flooring, with hardwood in the main living spaces, carpet in the three bedrooms, and tiles in the two bathrooms. The residence is built for comfort with comprehensive climate control throughout. The home\'s design creates an open and airy atmosphere, enhanced by an exceptionally wide central hallway that serves as the spine of the layout.',
-      roofMaterial: dataMap['Roof Material'] || undefined,
-      littleHingesBuildValuation: dataMap['Little Hinges Build Valuation'] || 'X',
+      damageWalls: damageData?.wallDamage || dataMap["Wall Damage"] || "No",
+      damageFloor: damageData?.floorDamage || dataMap["Floor Damage"] || "No",
+      damageCeiling: damageData?.ceilingDamage || dataMap["Damage_Ceiling_PTY_LH"] || "No",
+      damageKnown: damageData?.anyKnownDamage || dataMap["Any Damage Known"] || "No",
+      overallCondition: damageData?.overallCondition || "Property shows no notable visible damage on any surface",
+      streetNo: dataMap["Street No."] || "3",
+      streetName: dataMap["Street Name"] || "Bellavista",
+      streetType: dataMap["Street Type"] || "Terrace",
+      locality: dataMap["Locality"] || "PADDINGTON",
+      state: dataMap["State"] || "QLD",
+      latitude: safeParseNumber(dataMap["Latitude"], -27.455381),
+      longitude: safeParseNumber(dataMap["Longtitude"], 152.988639), // Note: typo in original CSV
+      gnafId: dataMap["GNAF"] || "GAQLD155682091",
+      meshblock: dataMap["Meshblock"] || "MB2130563208900",
+      meshblock2016: dataMap["Meshblock2016"] || "MB1630563208900",
+      sa1Id: safeParseNumber(dataMap["SA1Id_PTY_LH"], 30504113517),
+      sa2Id: safeParseNumber(dataMap["SA2Id_PTY_LH"], 305041135),
+      uniqueFeatures:
+        dataMap["Unique Features"] ||
+        "Exceptionally Wide Hallway: The property features a hallway with an average width of approximately 3.28 meters, creating an unusually spacious central corridor that enhances the sense of openness.\n\n\nMulti-Level Layout: The home's design is spread across two distinct floors, allowing for separation between living and sleeping zones.\n\n\nComprehensive Climate Control: The residence is equipped with four air conditioning units, indicating a focus on thorough climate management throughout the interior.\n\n\nZoned Flooring: The layout utilizes three different primary flooring materials—hardwood, carpet, and tile —to define the different functional areas of the home, such as living spaces, bedrooms, and wet areas",
+      propertyDescription:
+        dataMap["Property Description"] ||
+        "This contemporary two-storey home is defined by a uniquely spacious layout and a seamless connection between its indoor and outdoor living areas. The interior features a practical and modern blend of flooring, with hardwood in the main living spaces, carpet in the three bedrooms, and tiles in the two bathrooms. The residence is built for comfort with comprehensive climate control throughout. The home's design creates an open and airy atmosphere, enhanced by an exceptionally wide central hallway that serves as the spine of the layout.",
+      roofMaterial: dataMap["Roof Material"] || undefined,
+      littleHingesBuildValuation: dataMap["Little Hinges Build Valuation"] || "X",
       panoramaIds: panoramaIds,
-      uploadTime: dataMap['Upload Time'] || '2025-06-24 00:12:52.377000 UTC',
-      scannedDate: dataMap['Scanned Date'] || '2025-07-24 09:30:00.000000 UTC',
-      rescanOrOriginal: dataMap['Rescan or Original'] || 'No',
-      multipleScans: dataMap['Multiple Scans'] || '1- Carport',
+      uploadTime: dataMap["Upload Time"] || "2025-06-24 00:12:52.377000 UTC",
+      scannedDate: dataMap["Scanned Date"] || "2025-07-24 09:30:00.000000 UTC",
+      rescanOrOriginal: dataMap["Rescan or Original"] || "No",
+      multipleScans: dataMap["Multiple Scans"] || "1- Carport",
     }
 
     cachedPropertyData = propertyData
     return propertyData
   } catch (error) {
-    console.error('Error fetching property data:', error)
+    console.error("Error fetching property data:", error)
     return null
+  }
+}
+
+// Function to refresh sheet data
+export async function refreshSheetData(): Promise<void> {
+  try {
+    const response = await fetch("/api/sheets", { method: "POST" })
+    if (response.ok) {
+      // Clear cached property data to force refresh
+      cachedPropertyData = null
+    }
+  } catch (error) {
+    console.error("Error refreshing sheet data:", error)
   }
 }
 
 // Get room by ID
 export async function getRoomById(roomId: string): Promise<RoomData | null> {
   const propertyData = await fetchPropertyData()
-  return propertyData ? propertyData.rooms.find(room => room.id === roomId) || null : null
+  return propertyData ? propertyData.rooms.find((room) => room.id === roomId) || null : null
 }
 
 // Get rooms by type
 export function getRoomsByType(type: string): RoomData[] {
-  const propertyData = cachedPropertyData as PropertyData | null
-  return propertyData?.rooms ? propertyData.rooms.filter((room: RoomData) => room.type.toLowerCase().includes(type.toLowerCase())) : []
+  const propertyData = cachedPropertyData || {}
+  return propertyData.rooms
+    ? propertyData.rooms.filter((room) => room.type.toLowerCase().includes(type.toLowerCase()))
+    : []
 }
 
 // Get total rooms
 export function getTotalRooms(): number {
-  const propertyData = cachedPropertyData as PropertyData | null
-  return propertyData?.rooms ? propertyData.rooms.length : 0
+  const propertyData = cachedPropertyData || {}
+  return propertyData.rooms ? propertyData.rooms.length : 0
 }
 
 // Get total area
 export function getTotalArea(): number {
-  const propertyData = cachedPropertyData as PropertyData | null
-  return propertyData?.rooms ? propertyData.rooms.reduce((total: number, room: RoomData) => total + room.area, 0) : 0
+  const propertyData = cachedPropertyData || {}
+  return propertyData.rooms ? propertyData.rooms.reduce((total, room) => total + room.area, 0) : 0
 }
 
 // Get rooms with damage
 export function getRoomsWithDamage(): RoomData[] {
-  const propertyData = cachedPropertyData as PropertyData | null
-  return propertyData?.rooms ? propertyData.rooms.filter((room: RoomData) => 
-    room.floorDamage > 0 || room.wallDamage > 0 || room.ceilingDamage > 0
-  ) : []
+  const propertyData = cachedPropertyData || {}
+  return propertyData.rooms
+    ? propertyData.rooms.filter((room) => room.floorDamage > 0 || room.wallDamage > 0 || room.ceilingDamage > 0)
+    : []
 }
 
 // Get average room size
@@ -580,10 +655,10 @@ export function clearCache() {
 // Legacy functions for compatibility
 export async function parseCSVData(csvText: string): Promise<PropertyData> {
   const propertyData = await fetchPropertyData()
-  return propertyData || {} as PropertyData
+  return propertyData || ({} as PropertyData)
 }
 
 export async function parseCSVDataWithAllRooms(csvText: string): Promise<PropertyData> {
   const propertyData = await fetchPropertyData()
-  return propertyData || {} as PropertyData
+  return propertyData || ({} as PropertyData)
 }

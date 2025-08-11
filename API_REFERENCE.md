@@ -5,7 +5,7 @@
 ### PropertyData Interface
 Complete property-level data structure from `lib/data-parser.ts`:
 
-```typescript
+\`\`\`typescript
 export interface PropertyData {
   // Core Identifiers
   id: string
@@ -75,12 +75,12 @@ export interface PropertyData {
   // Room Data
   rooms: RoomData[]
 }
-```
+\`\`\`
 
 ### RoomData Interface
 Individual room data structure:
 
-```typescript
+\`\`\`typescript
 export interface RoomData {
   // Core Identifiers
   id: string
@@ -132,14 +132,14 @@ export interface RoomData {
   damageDescription?: string
   maintenanceRequired?: string
 }
-```
+\`\`\`
 
 ## 🔌 Data Processing Functions
 
 ### CSV Parser Functions
 Located in `lib/data-parser.ts`:
 
-```typescript
+\`\`\`typescript
 /**
  * Basic CSV data parser
  * @param csvText Raw CSV data as string
@@ -177,14 +177,14 @@ function cleanNumeric(value: any, defaultValue: number = 0): number
  * @returns Cleaned string value
  */
 function cleanString(value: any, defaultValue: string = ""): string
-```
+\`\`\`
 
 ## 🗄️ Supabase Database Functions
 
 ### Property Data Functions
 Located in `lib/supabase.ts`:
 
-```typescript
+\`\`\`typescript
 /**
  * Retrieve property data by ID
  * @param propertyId Unique property identifier
@@ -226,62 +226,62 @@ export async function upsertPropertyData(propertyData: PropertyData): Promise<bo
  * @returns Promise<boolean>
  */
 export async function upsertRoomData(roomData: RoomData): Promise<boolean>
-```
+\`\`\`
 
 ## 🎨 UI Component Props
 
 ### Core Component Interfaces
 
 #### RoomCard Props
-```typescript
+\`\`\`typescript
 interface RoomCardProps {
   room: RoomData
   onViewDetails: (room: RoomData) => void
   onViewPanorama?: (room: RoomData) => void
   onCompare?: (room: RoomData) => void
 }
-```
+\`\`\`
 
 #### RoomDetailModal Props
-```typescript
+\`\`\`typescript
 interface RoomDetailModalProps {
   room: RoomData | null
   isOpen: boolean
   onClose: () => void
 }
-```
+\`\`\`
 
 #### RoomComparisonModal Props
-```typescript
+\`\`\`typescript
 interface RoomComparisonModalProps {
   rooms: RoomData[]
   isOpen: boolean
   onClose: () => void
 }
-```
+\`\`\`
 
 #### SearchPage Props
-```typescript
+\`\`\`typescript
 interface SearchPageProps {
   onPropertySelect: (address: string) => void
 }
-```
+\`\`\`
 
 #### Tab Component Props
-```typescript
+\`\`\`typescript
 interface TabComponentProps {
   propertyData: PropertyData
   onRoomSelect?: (room: RoomData) => void
   onRoomCompare?: (rooms: RoomData[]) => void
 }
-```
+\`\`\`
 
 ## 🔧 Utility Functions
 
 ### Class Name Utilities
 Located in `lib/utils.ts`:
 
-```typescript
+\`\`\`typescript
 /**
  * Merge Tailwind CSS classes with proper conflict resolution
  * @param inputs Class names to merge
@@ -317,12 +317,12 @@ export function formatCurrency(amount: number): string
  * @returns Formatted area string
  */
 export function formatArea(area: number): string
-```
+\`\`\`
 
 ## 📊 Component State Management
 
 ### Main Application State
-```typescript
+\`\`\`typescript
 // Primary application state
 const [propertyData, setPropertyData] = useState<PropertyData | null>(null)
 const [selectedRoom, setSelectedRoom] = useState<RoomData | null>(null)
@@ -337,10 +337,10 @@ const [showComparison, setShowComparison] = useState(false)
 
 // Tab navigation state
 const [activeTab, setActiveTab] = useState("overview")
-```
+\`\`\`
 
 ### Event Handlers
-```typescript
+\`\`\`typescript
 // Property selection
 const handlePropertySelect = (address: string) => {
   setSelectedAddress(address)
@@ -364,12 +364,12 @@ const handleBackToSearch = () => {
   setShowSearch(true)
   setSelectedAddress("")
 }
-```
+\`\`\`
 
 ## 🎯 Component Integration Examples
 
 ### Adding a New Property Feature
-```typescript
+\`\`\`typescript
 // 1. Extend PropertyData interface
 interface PropertyData {
   // ... existing fields
@@ -399,10 +399,10 @@ export function NewFeatureComponent({ data }: { data: PropertyData }) {
 <TabsContent value="new-feature">
   <NewFeatureComponent data={propertyData} />
 </TabsContent>
-```
+\`\`\`
 
 ### Creating a Custom Room Analysis
-```typescript
+\`\`\`typescript
 // Custom analysis component
 export function CustomRoomAnalysis({ rooms }: { rooms: RoomData[] }) {
   const analysis = useMemo(() => {
@@ -426,12 +426,12 @@ export function CustomRoomAnalysis({ rooms }: { rooms: RoomData[] }) {
     </div>
   )
 }
-```
+\`\`\`
 
 ## 🔒 Environment Configuration
 
 ### Required Environment Variables
-```bash
+\`\`\`bash
 # Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -439,10 +439,10 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 # Optional Configuration
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_ANALYTICS_ID=your_analytics_id
-```
+\`\`\`
 
 ### Configuration Validation
-```typescript
+\`\`\`typescript
 // Environment validation utility
 export function validateEnvironment() {
   const required = [
@@ -456,12 +456,12 @@ export function validateEnvironment() {
     throw new Error(`Missing required environment variables: ${missing.join(', ')}`)
   }
 }
-```
+\`\`\`
 
 ## 📱 Responsive Design Patterns
 
 ### Breakpoint Utilities
-```typescript
+\`\`\`typescript
 // Custom hooks for responsive behavior
 export function useBreakpoint() {
   const [breakpoint, setBreakpoint] = useState('sm')
@@ -482,10 +482,10 @@ export function useBreakpoint() {
   
   return breakpoint
 }
-```
+\`\`\`
 
 ### Grid System Classes
-```css
+\`\`\`css
 /* Responsive grid patterns */
 .property-grid {
   @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
@@ -498,7 +498,7 @@ export function useBreakpoint() {
 .dashboard-layout {
   @apply grid grid-cols-1 lg:grid-cols-12 gap-6;
 }
-```
+\`\`\`
 
 ---
 

@@ -1,232 +1,170 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from "next/server"
 
-// Cache configuration
-const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
-let sheetsCache: { data: any, timestamp: number } | null = null
-
-// Spreadsheet configuration
-const SPREADSHEET_ID = '10XVAxEPF6ZfD2zlqPB0kvSyQOP41z8iF6GD9vrG4qHg'
-const ROOM_SHEETS = Array.from({ length: 14 }, (_, i) => `Room ${i + 1}`)
+const SPREADSHEET_ID = "10XVAxEPF6ZfD2zlqPB0kvSyQOP41z8iF6GD9vrG4qHg"
+const API_KEY = process.env.GOOGLE_SHEETS_API_KEY
 
 interface SheetData {
-  roomId?: string
-  roomType?: string
-  [key: string]: any
+  [key: string]: string | number | boolean
 }
 
 interface RoomSheetData {
   roomId: string
   roomType: string
-  sheetName: string
-  data: Record<string, any>
+  sheetData: SheetData
 }
 
-/**
- * Fetch data from a single Google Sheet
- */
-async function fetchSheetData(sheetName: string): Promise<SheetData[]> {
-  const apiKey = process.env.GOOGLE_SHEETS_API_KEY
-  
-  if (!apiKey) {
-    throw new Error('GOOGLE_SHEETS_API_KEY environment variable is not set')
+// Cache for storing responses
+const cache = new Map<string, { data: RoomSheetData[]; timestamp: number }>()
+const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
+
+async function fetchSheetData(sheetName: string): Promise<RoomSheetData | null> {
+  if (!API_KEY) {
+    throw new Error("Google Sheets API key not configured")
   }
 
-  const range = `${sheetName}!A:Z` // Fetch all columns from A to Z
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${range}?key=${apiKey}`
-
   try {
+    const range = `${sheetName}!A:Z` // Fetch all columns
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${range}?key=${API_KEY}`
+
     const response = await fetch(url)
-    
     if (!response.ok) {
-      throw new Error(`Failed to fetch sheet ${sheetName}: ${response.status} ${response.statusText}`)
+      throw new Error(`Failed to fetch sheet ${sheetName}: ${response.statusText}`)
     }
 
-    const result = await response.json()
-    const rows = result.values || []
-    
-    if (rows.length === 0) {
-      return []
+    const data = await response.json()
+    const values = data.values
+
+    if (!values || values.length < 2) {
+      return null // No data or only headers
     }
 
-    // First row contains headers
-    const headers = rows[0] as string[]
-    const dataRows = rows.slice(1)
+    const headers = values[0]
+    const rows = values.slice(1)
 
-    // Convert rows to objects using headers as keys
-    const sheetData: SheetData[] = dataRows.map((row: any[]) => {
-      const rowData: SheetData = {}
-      
-      headers.forEach((header, index) => {
-        const value = row[index] || ''
-        const key = header.trim().toLowerCase().replace(/\s+/g, '_')
-        
-        // Special handling for Room ID and Room Type columns
-        if (header.toLowerCase().includes('room id') || header.toLowerCase().includes('room_id')) {
-          rowData.roomId = value.toString().trim()
-        } else if (header.toLowerCase().includes('room type') || header.toLowerCase().includes('room_type')) {
-          rowData.roomType = value.toString().trim()
-        } else {
-          rowData[key] = value
+    // Find Room ID and Room Type columns
+    const roomIdIndex = headers.findIndex(
+      (header: string) => header.toLowerCase().includes("room id") || header.toLowerCase() === "id",
+    )
+    const roomTypeIndex = headers.findIndex(
+      (header: string) => header.toLowerCase().includes("room type") || header.toLowerCase() === "type",
+    )
+
+    if (roomIdIndex === -1 || roomTypeIndex === -1) {
+      console.warn(`Missing Room ID or Room Type columns in sheet ${sheetName}`)
+      return null
+    }
+
+    // Process the first data row (assuming one room per sheet)
+    const firstRow = rows[0]
+    if (!firstRow || firstRow.length === 0) {
+      return null
+    }
+
+    const roomId = firstRow[roomIdIndex]
+    const roomType = firstRow[roomTypeIndex]
+
+    if (!roomId || !roomType) {
+      return null
+    }
+
+    // Build sheet data object
+    const sheetData: SheetData = {}
+    headers.forEach((header: string, index: number) => {
+      if (index !== roomIdIndex && index !== roomTypeIndex && firstRow[index]) {
+        const key = header.toLowerCase().replace(/\s+/g, "_")
+        let value: string | number | boolean = firstRow[index]
+
+        // Try to parse numbers and booleans
+        if (typeof value === "string") {
+          if (value.toLowerCase() === "true") value = true
+          else if (value.toLowerCase() === "false") value = false
+          else if (!isNaN(Number(value)) && value.trim() !== "") value = Number(value)
         }
-      })
-      
-      return rowData
+
+        sheetData[key] = value
+      }
     })
 
-    return sheetData.filter(row => row.roomId && row.roomType) // Only return rows with both ID and type
+    return {
+      roomId: String(roomId),
+      roomType: String(roomType),
+      sheetData,
+    }
   } catch (error) {
     console.error(`Error fetching sheet ${sheetName}:`, error)
-    throw error
+    return null
   }
 }
 
-/**
- * Fetch data from all room sheets
- */
-async function fetchAllRoomSheets(): Promise<RoomSheetData[]> {
-  const promises = ROOM_SHEETS.map(async (sheetName) => {
-    try {
-      const sheetData = await fetchSheetData(sheetName)
-      
-      return sheetData.map(row => ({
-        roomId: row.roomId!,
-        roomType: row.roomType!,
-        sheetName,
-        data: row
-      }))
-    } catch (error) {
-      console.error(`Failed to fetch ${sheetName}:`, error)
-      return [] // Return empty array for failed sheets
-    }
-  })
-
-  const results = await Promise.allSettled(promises)
-  const allData: RoomSheetData[] = []
-
-  results.forEach((result, index) => {
-    if (result.status === 'fulfilled') {
-      allData.push(...result.value)
-    } else {
-      console.error(`Sheet ${ROOM_SHEETS[index]} failed:`, result.reason)
-    }
-  })
-
-  return allData
-}
-
-/**
- * Check if cache is valid
- */
-function isCacheValid(): boolean {
-  if (!sheetsCache) return false
-  return Date.now() - sheetsCache.timestamp < CACHE_DURATION
-}
-
-/**
- * Main API handler
- */
 export async function GET(request: NextRequest) {
   try {
-    // Check cache first
-    if (isCacheValid() && sheetsCache) {
+    const cacheKey = "all-rooms"
+    const cached = cache.get(cacheKey)
+
+    // Return cached data if still valid
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       return NextResponse.json({
         success: true,
-        data: sheetsCache.data,
+        data: cached.data,
         cached: true,
-        timestamp: sheetsCache.timestamp
       })
     }
 
-    // Fetch fresh data
-    console.log('Fetching fresh data from Google Sheets...')
-    const roomData = await fetchAllRoomSheets()
+    // Fetch data from all 14 room sheets
+    const sheetNames = Array.from({ length: 14 }, (_, i) => `Room ${i + 1}`)
+    const promises = sheetNames.map((sheetName) => fetchSheetData(sheetName))
 
-    // Group by room key (roomId + roomType combination)
-    const groupedData: Record<string, RoomSheetData> = {}
-    
-    roomData.forEach(room => {
-      const key = `${room.roomId}_${room.roomType}`.toLowerCase()
-      groupedData[key] = room
+    const results = await Promise.allSettled(promises)
+    const roomData: RoomSheetData[] = []
+
+    results.forEach((result, index) => {
+      if (result.status === "fulfilled" && result.value) {
+        roomData.push(result.value)
+      } else if (result.status === "rejected") {
+        console.error(`Failed to fetch Room ${index + 1}:`, result.reason)
+      }
     })
 
-    // Update cache
-    sheetsCache = {
-      data: groupedData,
-      timestamp: Date.now()
-    }
+    // Cache the results
+    cache.set(cacheKey, {
+      data: roomData,
+      timestamp: Date.now(),
+    })
 
     return NextResponse.json({
       success: true,
-      data: groupedData,
+      data: roomData,
       cached: false,
-      timestamp: sheetsCache.timestamp,
-      totalRooms: Object.keys(groupedData).length
     })
-
   } catch (error) {
-    console.error('Error in sheets API:', error)
-    
-    // Return cached data if available, even if stale
-    if (sheetsCache) {
-      return NextResponse.json({
-        success: true,
-        data: sheetsCache.data,
-        cached: true,
-        timestamp: sheetsCache.timestamp,
-        warning: 'Using cached data due to API error',
-        error: error instanceof Error ? error.message : 'Unknown error'
-      })
-    }
-
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      data: {}
-    }, { status: 500 })
+    console.error("Error fetching sheets data:", error)
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+        data: [],
+      },
+      { status: 500 },
+    )
   }
 }
 
-/**
- * Force refresh endpoint
- */
 export async function POST(request: NextRequest) {
   try {
-    // Clear cache
-    sheetsCache = null
-    
+    // Clear cache to force refresh
+    cache.clear()
+
     // Fetch fresh data
-    const roomData = await fetchAllRoomSheets()
-    
-    // Group by room key
-    const groupedData: Record<string, RoomSheetData> = {}
-    
-    roomData.forEach(room => {
-      const key = `${room.roomId}_${room.roomType}`.toLowerCase()
-      groupedData[key] = room
-    })
-
-    // Update cache
-    sheetsCache = {
-      data: groupedData,
-      timestamp: Date.now()
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: groupedData,
-      cached: false,
-      timestamp: sheetsCache.timestamp,
-      totalRooms: Object.keys(groupedData).length,
-      message: 'Cache refreshed successfully'
-    })
-
+    const response = await GET(request)
+    return response
   } catch (error) {
-    console.error('Error refreshing sheets data:', error)
-    
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      data: {}
-    }, { status: 500 })
+    console.error("Error refreshing sheets data:", error)
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    )
   }
 }

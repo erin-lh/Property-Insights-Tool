@@ -4,11 +4,24 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Eye, BarChart3, Home, Wrench, Palette, CheckCircle, AlertTriangle, XCircle } from "lucide-react"
+import {
+  Eye,
+  BarChart3,
+  Home,
+  Wrench,
+  Palette,
+  CheckCircle,
+  AlertTriangle,
+  XCircle,
+  RefreshCw,
+  Database,
+} from "lucide-react"
 import Link from "next/link"
+import { refreshSheetData } from "@/lib/data-parser"
 
 export function RoomInsightsTab() {
   const [selectedRooms, setSelectedRooms] = useState<string[]>([])
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
   const propertyData = {
     rooms: [
@@ -20,6 +33,7 @@ export function RoomInsightsTab() {
         condition: "Good",
         temperature: "22°C",
         humidity: "45%",
+        hasSheetData: false,
         specifications: {
           floorArea: "8.2 m²",
           ceilingHeight: "2.5 m",
@@ -49,6 +63,7 @@ export function RoomInsightsTab() {
         condition: "Excellent",
         temperature: "21°C",
         humidity: "42%",
+        hasSheetData: true,
         specifications: {
           floorArea: "45.8 m²",
           ceilingHeight: "2.5 m",
@@ -78,6 +93,7 @@ export function RoomInsightsTab() {
         condition: "Good",
         temperature: "23°C",
         humidity: "55%",
+        hasSheetData: true,
         specifications: {
           floorArea: "6.1 m²",
           ceilingHeight: "2.5 m",
@@ -107,6 +123,7 @@ export function RoomInsightsTab() {
         condition: "Good",
         temperature: "20°C",
         humidity: "40%",
+        hasSheetData: false,
         specifications: {
           floorArea: "12.4 m²",
           ceilingHeight: "2.5 m",
@@ -141,6 +158,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: false,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -170,6 +188,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: true,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -199,6 +218,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: false,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -228,6 +248,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: true,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -257,6 +278,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: false,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -286,6 +308,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: true,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -315,6 +338,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: false,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -344,6 +368,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: true,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -373,6 +398,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: false,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -402,6 +428,7 @@ export function RoomInsightsTab() {
       condition: "X",
       temperature: "X°C",
       humidity: "X%",
+      hasSheetData: true,
       specifications: {
         floorArea: "X m²",
         ceilingHeight: "X m",
@@ -436,6 +463,19 @@ export function RoomInsightsTab() {
     }
   }
 
+  const handleRefreshSheetData = async () => {
+    setIsRefreshing(true)
+    try {
+      await refreshSheetData()
+      // Optionally reload the page or refetch data
+      window.location.reload()
+    } catch (error) {
+      console.error("Failed to refresh sheet data:", error)
+    } finally {
+      setIsRefreshing(false)
+    }
+  }
+
   const getStatusIcon = (status: string) => {
     switch (status.toLowerCase()) {
       case "excellent":
@@ -459,6 +499,23 @@ export function RoomInsightsTab() {
 
   return (
     <div className="space-y-6">
+      {/* Header with Refresh Button */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Room Insights</h2>
+          <p className="text-gray-600">Detailed analysis of each room with Google Sheets integration</p>
+        </div>
+        <Button
+          onClick={handleRefreshSheetData}
+          disabled={isRefreshing}
+          variant="outline"
+          className="flex items-center gap-2 bg-transparent"
+        >
+          <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
+          {isRefreshing ? "Syncing..." : "Sync Sheets"}
+        </Button>
+      </div>
+
       {/* Room Comparison Section */}
       {selectedRooms.length > 1 && (
         <Card className="bg-blue-50 border-blue-200">
@@ -488,7 +545,12 @@ export function RoomInsightsTab() {
                     onCheckedChange={(checked) => handleRoomSelection(room.id, checked as boolean)}
                   />
                   <div>
-                    <CardTitle className="text-lg font-semibold text-gray-800">{room.name}</CardTitle>
+                    <CardTitle className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                      {room.name}
+                      {room.hasSheetData && (
+                        <Database className="h-4 w-4 text-green-600" title="Google Sheets data available" />
+                      )}
+                    </CardTitle>
                   </div>
                 </div>
                 <Link href={`/room/${room.id}`}>

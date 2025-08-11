@@ -5,8 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { type PropertyData, type RoomData, parseCSVData, parseCSVDataWithAllRooms } from "@/lib/data-parser"
-import { fetchSheetsData, refreshSheetsData, mergeRoomsWithSheetsData, type SheetsApiResponse } from "@/lib/sheets-utils"
-import { Home, BarChart3, Package, FileText, Bed, Bath, Car, Ruler, Download, ArrowLeft, RefreshCw } from "lucide-react"
+import { Home, BarChart3, Package, FileText, Bed, Bath, Car, Ruler, Download, ArrowLeft } from "lucide-react"
 import { RoomDetailModal } from "@/components/room-detail-modal"
 import { OverviewTab } from "@/components/tabs/overview-tab"
 import { RoomInsightsTab } from "@/components/tabs/room-insights-tab"
@@ -22,8 +21,6 @@ export default function PropertyInsightsTool() {
   const [showRoomDetail, setShowRoomDetail] = useState(false)
   const [showSearch, setShowSearch] = useState(true)
   const [selectedAddress, setSelectedAddress] = useState<string>("")
-  const [sheetsData, setSheetsData] = useState<SheetsApiResponse | null>(null)
-  const [sheetsLoading, setSheetsLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,9 +37,6 @@ export default function PropertyInsightsTool() {
           const parsedData = parseCSVData(csvText)
           setPropertyData(parsedData)
         }
-
-        // After property data is loaded, try to fetch Google Sheets data
-        await loadSheetsData()
       } catch (error) {
         console.error("Error fetching property data:", error)
       } finally {
@@ -54,49 +48,6 @@ export default function PropertyInsightsTool() {
       fetchData()
     }
   }, [showSearch])
-
-  const loadSheetsData = async () => {
-    setSheetsLoading(true)
-    try {
-      const response = await fetchSheetsData()
-      setSheetsData(response)
-      
-      // Merge sheets data with property data if both are available
-      if (response.success && propertyData) {
-        const mergedRooms = mergeRoomsWithSheetsData(propertyData.rooms, response.data)
-        setPropertyData(prev => prev ? { ...prev, rooms: mergedRooms } : null)
-      }
-    } catch (error) {
-      console.error("Error loading sheets data:", error)
-    } finally {
-      setSheetsLoading(false)
-    }
-  }
-
-  const handleRefreshSheets = async () => {
-    setSheetsLoading(true)
-    try {
-      const response = await refreshSheetsData()
-      setSheetsData(response)
-      
-      if (response.success && propertyData) {
-        const mergedRooms = mergeRoomsWithSheetsData(propertyData.rooms, response.data)
-        setPropertyData(prev => prev ? { ...prev, rooms: mergedRooms } : null)
-        
-        // Update selected room if it has new data
-        if (selectedRoom) {
-          const updatedRoom = mergedRooms.find(room => room.id === selectedRoom.id)
-          if (updatedRoom) {
-            setSelectedRoom(updatedRoom)
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Error refreshing sheets data:", error)
-    } finally {
-      setSheetsLoading(false)
-    }
-  }
 
   const handlePropertySelect = (address: string) => {
     setSelectedAddress(address)
@@ -166,22 +117,10 @@ export default function PropertyInsightsTool() {
                   />
                   <h1 className="text-xl font-semibold text-gray-900">Little Hinges Property Insights</h1>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={handleRefreshSheets}
-                    disabled={sheetsLoading}
-                    className="flex items-center gap-2 bg-transparent"
-                  >
-                    <RefreshCw className={`h-4 w-4 ${sheetsLoading ? 'animate-spin' : ''}`} />
-                    {sheetsLoading ? 'Syncing...' : 'Sync Sheets'}
-                  </Button>
-                  <Button variant="outline" className="flex items-center gap-2 bg-transparent">
-                    <Download className="h-4 w-4" />
-                    Export Data
-                  </Button>
-                </div>
+                <Button variant="outline" className="flex items-center gap-2 bg-transparent">
+                  <Download className="h-4 w-4" />
+                  Export Data
+                </Button>
               </div>
 
               <div className="text-center">
@@ -268,7 +207,7 @@ export default function PropertyInsightsTool() {
           </TabsContent>
 
           <TabsContent value="room-insights">
-            <RoomInsightsTab />
+            <RoomInsightsTab propertyData={propertyData} onRoomClick={handleRoomClick} />
           </TabsContent>
 
           <TabsContent value="assets">
@@ -281,12 +220,7 @@ export default function PropertyInsightsTool() {
         </Tabs>
 
         {/* Room Detail Modal */}
-        <RoomDetailModal 
-          room={selectedRoom} 
-          isOpen={showRoomDetail} 
-          onClose={() => setShowRoomDetail(false)}
-          onRefreshSheets={handleRefreshSheets}
-        />
+        <RoomDetailModal room={selectedRoom} isOpen={showRoomDetail} onClose={() => setShowRoomDetail(false)} />
       </div>
     </div>
   )
