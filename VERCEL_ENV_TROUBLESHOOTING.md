@@ -13,12 +13,12 @@
 
 #### ✅ Step 1: Verify Environment Variable Names
 Ensure exact spelling and case sensitivity:
-```bash
+\`\`\`bash
 GOOGLE_SERVICE_ACCOUNT_EMAIL=your-email@project.iam.gserviceaccount.com
 GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_KEY\n-----END PRIVATE KEY-----"
 GOOGLE_PROJECT_ID=your-project-id
 GOOGLE_SERVICE_ACCOUNT_KEY_ID=your-key-id
-```
+\`\`\`
 
 #### ✅ Step 2: Set Variables for All Environments
 In Vercel Dashboard > Project > Settings > Environment Variables:
@@ -30,16 +30,16 @@ In Vercel Dashboard > Project > Settings > Environment Variables:
 **Critical:** The private key must be properly escaped:
 
 **❌ Wrong:**
-```
+\`\`\`
 -----BEGIN PRIVATE KEY-----
 MIIEvgIBADANBgkqhkiG9w0BAQEF...
 -----END PRIVATE KEY-----
-```
+\`\`\`
 
 **✅ Correct:**
-```
+\`\`\`
 "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEF...\n-----END PRIVATE KEY-----"
-```
+\`\`\`
 
 #### ✅ Step 4: Redeploy After Adding Variables
 Environment variables only take effect after redeployment:
@@ -58,7 +58,7 @@ Environment variables only take effect after redeployment:
 **Solutions:**
 
 #### Method 1: Use Vercel CLI (Recommended)
-```bash
+\`\`\`bash
 # Install Vercel CLI
 npm i -g vercel
 
@@ -68,13 +68,13 @@ vercel env add GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
 
 vercel env add GOOGLE_SERVICE_ACCOUNT_EMAIL
 # Enter: lh-n8n-service@my-project-db-389005.iam.gserviceaccount.com
-```
+\`\`\`
 
 #### Method 2: Manual Encoding
-```bash
+\`\`\`bash
 # Convert private key to single line with \n
 cat private-key.pem | sed ':a;N;$!ba;s/\n/\\n/g'
-```
+\`\`\`
 
 ### Issue 3: Scope and Permissions
 
@@ -107,7 +107,7 @@ cat private-key.pem | sed ':a;N;$!ba;s/\n/\\n/g'
 **Solutions:**
 
 #### ✅ Update vercel.json
-```json
+\`\`\`json
 {
   "functions": {
     "app/api/sheets/route.ts": {
@@ -115,7 +115,7 @@ cat private-key.pem | sed ':a;N;$!ba;s/\n/\\n/g'
     }
   }
 }
-```
+\`\`\`
 
 #### ✅ Optimize API Calls
 - Use caching to reduce API calls
@@ -125,20 +125,20 @@ cat private-key.pem | sed ':a;N;$!ba;s/\n/\\n/g'
 ## 🧪 Testing Environment Variables
 
 ### Local Testing
-```bash
+\`\`\`bash
 # Test locally first
 npm run test:service-account
 
 # Check specific variables
 node -e "console.log('EMAIL:', process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL)"
 node -e "console.log('KEY EXISTS:', !!process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY)"
-```
+\`\`\`
 
 ### Vercel Testing
 Add this temporary endpoint to test on Vercel:
 
 **File: `app/api/env-test/route.ts`**
-```typescript
+\`\`\`typescript
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -151,12 +151,12 @@ export async function GET() {
     timestamp: new Date().toISOString()
   })
 }
-```
+\`\`\`
 
 ## 🔧 Quick Fix Commands
 
 ### Reset Everything
-```bash
+\`\`\`bash
 # Clear Vercel environment variables
 vercel env rm GOOGLE_SERVICE_ACCOUNT_EMAIL
 vercel env rm GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
@@ -169,17 +169,17 @@ vercel env add GOOGLE_PROJECT_ID
 
 # Redeploy
 vercel --prod
-```
+\`\`\`
 
 ### Force Rebuild
-```bash
+\`\`\`bash
 # Option 1: Push empty commit
 git commit --allow-empty -m "Force rebuild for env vars"
 git push
 
 # Option 2: Use Vercel CLI
 vercel --prod --force
-```
+\`\`\`
 
 ## 📋 Verification Checklist
 
