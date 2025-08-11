@@ -5,17 +5,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { type PropertyData, type RoomData, parseCSVData, parseCSVDataWithAllRooms } from "@/lib/data-parser"
-import { Home, BarChart3, Package, TrendingUp, Users, FileText, Bed, Bath, Car, Ruler, Download, ArrowLeft, Activity } from 'lucide-react'
+import { Home, BarChart3, Package, FileText, Bed, Bath, Car, Ruler, Download, ArrowLeft } from "lucide-react"
 import { RoomDetailModal } from "@/components/room-detail-modal"
 import { OverviewTab } from "@/components/tabs/overview-tab"
 import { RoomInsightsTab } from "@/components/tabs/room-insights-tab"
 import { AssetsTab } from "@/components/tabs/assets-tab"
-import { AudienceTab } from "@/components/tabs/audience-tab"
-import { PlatformEngagementTab } from "@/components/tabs/platform-engagement-tab"
-import { LeadsTab } from "@/components/tabs/leads-tab"
 import { ReportsTab } from "@/components/tabs/reports-tab"
 import { SearchPage } from "@/components/search-page"
-import Image from 'next/image'
+import Image from "next/image"
 
 export default function PropertyInsightsTool() {
   const [propertyData, setPropertyData] = useState<PropertyData | null>(null)
@@ -24,7 +21,6 @@ export default function PropertyInsightsTool() {
   const [showRoomDetail, setShowRoomDetail] = useState(false)
   const [showSearch, setShowSearch] = useState(true)
   const [selectedAddress, setSelectedAddress] = useState<string>("")
-  const [audienceSubTab, setAudienceSubTab] = useState("analytics")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -156,9 +152,7 @@ export default function PropertyInsightsTool() {
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-gray-900">
-                    $1,340,589
-                  </div>
+                  <div className="text-3xl font-bold text-gray-900">$1,340,589</div>
                   <div className="text-sm text-gray-500">Est. Value</div>
                   <div className="text-sm text-gray-400 mt-1">
                     Property Valuation: ${propertyData.propertyValuation.toLocaleString()} • Last Sale: $
@@ -175,7 +169,7 @@ export default function PropertyInsightsTool() {
           <div className="mb-8">
             <Card className="bg-white shadow-sm border-0 rounded-2xl">
               <CardContent className="p-2">
-                <TabsList className="grid w-full grid-cols-6 bg-transparent gap-1">
+                <TabsList className="grid w-full grid-cols-4 bg-transparent gap-1">
                   <TabsTrigger
                     value="overview"
                     className="flex items-center gap-2 data-[state=active]:bg-gray-100 rounded-xl py-3"
@@ -196,20 +190,6 @@ export default function PropertyInsightsTool() {
                   >
                     <Package className="h-4 w-4" />
                     Assets
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="leads"
-                    className="flex items-center gap-2 data-[state=active]:bg-gray-100 rounded-xl py-3"
-                  >
-                    <TrendingUp className="h-4 w-4" />
-                    Lead Capture
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="audience"
-                    className="flex items-center gap-2 data-[state=active]:bg-gray-100 rounded-xl py-3"
-                  >
-                    <Users className="h-4 w-4" />
-                    Audience Tracking
                   </TabsTrigger>
                   <TabsTrigger
                     value="reports"
@@ -233,49 +213,6 @@ export default function PropertyInsightsTool() {
 
           <TabsContent value="assets">
             <AssetsTab propertyData={propertyData} />
-          </TabsContent>
-
-          <TabsContent value="leads">
-            <LeadsTab />
-          </TabsContent>
-
-          <TabsContent value="audience">
-            <div className="space-y-6">
-              {/* Sub-navigation for Audience Tracking */}
-              <Card className="bg-white shadow-sm border-0 rounded-2xl">
-                <CardContent className="p-2">
-                  <div className="flex gap-1">
-                    <Button
-                      variant={audienceSubTab === "analytics" ? "default" : "ghost"}
-                      onClick={() => setAudienceSubTab("analytics")}
-                      className={`flex-1 ${
-                        audienceSubTab === "analytics"
-                          ? "bg-gray-100 text-gray-900"
-                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                      }`}
-                    >
-                      <Users className="h-4 w-4 mr-2" />
-                      Visitor Analytics
-                    </Button>
-                    <Button
-                      variant={audienceSubTab === "platform" ? "default" : "ghost"}
-                      onClick={() => setAudienceSubTab("platform")}
-                      className={`flex-1 ${
-                        audienceSubTab === "platform"
-                          ? "bg-gray-100 text-gray-900"
-                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                      }`}
-                    >
-                      <Activity className="h-4 w-4 mr-2" />
-                      Platform Engagement
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {audienceSubTab === "analytics" && <AudienceTab propertyData={propertyData} />}
-              {audienceSubTab === "platform" && <PlatformEngagementTab propertyData={propertyData} />}
-            </div>
           </TabsContent>
 
           <TabsContent value="reports">
