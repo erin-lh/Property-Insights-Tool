@@ -228,6 +228,34 @@ export async function upsertPropertyData(propertyData: PropertyData): Promise<bo
 export async function upsertRoomData(roomData: RoomData): Promise<boolean>
 \`\`\`
 
+## 🗄️ Google Sheets Integration
+
+### Property Data Functions
+Located in `app/api/sheets/route.ts`:
+
+\`\`\`typescript
+/**
+ * Retrieve property data from Google Sheets
+ * @param sheetName Sheet identifier
+ * @returns Promise<PropertyData | null>
+ */
+export async function getPropertyData(sheetName: string): Promise<PropertyData | null>
+
+/**
+ * Retrieve all rooms for a property
+ * @param propertyId Property identifier
+ * @returns Promise<RoomData[]>
+ */
+export async function getRoomData(propertyId: string): Promise<RoomData[]>
+
+/**
+ * Retrieve energy efficiency data
+ * @param propertyId Property identifier
+ * @returns Promise<EnergyEfficiencyData[]>
+ */
+export async function getEnergyEfficiencyData(propertyId: string): Promise<EnergyEfficiencyData[]>
+\`\`\`
+
 ## 🎨 UI Component Props
 
 ### Core Component Interfaces
@@ -396,9 +424,11 @@ export function NewFeatureComponent({ data }: { data: PropertyData }) {
 }
 
 // 3. Add to main application
-<TabsContent value="new-feature">
-  <NewFeatureComponent data={propertyData} />
-</TabsContent>
+<Tabs>
+  <TabsContent value="new-feature">
+    <NewFeatureComponent data={propertyData} />
+  </TabsContent>
+</Tabs>
 \`\`\`
 
 ### Creating a Custom Room Analysis
@@ -436,6 +466,15 @@ export function CustomRoomAnalysis({ rooms }: { rooms: RoomData[] }) {
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
+# Google Sheets API Configuration
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your_service_account_email
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=your_private_key
+GOOGLE_PROJECT_ID=your_project_id
+GOOGLE_SERVICE_ACCOUNT_KEY_ID=your_key_id
+
+# Vercel Blob Storage
+BLOB_READ_WRITE_TOKEN=your_blob_token
+
 # Optional Configuration
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_ANALYTICS_ID=your_analytics_id
@@ -447,7 +486,11 @@ NEXT_PUBLIC_ANALYTICS_ID=your_analytics_id
 export function validateEnvironment() {
   const required = [
     'NEXT_PUBLIC_SUPABASE_URL',
-    'NEXT_PUBLIC_SUPABASE_ANON_KEY'
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+    'GOOGLE_SERVICE_ACCOUNT_EMAIL',
+    'GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY',
+    'GOOGLE_PROJECT_ID',
+    'GOOGLE_SERVICE_ACCOUNT_KEY_ID'
   ]
   
   const missing = required.filter(key => !process.env[key])
