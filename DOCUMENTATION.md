@@ -10,7 +10,7 @@ The Property Insights Tool is a Next.js-based web application designed for compr
 - **Framework**: Next.js 15.2.4 with App Router
 - **Frontend**: React 19 with TypeScript
 - **Styling**: Tailwind CSS 4.1.9 with Radix UI components
-- **Database**: Supabase integration
+- **Data Storage**: Google Sheets API integration and Vercel Blob storage
 - **UI Components**: Custom component library built on Radix UI primitives
 - **State Management**: React hooks (useState, useEffect)
 - **Build Tool**: Next.js with TypeScript compilation
@@ -188,6 +188,23 @@ interface RoomData {
 - `parseCSVDataWithAllRooms()`: Enhanced parsing with full room data
 - Data validation and type conversion
 
+### Google Sheets Integration
+**Purpose**: Data storage and retrieval from Google Sheets.
+
+**Available Functions**:
+\`\`\`typescript
+// Property data retrieval from Google Sheets API
+getRoomData(sheetName: string)
+getPropertyOverview()
+getEnergyEfficiencyData()
+\`\`\`
+
+**Configuration**:
+- Requires `GOOGLE_SERVICE_ACCOUNT_EMAIL`
+- Requires `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`
+- Requires `GOOGLE_PROJECT_ID`
+- Requires `GOOGLE_SERVICE_ACCOUNT_KEY_ID`
+
 ### Supabase Integration (`lib/supabase.ts`)
 **Purpose**: Database connectivity and query functions.
 
@@ -292,6 +309,11 @@ Supabase Sync → Real-time Updates → State Management
 
 Required environment variables:
 \`\`\`bash
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your_service_account_email
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=your_private_key
+GOOGLE_PROJECT_ID=your_project_id
+GOOGLE_SERVICE_ACCOUNT_KEY_ID=your_key_id
+BLOB_READ_WRITE_TOKEN=your_blob_token
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 \`\`\`
@@ -385,22 +407,16 @@ export function NewFeatureComponent({ data }: { data: NewFeatureData }) {
 1. **Dependency Conflicts**: Use `--legacy-peer-deps` flag
 2. **Build Errors**: Check TypeScript configuration
 3. **Data Loading**: Verify CSV file path and format
-4. **Supabase Connection**: Validate environment variables
-
-### Debug Mode
-Enable development mode:
-\`\`\`bash
-npm run dev
-\`\`\`
-
-Access at `http://localhost:3000`
+4. **Google Sheets Connection**: Validate environment variables and service account permissions
+5. **Supabase Connection**: Validate environment variables
 
 ## 📚 Additional Resources
 
 - **Next.js Documentation**: https://nextjs.org/docs
 - **Radix UI Components**: https://radix-ui.com
 - **Tailwind CSS**: https://tailwindcss.com
-- **Supabase Documentation**: https://supabase.com/docs
+- **Google Sheets API**: https://developers.google.com/sheets/api
+- **Vercel Blob Storage**: https://vercel.com/docs/storage/vercel-blob
 - **TypeScript Handbook**: https://typescriptlang.org/docs
 
 ---
