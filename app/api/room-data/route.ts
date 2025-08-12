@@ -102,11 +102,99 @@ export async function GET(request: NextRequest) {
       airConditioningCount: 0,
     }
 
+    const room3Data = {
+      roomId: "3m54yff1z7crxaywd8if9rb0d",
+      panoramaIds: [
+        "mu9uxdez3ha971p08w8nqkn3a",
+        "m4rcxhtirqgqh9enyg9zy5pyd",
+        "xx97uf4cdb80cba9uy8u539rd",
+        "983x6xg3ixwh2n54sdw8k76ad",
+      ],
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg",
+      ],
+      roomType: "bathroom",
+      totalArea: 4.252399921,
+      volume: 9.185183525,
+      depth: 2.041959047,
+      height: 2.159999847,
+      width: 1.872373343,
+      smokeAlarmCount: 0,
+      doorCount: 1,
+      flooringType: "tile",
+      roomValuation: "$13025.6268",
+      floorDamage: "yes",
+      ceilingType: "flat",
+      ceilingLightCount: 1,
+      ceilingLightType: "Recessed",
+      ceilingFanCount: 0,
+      ceilingDamage: "No",
+      windowCount: 1,
+      windowCover: "Other",
+      wallMaterial: "plaster",
+      wallDamage: "no",
+      airConditioningCount: 0,
+      roomDescription:
+        "This bathroom features a corner glass-enclosed shower, a white toilet, and a compact vanity with a curved countertop, integrated basin, and under-bench storage. Twin frosted windows provide natural light while maintaining privacy, complemented by a wall-mounted mirrored cabinet. The space is tiled throughout, with mild wear and tear visible on the floor tiles, consistent with regular use.",
+    }
+
+    const room4Data = {
+      roomId: "613htqkzf66zz7hf7n8kzszed",
+      panoramaIds: [
+        "3ax98exw84easbammy1kdy59a",
+        "q30i0t1qaqnm9w9ahabpw94qd",
+        "bcmacw08fqdi7acr9x6shfi4b",
+        "n62yt7zbfe8gbthibrauparaa",
+        "yq3ye9yehkru7142z65q2acwa",
+        "37fty8w3n4tw0nkac909ri7pc",
+        "1hsznrxt775cdf5e5fr400crc",
+      ],
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_3ax98exw84easbammy1kdy59a_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_q30i0t1qaqnm9w9ahabpw94qd_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_bcmacw08fqdi7acr9x6shfi4b_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_n62yt7zbfe8gbthibrauparaa_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_yq3ye9yehkru7142z65q2acwa_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_37fty8w3n4tw0nkac909ri7pc_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_1hsznrxt775cdf5e5fr400crc_skybox.jpg",
+      ],
+      roomType: "bedroom",
+      totalArea: 19.12010002,
+      volume: 38.78316498,
+      depth: 2.889754772,
+      height: 2.409999847,
+      width: 5.845042706,
+      smokeAlarmCount: 1,
+      doorCount: 5,
+      flooringType: "carpet",
+      roomValuation: "$56428.31752",
+      floorDamage: "No",
+      ceilingType: "flat",
+      ceilingLightCount: 2,
+      ceilingLightType: "Recessed",
+      ceilingFanCount: 0,
+      ceilingDamage: "No",
+      windowCount: 1,
+      windowCover: "Other",
+      wallMaterial: "drywall",
+      wallDamage: "No",
+      airConditioningCount: 1,
+      roomDescription:
+        "This master bedroom is bright and inviting, featuring a large bed with a deep blue upholstered headboard, flanked by matching white bedside tables and lamps. Neutral carpet flooring adds warmth underfoot, complemented by crisp white walls and contemporary décor. A sliding glass door opens to a private balcony overlooking lush greenery, while a large window on the adjacent wall brings in additional natural light. The space includes built-in wardrobes with sliding doors, airconditioning, and a decorative timber-framed artwork above a wooden console table, enhancing the room's modern yet comfortable feel.",
+    }
+
     let roomData = null
     if (roomId === "1") {
       roomData = room1Data
     } else if (roomId === "2") {
       roomData = room2Data
+    } else if (roomId === "3") {
+      roomData = room3Data
+    } else if (roomId === "4") {
+      roomData = room4Data
     }
 
     return NextResponse.json({

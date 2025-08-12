@@ -159,18 +159,229 @@ export function RoomInsightsTab() {
       {
         id: "3",
         name: "Room 3: Bathroom",
-        area: "6.1 m²",
-        volume: "15.3 m³",
+        area: "4.25 m²",
+        volume: "9.19 m³",
         condition: "Good",
         temperature: "23°C",
         humidity: "55%",
         hasSheetData: true,
         specifications: {
-          floorArea: "6.1 m²",
-          ceilingHeight: "2.5 m",
-          wallArea: "30.5 m²",
+          floorArea: "4.25 m²",
+          ceilingHeight: "2.16 m",
+          wallArea: "18.2 m²",
           windowArea: "0.8 m²",
           doorArea: "1.8 m²",
+          depth: "2.04 m",
+          width: "1.87 m",
+          doors: "1",
+          windows: "1",
+        },
+        materials: {
+          flooring: "Tile",
+          walls: "Plaster",
+          ceiling: "Flat",
+          windows: "Other",
+          doors: "Timber",
+        },
+        features: [
+          { name: "Ceiling Lights", status: "installed", icon: "lightbulb", count: 1 },
+          { name: "Recessed Lighting", status: "installed", icon: "zap" },
+          { name: "Natural Light", status: "good", icon: "sun" },
+          { name: "Floor Damage", status: "yes (wear and tear)", icon: "alert-triangle" },
+        ],
+        damageAssessment: {
+          floorDamage: "Yes (Wear and Tear)",
+          ceilingDamage: "No",
+          wallDamage: "No",
+        },
+        valuation: "$13,025.63",
+      },
+      {
+        id: "4",
+        name: "Room 4: Master Bedroom",
+        area: "19.12 m²",
+        volume: "38.78 m³",
+        condition: "Good", // Updated Room 4 condition from Complete to Good
+        temperature: "22°C",
+        humidity: "45%",
+        hasSheetData: true,
+        valuation: "$56,428.32",
+        panoramaCount: 7,
+        specifications: {
+          floorArea: "19.12 m²",
+          ceilingHeight: "2.41 m",
+          wallArea: "41.8 m²",
+          windowArea: "2.8 m²",
+          depth: "2.89 m",
+          width: "5.85 m",
+          windows: "1",
+          doors: "5",
+        },
+        materials: {
+          flooring: "Carpet",
+          walls: "Drywall",
+          ceiling: "Flat",
+          windows: "Other",
+          doors: "Multiple Access Points",
+        },
+        features: [
+          { name: "Smoke Alarm", status: "installed", count: 1, icon: "shield-check" },
+          { name: "Ceiling Lights", status: "installed", count: 2, icon: "lightbulb" },
+          { name: "Ceiling Fan", status: "not-installed", count: 0, icon: "fan" },
+          { name: "Air Conditioning", status: "installed", count: 1, icon: "snowflake" },
+          { name: "Windows", status: "installed", count: 1, icon: "square" },
+          { name: "Doors", status: "installed", count: 5, icon: "door-open" },
+        ],
+        damageAssessment: {
+          floor: "No",
+          walls: "No",
+          ceiling: "No",
+        },
+        panoramaLinks: [
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_3ax98exw84easbammy1kdy59a_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_q30i0t1qaqnm9w9ahabpw94qd_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_bcmacw08fqdi7acr9x6shfi4b_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_n62yt7zbfe8gbthibrauparaa_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_yq3ye9yehkru7142z65q2acwa_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_37fty8w3n4tw0nkac909ri7pc_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_1hsznrxt775cdf5e5fr400crc_skybox.jpg",
+        ],
+      },
+      {
+        id: "5",
+        name: "Room 5: Patio",
+        area: "X m²",
+        volume: "X m³",
+        condition: "X",
+        temperature: "X°C",
+        humidity: "X%",
+        hasSheetData: false,
+        specifications: {
+          floorArea: "X m²",
+          ceilingHeight: "X m",
+          wallArea: "X m²",
+          windowArea: "X m²",
+          doorArea: "X m²",
+        },
+        materials: {
+          flooring: "Concrete",
+          walls: "Brick",
+          ceiling: "Open",
+          windows: "None",
+          doors: "Glass Sliding",
+        },
+        features: [
+          { name: "Outdoor Space", status: "available", icon: "sun" },
+          { name: "Weather Protection", status: "partial", icon: "umbrella" },
+          { name: "Drainage", status: "adequate", icon: "droplets" },
+          { name: "Privacy", status: "good", icon: "shield" },
+        ],
+      },
+      {
+        id: "6",
+        name: "Room 6: Living room",
+        area: "X m²",
+        volume: "X m³",
+        condition: "X",
+        temperature: "X°C",
+        humidity: "X%",
+        hasSheetData: true,
+        specifications: {
+          floorArea: "X m²",
+          ceilingHeight: "X m",
+          wallArea: "X m²",
+          windowArea: "X m²",
+          doorArea: "X m²",
+        },
+        materials: {
+          flooring: "Timber",
+          walls: "Plasterboard",
+          ceiling: "Plasterboard",
+          windows: "Aluminium Frame",
+          doors: "Timber",
+        },
+        features: [
+          { name: "Natural Light", status: "good", icon: "sun" },
+          { name: "Ventilation", status: "adequate", icon: "wind" },
+          { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
+          { name: "Storage", status: "limited", icon: "archive" },
+        ],
+      },
+      {
+        id: "7",
+        name: "Room 7: Hallway",
+        area: "X m²",
+        volume: "X m³",
+        condition: "X",
+        temperature: "X°C",
+        humidity: "X%",
+        hasSheetData: false,
+        specifications: {
+          floorArea: "X m²",
+          ceilingHeight: "X m",
+          wallArea: "X m²",
+          windowArea: "X m²",
+          doorArea: "X m²",
+        },
+        materials: {
+          flooring: "Timber",
+          walls: "Plasterboard",
+          ceiling: "Plasterboard",
+          windows: "Aluminium Frame",
+          doors: "Timber",
+        },
+        features: [
+          { name: "Natural Light", status: "limited", icon: "sun" },
+          { name: "Ventilation", status: "adequate", icon: "wind" },
+          { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
+          { name: "Storage", status: "none", icon: "archive" },
+        ],
+      },
+      {
+        id: "8",
+        name: "Room 8: Living room/ Kitchen",
+        area: "X m²",
+        volume: "X m³",
+        condition: "X",
+        temperature: "X°C",
+        humidity: "X%",
+        hasSheetData: true,
+        specifications: {
+          floorArea: "X m²",
+          ceilingHeight: "X m",
+          wallArea: "X m²",
+          windowArea: "X m²",
+          doorArea: "X m²",
+        },
+        materials: {
+          flooring: "Timber",
+          walls: "Plasterboard",
+          ceiling: "Plasterboard",
+          windows: "Aluminium Frame",
+          doors: "Timber",
+        },
+        features: [
+          { name: "Natural Light", status: "excellent", icon: "sun" },
+          { name: "Ventilation", status: "good", icon: "wind" },
+          { name: "Kitchen Appliances", status: "modern", icon: "chef-hat" },
+          { name: "Storage", status: "ample", icon: "archive" },
+        ],
+      },
+      {
+        id: "9",
+        name: "Room 9: Bathroom",
+        area: "X m²",
+        volume: "X m³",
+        condition: "X",
+        temperature: "X°C",
+        humidity: "X%",
+        hasSheetData: false,
+        specifications: {
+          floorArea: "X m²",
+          ceilingHeight: "X m",
+          wallArea: "X m²",
+          windowArea: "X m²",
+          doorArea: "X m²",
         },
         materials: {
           flooring: "Ceramic Tiles",
@@ -187,20 +398,110 @@ export function RoomInsightsTab() {
         ],
       },
       {
-        id: "4",
-        name: "Room 4: Bedroom",
-        area: "12.4 m²",
-        volume: "31.0 m³",
-        condition: "Good",
-        temperature: "20°C",
-        humidity: "40%",
+        id: "10",
+        name: "Room 10: Hallway",
+        area: "X m²",
+        volume: "X m³",
+        condition: "X",
+        temperature: "X°C",
+        humidity: "X%",
+        hasSheetData: true,
+        specifications: {
+          floorArea: "X m²",
+          ceilingHeight: "X m",
+          wallArea: "X m²",
+          windowArea: "X m²",
+          doorArea: "X m²",
+        },
+        materials: {
+          flooring: "Timber",
+          walls: "Plasterboard",
+          ceiling: "Plasterboard",
+          windows: "Aluminium Frame",
+          doors: "Timber",
+        },
+        features: [
+          { name: "Natural Light", status: "limited", icon: "sun" },
+          { name: "Ventilation", status: "adequate", icon: "wind" },
+          { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
+          { name: "Storage", status: "none", icon: "archive" },
+        ],
+      },
+      {
+        id: "11",
+        name: "Room 11: Bathroom",
+        area: "X m²",
+        volume: "X m³",
+        condition: "X",
+        temperature: "X°C",
+        humidity: "X%",
         hasSheetData: false,
         specifications: {
-          floorArea: "12.4 m²",
-          ceilingHeight: "2.5 m",
-          wallArea: "62.0 m²",
-          windowArea: "3.2 m²",
-          doorArea: "1.8 m²",
+          floorArea: "X m²",
+          ceilingHeight: "X m",
+          wallArea: "X m²",
+          windowArea: "X m²",
+          doorArea: "X m²",
+        },
+        materials: {
+          flooring: "Ceramic Tiles",
+          walls: "Ceramic Tiles",
+          ceiling: "Plasterboard",
+          windows: "Aluminium Frame",
+          doors: "Timber",
+        },
+        features: [
+          { name: "Ventilation Fan", status: "installed", icon: "fan" },
+          { name: "Waterproofing", status: "good", icon: "shield" },
+          { name: "Fixtures", status: "modern", icon: "wrench" },
+          { name: "Storage", status: "adequate", icon: "archive" },
+        ],
+      },
+      {
+        id: "12",
+        name: "Room 12: Bedroom",
+        area: "X m²",
+        volume: "X m³",
+        condition: "X",
+        temperature: "X°C",
+        humidity: "X%",
+        hasSheetData: true,
+        specifications: {
+          floorArea: "X m²",
+          ceilingHeight: "X m",
+          wallArea: "X m²",
+          windowArea: "X m²",
+          doorArea: "X m²",
+        },
+        materials: {
+          flooring: "Carpet",
+          walls: "Plasterboard",
+          ceiling: "Plasterboard",
+          windows: "Aluminium Frame",
+          doors: "Timber",
+        },
+        features: [
+          { name: "Natural Light", status: "good", icon: "sun" },
+          { name: "Ventilation", status: "adequate", icon: "wind" },
+          { name: "Built-in Wardrobe", status: "present", icon: "archive" },
+          { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
+        ],
+      },
+      {
+        id: "13",
+        name: "Room 13: Bedroom",
+        area: "X m²",
+        volume: "X m³",
+        condition: "X",
+        temperature: "X°C",
+        humidity: "X%",
+        hasSheetData: true,
+        specifications: {
+          floorArea: "X m²",
+          ceilingHeight: "X m",
+          wallArea: "X m²",
+          windowArea: "X m²",
+          doorArea: "X m²",
         },
         materials: {
           flooring: "Carpet",
@@ -219,282 +520,8 @@ export function RoomInsightsTab() {
     ],
   }
 
-  // Additional rooms data
-  const additionalRooms = [
-    {
-      id: "5",
-      name: "Room 5: Patio",
-      area: "X m²",
-      volume: "X m³",
-      condition: "X",
-      temperature: "X°C",
-      humidity: "X%",
-      hasSheetData: false,
-      specifications: {
-        floorArea: "X m²",
-        ceilingHeight: "X m",
-        wallArea: "X m²",
-        windowArea: "X m²",
-        doorArea: "X m²",
-      },
-      materials: {
-        flooring: "Concrete",
-        walls: "Brick",
-        ceiling: "Open",
-        windows: "None",
-        doors: "Glass Sliding",
-      },
-      features: [
-        { name: "Outdoor Space", status: "available", icon: "sun" },
-        { name: "Weather Protection", status: "partial", icon: "umbrella" },
-        { name: "Drainage", status: "adequate", icon: "droplets" },
-        { name: "Privacy", status: "good", icon: "shield" },
-      ],
-    },
-    {
-      id: "6",
-      name: "Room 6: Living room",
-      area: "X m²",
-      volume: "X m³",
-      condition: "X",
-      temperature: "X°C",
-      humidity: "X%",
-      hasSheetData: true,
-      specifications: {
-        floorArea: "X m²",
-        ceilingHeight: "X m",
-        wallArea: "X m²",
-        windowArea: "X m²",
-        doorArea: "X m²",
-      },
-      materials: {
-        flooring: "Timber",
-        walls: "Plasterboard",
-        ceiling: "Plasterboard",
-        windows: "Aluminium Frame",
-        doors: "Timber",
-      },
-      features: [
-        { name: "Natural Light", status: "good", icon: "sun" },
-        { name: "Ventilation", status: "adequate", icon: "wind" },
-        { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
-        { name: "Storage", status: "limited", icon: "archive" },
-      ],
-    },
-    {
-      id: "7",
-      name: "Room 7: Hallway",
-      area: "X m²",
-      volume: "X m³",
-      condition: "X",
-      temperature: "X°C",
-      humidity: "X%",
-      hasSheetData: false,
-      specifications: {
-        floorArea: "X m²",
-        ceilingHeight: "X m",
-        wallArea: "X m²",
-        windowArea: "X m²",
-        doorArea: "X m²",
-      },
-      materials: {
-        flooring: "Timber",
-        walls: "Plasterboard",
-        ceiling: "Plasterboard",
-        windows: "Aluminium Frame",
-        doors: "Timber",
-      },
-      features: [
-        { name: "Natural Light", status: "limited", icon: "sun" },
-        { name: "Ventilation", status: "adequate", icon: "wind" },
-        { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
-        { name: "Storage", status: "none", icon: "archive" },
-      ],
-    },
-    {
-      id: "8",
-      name: "Room 8: Living room/ Kitchen",
-      area: "X m²",
-      volume: "X m³",
-      condition: "X",
-      temperature: "X°C",
-      humidity: "X%",
-      hasSheetData: true,
-      specifications: {
-        floorArea: "X m²",
-        ceilingHeight: "X m",
-        wallArea: "X m²",
-        windowArea: "X m²",
-        doorArea: "X m²",
-      },
-      materials: {
-        flooring: "Timber",
-        walls: "Plasterboard",
-        ceiling: "Plasterboard",
-        windows: "Aluminium Frame",
-        doors: "Timber",
-      },
-      features: [
-        { name: "Natural Light", status: "excellent", icon: "sun" },
-        { name: "Ventilation", status: "good", icon: "wind" },
-        { name: "Kitchen Appliances", status: "modern", icon: "chef-hat" },
-        { name: "Storage", status: "ample", icon: "archive" },
-      ],
-    },
-    {
-      id: "9",
-      name: "Room 9: Bathroom",
-      area: "X m²",
-      volume: "X m³",
-      condition: "X",
-      temperature: "X°C",
-      humidity: "X%",
-      hasSheetData: false,
-      specifications: {
-        floorArea: "X m²",
-        ceilingHeight: "X m",
-        wallArea: "X m²",
-        windowArea: "X m²",
-        doorArea: "X m²",
-      },
-      materials: {
-        flooring: "Ceramic Tiles",
-        walls: "Ceramic Tiles",
-        ceiling: "Plasterboard",
-        windows: "Aluminium Frame",
-        doors: "Timber",
-      },
-      features: [
-        { name: "Ventilation Fan", status: "installed", icon: "fan" },
-        { name: "Waterproofing", status: "good", icon: "shield" },
-        { name: "Fixtures", status: "modern", icon: "wrench" },
-        { name: "Storage", status: "adequate", icon: "archive" },
-      ],
-    },
-    {
-      id: "10",
-      name: "Room 10: Hallway",
-      area: "X m²",
-      volume: "X m³",
-      condition: "X",
-      temperature: "X°C",
-      humidity: "X%",
-      hasSheetData: true,
-      specifications: {
-        floorArea: "X m²",
-        ceilingHeight: "X m",
-        wallArea: "X m²",
-        windowArea: "X m²",
-        doorArea: "X m²",
-      },
-      materials: {
-        flooring: "Timber",
-        walls: "Plasterboard",
-        ceiling: "Plasterboard",
-        windows: "Aluminium Frame",
-        doors: "Timber",
-      },
-      features: [
-        { name: "Natural Light", status: "limited", icon: "sun" },
-        { name: "Ventilation", status: "adequate", icon: "wind" },
-        { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
-        { name: "Storage", status: "none", icon: "archive" },
-      ],
-    },
-    {
-      id: "11",
-      name: "Room 11: Bathroom",
-      area: "X m²",
-      volume: "X m³",
-      condition: "X",
-      temperature: "X°C",
-      humidity: "X%",
-      hasSheetData: false,
-      specifications: {
-        floorArea: "X m²",
-        ceilingHeight: "X m",
-        wallArea: "X m²",
-        windowArea: "X m²",
-        doorArea: "X m²",
-      },
-      materials: {
-        flooring: "Ceramic Tiles",
-        walls: "Ceramic Tiles",
-        ceiling: "Plasterboard",
-        windows: "Aluminium Frame",
-        doors: "Timber",
-      },
-      features: [
-        { name: "Ventilation Fan", status: "installed", icon: "fan" },
-        { name: "Waterproofing", status: "good", icon: "shield" },
-        { name: "Fixtures", status: "modern", icon: "wrench" },
-        { name: "Storage", status: "adequate", icon: "archive" },
-      ],
-    },
-    {
-      id: "12",
-      name: "Room 12: Bedroom",
-      area: "X m²",
-      volume: "X m³",
-      condition: "X",
-      temperature: "X°C",
-      humidity: "X%",
-      hasSheetData: true,
-      specifications: {
-        floorArea: "X m²",
-        ceilingHeight: "X m",
-        wallArea: "X m²",
-        windowArea: "X m²",
-        doorArea: "X m²",
-      },
-      materials: {
-        flooring: "Carpet",
-        walls: "Plasterboard",
-        ceiling: "Plasterboard",
-        windows: "Aluminium Frame",
-        doors: "Timber",
-      },
-      features: [
-        { name: "Natural Light", status: "good", icon: "sun" },
-        { name: "Ventilation", status: "adequate", icon: "wind" },
-        { name: "Built-in Wardrobe", status: "present", icon: "archive" },
-        { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
-      ],
-    },
-    {
-      id: "13",
-      name: "Room 13: Bedroom",
-      area: "X m²",
-      volume: "X m³",
-      condition: "X",
-      temperature: "X°C",
-      humidity: "X%",
-      hasSheetData: true,
-      specifications: {
-        floorArea: "X m²",
-        ceilingHeight: "X m",
-        wallArea: "X m²",
-        windowArea: "X m²",
-        doorArea: "X m²",
-      },
-      materials: {
-        flooring: "Carpet",
-        walls: "Plasterboard",
-        ceiling: "Plasterboard",
-        windows: "Aluminium Frame",
-        doors: "Timber",
-      },
-      features: [
-        { name: "Natural Light", status: "good", icon: "sun" },
-        { name: "Ventilation", status: "adequate", icon: "wind" },
-        { name: "Built-in Wardrobe", status: "present", icon: "archive" },
-        { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
-      ],
-    },
-  ]
-
   // Combine original rooms with additional rooms
-  const allRooms = [...propertyData.rooms, ...additionalRooms]
+  const allRooms = [...propertyData.rooms]
 
   const handleRoomSelection = (roomId: string, checked: boolean) => {
     if (checked) {
@@ -532,6 +559,8 @@ export function RoomInsightsTab() {
         return <AlertTriangle className="h-4 w-4 text-yellow-600" />
       case "limited":
       case "none":
+      case "yes":
+      case "yes (wear and tear)":
         return <XCircle className="h-4 w-4 text-red-600" />
       default:
         return <AlertTriangle className="h-4 w-4 text-gray-600" />
@@ -586,9 +615,9 @@ export function RoomInsightsTab() {
                         <div className="text-2xl font-bold text-gray-800">{room.volume}</div>
                         <div className="text-sm text-gray-600">Volume</div>
                       </div>
-                      {room.roomValuation && (
+                      {room.valuation && (
                         <div className="text-center">
-                          <div className="text-2xl font-bold text-green-600">{room.roomValuation}</div>
+                          <div className="text-2xl font-bold text-green-600">{room.valuation}</div>
                           <div className="text-sm text-gray-600">Valuation</div>
                         </div>
                       )}
@@ -678,6 +707,47 @@ export function RoomInsightsTab() {
                         <Eye className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                         <p className="text-sm font-medium text-blue-800">Property Panoramas</p>
                         <p className="text-xs text-blue-600">{room.panoramaIds?.length || 0} available</p>
+                        {room.panoramaLinks && room.panoramaLinks.length > 0 && (
+                          <div className="mt-2">
+                            <div className="flex gap-1 overflow-x-auto">
+                              {room.panoramaLinks.slice(0, 3).map((link, index) => (
+                                <div key={index} className="flex-shrink-0 w-12 h-8 rounded overflow-hidden bg-gray-100">
+                                  <img
+                                    src={link || "/placeholder.svg"}
+                                    alt={`Panorama ${index + 1}`}
+                                    className="w-full h-full object-cover cursor-pointer hover:opacity-80"
+                                    onClick={() => window.open(link, "_blank")}
+                                    onError={(e) => {
+                                      const target = e.currentTarget
+                                      target.src = `data:image/svg+xml;base64,${btoa(`
+                                        <svg width="48" height="32" xmlns="http://www.w3.org/2000/svg">
+                                          <rect width="48" height="32" fill="#f3f4f6"/>
+                                          <text x="24" y="18" textAnchor="middle" fill="#9ca3af" fontSize="8">360°</text>
+                                        </svg>
+                                      `)}`
+                                    }}
+                                    onLoad={(e) => {
+                                      const target = e.currentTarget
+                                      if (target.naturalWidth === 0) {
+                                        target.src = `data:image/svg+xml;base64,${btoa(`
+                                          <svg width="48" height="32" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="48" height="32" fill="#f3f4f6"/>
+                                            <text x="24" y="18" textAnchor="middle" fill="#9ca3af" fontSize="8">360°</text>
+                                          </svg>
+                                        `)}`
+                                      }
+                                    }}
+                                  />
+                                </div>
+                              ))}
+                              {room.panoramaLinks.length > 3 && (
+                                <div className="flex-shrink-0 w-12 h-8 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-600">
+                                  +{room.panoramaLinks.length - 3}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <div className="text-center p-4 bg-green-50 rounded-lg">
                         <Camera className="h-8 w-8 text-green-600 mx-auto mb-2" />

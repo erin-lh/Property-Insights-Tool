@@ -1,8 +1,11 @@
 "use client"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { X } from "lucide-react"
 import {
   ArrowLeft,
   Camera,
@@ -16,26 +19,56 @@ import {
   FileText,
   MapPin,
   ExternalLink,
-  ImageIcon,
-  ChevronLeft,
-  ChevronRight,
+  Thermometer,
 } from "lucide-react"
-import Link from "next/link"
 
 // Mock room data - in a real app this would come from your data source
-const roomsData = {
+interface Room {
+  id: string
+  name: string
+  type: string
+  area: string
+  volume: string
+  height: string
+  depth: string
+  width: string
+  valuation: string
+  condition: string
+  doors: number
+  windows: number
+  description: string
+  panoramaCount: string
+  panoramaLinks: string[]
+  panoramaImages: string[]
+  roomLocationImage: string
+  flooring: string
+  wallMaterial: string
+  ceilingType: string
+  ceilingLights: string
+  ceilingLightType?: string
+  contents: {
+    name: string
+    quantity: number
+    rrp: string
+    total: string
+    url: string
+  }[]
+}
+
+const roomsData: Record<string, Room> = {
   "1": {
     id: "1",
     name: "Room 1: Hallway",
-    roomId: "19ab05tns5h6y4qm42esqqpea",
-    type: "hallway",
+    type: "Hallway",
     area: "2.47",
-    height: "2.42",
-    width: "0.88",
-    depth: "2.23",
     volume: "5.98",
-    windows: "0",
-    doors: "1",
+    height: "2.42",
+    depth: "2.23",
+    width: "0.88",
+    valuation: "$7,171.29",
+    condition: "Complete",
+    doors: 1,
+    windows: 0,
     description:
       "This hallway features soft neutral carpeting and crisp white walls, creating a bright and airy feel. A staircase curves up on one side, while doors lead to bedrooms and a bathroom. Recessed ceiling lights add to the clean, modern look, and natural light filters in from the open staircase to the top floor and bedroom windows.",
     panoramaCount: "2",
@@ -44,9 +77,11 @@ const roomsData = {
       "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_71mwb6u62ih98rhx2bwyc8b8b_skybox.jpg",
     ],
     panoramaImages: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-2JaixJDeM9NWUh5WybykRXW5Hu9oTZ.png",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_9atk8hw6bpr2kixswfbit6kya_skybox%20%281%29.jpg-VQ1rRU14Q114Ge0td1DRgV5HrkSZ8n.jpeg",
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_71mwb6u62ih98rhx2bwyc8b8b_skybox%20%281%29.jpg-hpnL3NcCfYc8k7hkQLGiG1dC6fqmPd.jpeg",
     ],
+    roomLocationImage:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-2JaixJDeM9NWUh5WybykRXW5Hu9oTZ.png",
     flooring: "Carpet",
     wallMaterial: "Drywall",
     ceilingType: "Flat",
@@ -54,8 +89,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: true,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "$7,171.29",
     smokeAlarmCount: 1,
     ceilingLightCount: 2,
     ceilingFanCount: 0,
@@ -78,17 +111,18 @@ const roomsData = {
   "2": {
     id: "2",
     name: "Room 2: Patio",
-    roomId: "2qdmc5i9byxi79ry1pxdkqzea",
-    type: "patio",
+    type: "Patio",
     area: "5.01",
-    height: "2.72",
-    width: "1.58",
-    depth: "2.17",
     volume: "13.61",
-    windows: "2",
-    doors: "1",
+    height: "2.72",
+    depth: "2.17",
+    width: "1.58",
+    valuation: "$14,046.71",
+    condition: "Complete",
+    doors: 1,
+    windows: 2,
     description:
-      "This outdoor patio space features durable tile flooring and concrete walls, creating a modern industrial aesthetic. The metal ceiling provides weather protection while maintaining an open feel. Two recessed ceiling lights illuminate the space, and large windows offer views and natural light. The patio serves as a perfect transition between indoor and outdoor living spaces.",
+      "This outdoor patio space features durable tile flooring and concrete walls, designed for entertaining and relaxation. The space includes modern outdoor lighting and provides seamless indoor-outdoor living with easy access from the main living areas.",
     panoramaCount: "4",
     panoramaLinks: [
       "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_zibi0h0ges2t5dxryrb7800wd_skybox.jpg",
@@ -97,8 +131,13 @@ const roomsData = {
       "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_pxk5thts3iiwc5azq4drsitfc_skybox.jpg",
     ],
     panoramaImages: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-08-12%20at%204.24.05%E2%80%AFpm-sv7yY2hY8kdqPgXTDbkPJ8XLVTiwA6.png",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_zibi0h0ges2t5dxryrb7800wd_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_cct379k0f1t6gnmuutm23i4ac_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_mw5ymdiqgmkaiasgdiksy3i5a_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_pxk5thts3iiwc5azq4drsitfc_skybox.jpg",
     ],
+    roomLocationImage:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-08-12%20at%204.24.05%E2%80%AFpm-sv7yY2hY8kdqPgXTDbkPJ8XLVTiwA6.png",
     flooring: "Tile",
     wallMaterial: "Concrete",
     ceilingType: "Metal",
@@ -106,8 +145,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "$14,046.71",
     smokeAlarmCount: 0,
     ceilingLightCount: 2,
     ceilingFanCount: 0,
@@ -127,10 +164,128 @@ const roomsData = {
       },
     ],
   },
+  "3": {
+    id: "3",
+    name: "Room 3: Bathroom",
+    type: "Bathroom",
+    area: "4.25",
+    volume: "9.19",
+    height: "2.16",
+    depth: "2.04",
+    width: "1.87",
+    valuation: "$13,025.63",
+    condition: "Complete",
+    doors: 1,
+    windows: 1,
+    description:
+      "This bathroom features a corner glass-enclosed shower, a white toilet, and a compact vanity with a curved countertop, integrated basin, and under-bench storage. Twin frosted windows provide natural light while maintaining privacy, complemented by a wall-mounted mirrored cabinet. The space is tiled throughout, with mild wear and tear visible on the floor tiles, consistent with regular use.",
+    panoramaCount: "4",
+    panoramaLinks: [
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg",
+    ],
+    panoramaImages: [
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg-DybvROpI27IWHSdHb2KCEVDQKjA8sw.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg-0U773bQXctTFUI3oCYs4MjGGChlV4X.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg-38W7KABIGlqKllAWl8riaQGzo8HHg2.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg-qTthxDlQMoEP0VTeF87su16QkDKGzg.jpeg",
+    ],
+    roomLocationImage:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-08-12%20at%208.28.33%E2%80%AFpm-zTl3ItG3cvPV7cIoKuSUk6o1uYEcno.png",
+    flooring: "Tile",
+    wallMaterial: "Plaster",
+    ceilingType: "Flat",
+    ceilingLights: "1",
+    ceilingLightType: "Recessed",
+    airConditioning: false,
+    smokeAlarm: false,
+    ceilingFan: false,
+    smokeAlarmCount: 0,
+    ceilingLightCount: 1,
+    ceilingFanCount: 0,
+    airConditioningCount: 0,
+    windowCount: 1,
+    windowCover: "Other",
+    floorDamage: "Yes (Wear and Tear)",
+    ceilingDamage: "No",
+    wallDamage: "No",
+    contents: [
+      {
+        name: "Bathroom Recessed LED Downlight",
+        quantity: 1,
+        rrp: "$35",
+        total: "$35",
+        url: "https://example.com/bathroom-recessed-light",
+      },
+    ],
+  },
+  "4": {
+    id: "4",
+    name: "Room 4: Master Bedroom",
+    type: "Bedroom",
+    area: "19.12",
+    volume: "38.78",
+    height: "2.41",
+    depth: "2.89",
+    width: "5.85",
+    valuation: "$56,428.32",
+    condition: "Complete",
+    doors: 5,
+    windows: 1,
+    description:
+      "This master bedroom is bright and inviting, featuring a large bed with a deep blue upholstered headboard, flanked by matching white bedside tables and lamps. Neutral carpet flooring adds warmth underfoot, complemented by crisp white walls and contemporary décor. A sliding glass door opens to a private balcony overlooking lush greenery, while a large window on the adjacent wall brings in additional natural light. The space includes built-in wardrobes with sliding doors, airconditioning, and a decorative timber-framed artwork above a wooden console table, enhancing the room's modern yet comfortable feel.",
+    panoramaCount: "7",
+    panoramaLinks: [
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_3ax98exw84easbammy1kdy59a_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_q30i0t1qaqnm9w9ahabpw94qd_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_bcmacw08fqdi7acr9x6shfi4b_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_n62yt7zbfe8gbthibrauparaa_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_yq3ye9yehkru7142z65q2acwa_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_37fty8w3n4tw0nkac909ri7pc_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_1hsznrxt775cdf5e5fr400crc_skybox.jpg",
+    ],
+    panoramaImages: [
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_bcmacw08fqdi7acr9x6shfi4b_skybox.jpg-fsUN4KHF3Ave2J76VIl49FVVJwyFnh.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_3ax98exw84easbammy1kdy59a_skybox.jpg-8q3pEN2vs0zn7UPO1QDUoQoFcoTQB9.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_yq3ye9yehkru7142z65q2acwa_skybox.jpg-A1K49g6osUSUpFF5NwMUM3JY7HqRxt.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_n62yt7zbfe8gbthibrauparaa_skybox.jpg-Z0JJ2kLwXejM19pfvYzEQtuNr4Reiv.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_q30i0t1qaqnm9w9ahabpw94qd_skybox.jpg-Dl7Zn5dyH3MEVoBEnMqHnLX8fTAASe.jpeg",
+    ],
+    roomLocationImage:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-E5vtmbTffEJBOpzsVn67E3E2OpOMXJ.png",
+    flooring: "Carpet",
+    wallMaterial: "Drywall",
+    ceilingType: "Flat",
+    ceilingLights: "2",
+    ceilingLightType: "Recessed",
+    airConditioning: true,
+    smokeAlarm: true,
+    ceilingFan: false,
+    smokeAlarmCount: 1,
+    ceilingLightCount: 2,
+    ceilingFanCount: 0,
+    airConditioningCount: 1,
+    windowCount: 1,
+    windowCover: "Other",
+    floorDamage: "No",
+    ceilingDamage: "No",
+    wallDamage: "No",
+    contents: [
+      {
+        name: "Master Bedroom Recessed LED Downlight",
+        quantity: 2,
+        rrp: "$40",
+        total: "$80",
+        url: "https://example.com/master-bedroom-recessed-light",
+      },
+    ],
+  },
   "5": {
     id: "5",
     name: "Room 5: Patio",
-    type: "patio",
+    type: "Patio",
     area: "X",
     height: "X",
     width: "X",
@@ -142,6 +297,7 @@ const roomsData = {
     panoramaCount: "X",
     panoramaLinks: [],
     panoramaImages: [],
+    roomLocationImage: "",
     flooring: "X",
     wallMaterial: "X",
     ceilingType: "X",
@@ -149,8 +305,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "",
     smokeAlarmCount: 0,
     ceilingLightCount: 0,
     ceilingFanCount: 0,
@@ -165,7 +319,7 @@ const roomsData = {
   "6": {
     id: "6",
     name: "Room 6: Living room",
-    type: "living room",
+    type: "Living room",
     area: "X",
     height: "X",
     width: "X",
@@ -177,6 +331,8 @@ const roomsData = {
     panoramaCount: "X",
     panoramaLinks: [],
     panoramaImages: [],
+    // Added dedicated room location image for living room
+    roomLocationImage: "",
     flooring: "X",
     wallMaterial: "X",
     ceilingType: "X",
@@ -184,8 +340,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "",
     smokeAlarmCount: 0,
     ceilingLightCount: 0,
     ceilingFanCount: 0,
@@ -200,7 +354,7 @@ const roomsData = {
   "7": {
     id: "7",
     name: "Room 7: Hallway",
-    type: "hallway",
+    type: "Hallway",
     area: "X",
     height: "X",
     width: "X",
@@ -212,6 +366,7 @@ const roomsData = {
     panoramaCount: "X",
     panoramaLinks: [],
     panoramaImages: [],
+    roomLocationImage: "",
     flooring: "X",
     wallMaterial: "X",
     ceilingType: "X",
@@ -219,8 +374,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "",
     smokeAlarmCount: 0,
     ceilingLightCount: 0,
     ceilingFanCount: 0,
@@ -235,7 +388,7 @@ const roomsData = {
   "8": {
     id: "8",
     name: "Room 8: Living room/ Kitchen",
-    type: "living room/ kitchen",
+    type: "Living room/ Kitchen",
     area: "X",
     height: "X",
     width: "X",
@@ -247,6 +400,8 @@ const roomsData = {
     panoramaCount: "X",
     panoramaLinks: [],
     panoramaImages: [],
+    // Added dedicated room location image for living room/ kitchen
+    roomLocationImage: "",
     flooring: "X",
     wallMaterial: "X",
     ceilingType: "X",
@@ -254,8 +409,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "",
     smokeAlarmCount: 0,
     ceilingLightCount: 0,
     ceilingFanCount: 0,
@@ -270,7 +423,7 @@ const roomsData = {
   "9": {
     id: "9",
     name: "Room 9: Bathroom",
-    type: "bathroom",
+    type: "Bathroom",
     area: "X",
     height: "X",
     width: "X",
@@ -282,6 +435,7 @@ const roomsData = {
     panoramaCount: "X",
     panoramaLinks: [],
     panoramaImages: [],
+    roomLocationImage: "",
     flooring: "X",
     wallMaterial: "X",
     ceilingType: "X",
@@ -289,8 +443,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "",
     smokeAlarmCount: 0,
     ceilingLightCount: 0,
     ceilingFanCount: 0,
@@ -305,7 +457,7 @@ const roomsData = {
   "10": {
     id: "10",
     name: "Room 10: Hallway",
-    type: "hallway",
+    type: "Hallway",
     area: "X",
     height: "X",
     width: "X",
@@ -317,6 +469,7 @@ const roomsData = {
     panoramaCount: "X",
     panoramaLinks: [],
     panoramaImages: [],
+    roomLocationImage: "",
     flooring: "X",
     wallMaterial: "X",
     ceilingType: "X",
@@ -324,8 +477,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "",
     smokeAlarmCount: 0,
     ceilingLightCount: 0,
     ceilingFanCount: 0,
@@ -340,7 +491,7 @@ const roomsData = {
   "11": {
     id: "11",
     name: "Room 11: Bathroom",
-    type: "bathroom",
+    type: "Bathroom",
     area: "X",
     height: "X",
     width: "X",
@@ -352,6 +503,7 @@ const roomsData = {
     panoramaCount: "X",
     panoramaLinks: [],
     panoramaImages: [],
+    roomLocationImage: "",
     flooring: "X",
     wallMaterial: "X",
     ceilingType: "X",
@@ -359,8 +511,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "",
     smokeAlarmCount: 0,
     ceilingLightCount: 0,
     ceilingFanCount: 0,
@@ -375,7 +525,7 @@ const roomsData = {
   "12": {
     id: "12",
     name: "Room 12: Bedroom",
-    type: "bedroom",
+    type: "Bedroom",
     area: "X",
     height: "X",
     width: "X",
@@ -387,6 +537,8 @@ const roomsData = {
     panoramaCount: "X",
     panoramaLinks: [],
     panoramaImages: [],
+    // Added dedicated room location image for bedroom
+    roomLocationImage: "",
     flooring: "X",
     wallMaterial: "X",
     ceilingType: "X",
@@ -394,8 +546,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "",
     smokeAlarmCount: 0,
     ceilingLightCount: 0,
     ceilingFanCount: 0,
@@ -410,7 +560,7 @@ const roomsData = {
   "13": {
     id: "13",
     name: "Room 13: Bedroom",
-    type: "bedroom",
+    type: "Bedroom",
     area: "X",
     height: "X",
     width: "X",
@@ -422,6 +572,8 @@ const roomsData = {
     panoramaCount: "X",
     panoramaLinks: [],
     panoramaImages: [],
+    // Added dedicated room location image for bedroom
+    roomLocationImage: "",
     flooring: "X",
     wallMaterial: "X",
     ceilingType: "X",
@@ -429,8 +581,6 @@ const roomsData = {
     airConditioning: false,
     smokeAlarm: false,
     ceilingFan: false,
-    condition: "Good",
-    roomValuation: "",
     smokeAlarmCount: 0,
     ceilingLightCount: 0,
     ceilingFanCount: 0,
@@ -445,10 +595,17 @@ const roomsData = {
 }
 
 export default function RoomDetailPage({ params }: { params: { roomId: string } }) {
-  const roomId = params.roomId as string
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
+  const [selectedPanorama, setSelectedPanorama] = useState<string | null>(null)
+  const roomId = Number.parseInt(params.roomId)
   const room = roomsData[roomId as keyof typeof roomsData]
 
-  if (!room) {
+  useEffect(() => {
+    setLoading(false)
+  }, [])
+
+  if (!room || loading) {
     return (
       <div className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-4xl mx-auto">
@@ -457,12 +614,10 @@ export default function RoomDetailPage({ params }: { params: { roomId: string } 
               <Home className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-gray-800 mb-2">Room Not Found</h3>
               <p className="text-gray-600 mb-4">The requested room could not be found.</p>
-              <Link href="/">
-                <Button>
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Property Overview
-                </Button>
-              </Link>
+              <Button onClick={() => (window.location.href = "/?tab=room-insights")}>
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Property Overview
+              </Button>
             </CardContent>
           </Card>
         </div>
@@ -476,12 +631,10 @@ export default function RoomDetailPage({ params }: { params: { roomId: string } 
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/">
-              <Button variant="outline" size="sm">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Property
-              </Button>
-            </Link>
+            <Button variant="outline" size="sm" onClick={() => (window.location.href = "/?tab=room-insights")}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Property
+            </Button>
             <div>
               <h1 className="text-2xl font-bold text-gray-800">{room.name}</h1>
               <p className="text-gray-600">Detailed room analysis and specifications</p>
@@ -494,9 +647,9 @@ export default function RoomDetailPage({ params }: { params: { roomId: string } 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             {/* Room Location */}
-            <Card>
+            <Card className="bg-white shadow-sm border-0 rounded-2xl">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="text-lg font-medium text-gray-800 flex items-center gap-2">
                   <MapPin className="h-5 w-5" />
                   Room Location
                 </CardTitle>
@@ -504,7 +657,7 @@ export default function RoomDetailPage({ params }: { params: { roomId: string } 
               <CardContent>
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                   <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-08-12%20at%204.24.05%E2%80%AFpm-sv7yY2hY8kdqPgXTDbkPJ8XLVTiwA6.png"
+                    src={room.roomLocationImage || "/placeholder.svg"}
                     alt="Room location in property"
                     className="w-full h-full object-cover"
                   />
@@ -525,57 +678,69 @@ export default function RoomDetailPage({ params }: { params: { roomId: string } 
                   </TabsList>
 
                   <TabsContent value="panoramas" className="space-y-4 mt-6">
-                    <div className="relative">
-                      <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide">
-                        {room.panoramaImages.map((imageSrc, index) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {room.panoramaImages
+                        .filter((img) => img && img !== "/placeholder.svg")
+                        .map((imageSrc, index) => (
                           <div
                             key={index}
-                            className="flex-shrink-0 w-80 aspect-video relative rounded-lg overflow-hidden bg-gray-100"
+                            className="aspect-video relative rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-blue-200 border border-gray-300 cursor-pointer hover:shadow-lg transition-shadow"
+                            onClick={() => setSelectedPanorama(imageSrc)}
                           >
                             <img
                               src={imageSrc || "/placeholder.svg"}
-                              alt={`Panorama ${index + 1}`}
-                              className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                              onClick={() => window.open(room.panoramaLinks[index], "_blank")}
+                              alt={`360° Panorama View ${index + 1}`}
+                              className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                              onError={(e) => {
+                                // Hide the broken image and show fallback
+                                e.currentTarget.style.display = "none"
+                              }}
+                              onLoad={(e) => {
+                                // Ensure image is visible when it loads successfully
+                                e.currentTarget.style.display = "block"
+                              }}
                             />
-                            <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all cursor-pointer flex items-center justify-center">
-                              <div className="opacity-0 hover:opacity-100 transition-opacity">
-                                <Eye className="h-8 w-8 text-white" />
+                            {/* Fallback content when image fails to load */}
+                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200">
+                              <div className="text-center">
+                                <Eye className="h-12 w-12 mx-auto mb-2 text-blue-600" />
+                                <div className="text-blue-800 font-medium">360° View {index + 1}</div>
+                                <div className="text-blue-600 text-sm">Click to open</div>
                               </div>
+                            </div>
+                            {/* Hover overlay */}
+                            <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all flex items-center justify-center">
+                              <div className="opacity-0 hover:opacity-100 transition-opacity">
+                                <Eye className="h-8 w-8 text-white drop-shadow-lg" />
+                              </div>
+                            </div>
+                            {/* Label */}
+                            <div className="absolute bottom-2 left-2 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
+                              360° View {index + 1}
                             </div>
                           </div>
                         ))}
-                      </div>
-                      <button
-                        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg"
-                        onClick={() => {
-                          const container = document.querySelector(".flex.overflow-x-auto")
-                          if (container) container.scrollLeft -= 320
-                        }}
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                      </button>
-                      <button
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg"
-                        onClick={() => {
-                          const container = document.querySelector(".flex.overflow-x-auto")
-                          if (container) container.scrollLeft += 320
-                        }}
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </button>
                     </div>
+                    {room.panoramaImages.filter((img) => img && img !== "/placeholder.svg").length === 0 && (
+                      <div className="text-center py-12 text-gray-500">
+                        <Eye className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                        <div className="text-lg font-medium">No panoramic images available</div>
+                        <div className="text-sm">Panoramic views will appear here when available</div>
+                      </div>
+                    )}
                   </TabsContent>
 
                   <TabsContent value="images" className="space-y-4 mt-6">
-                    <div className="aspect-video relative rounded-lg overflow-hidden bg-gray-100">
-                      <div className="flex items-center justify-center h-full">
-                        <div className="text-center">
-                          <ImageIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                          <p className="text-gray-500">Property Images</p>
-                          <p className="text-xs text-gray-400">Coming soon</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {room.panoramaImages?.map((imageSrc, index) => (
+                        <div key={index} className="aspect-video relative rounded-lg overflow-hidden bg-gray-100">
+                          <img
+                            src={imageSrc || "/placeholder.svg"}
+                            alt={`Property Image ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
-                      </div>
+                      ))}
                     </div>
                   </TabsContent>
                 </Tabs>
@@ -722,7 +887,7 @@ export default function RoomDetailPage({ params }: { params: { roomId: string } 
                       </div>
                       <div className="space-y-2">
                         <span className="text-sm font-medium text-gray-500">Room Valuation:</span>
-                        <p className="text-lg font-semibold text-green-600">{room.roomValuation}</p>
+                        <p className="text-lg font-semibold text-green-600">{room.valuation}</p>
                       </div>
                     </div>
                   </TabsContent>
@@ -763,7 +928,7 @@ export default function RoomDetailPage({ params }: { params: { roomId: string } 
                         </div>
                       </div>
                       <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                        <Wind className="h-5 w-5 text-gray-600" />
+                        <Thermometer className="h-5 w-5 text-gray-600" />
                         <div>
                           <p className="font-medium">{room.airConditioningCount}</p>
                           <p className="text-sm text-gray-500">Air Conditioning Units</p>
@@ -828,6 +993,28 @@ export default function RoomDetailPage({ params }: { params: { roomId: string } 
           <div className="space-y-6"></div>
         </div>
       </main>
+
+      {selectedPanorama && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+          onClick={() => setSelectedPanorama(null)}
+        >
+          <div className="relative max-w-6xl max-h-full">
+            <button
+              onClick={() => setSelectedPanorama(null)}
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+            >
+              <X className="h-8 w-8" />
+            </button>
+            <img
+              src={selectedPanorama || "/placeholder.svg"}
+              alt="360° Panorama View"
+              className="max-w-full max-h-[90vh] object-contain rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
