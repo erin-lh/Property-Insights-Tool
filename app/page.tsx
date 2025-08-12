@@ -27,22 +27,22 @@ export default function PropertyInsightsTool() {
       try {
         console.log("Attempting to fetch property data...")
         const response = await fetch("/data/property-data.csv", {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "text/csv",
+            'Content-Type': 'text/csv',
           },
         })
-
+        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
-
+        
         const csvText = await response.text()
-
+        
         if (!csvText || csvText.trim().length === 0) {
           throw new Error("CSV file is empty or could not be read")
         }
-
+        
         console.log("CSV data loaded successfully, parsing...")
 
         // Try to use the enhanced parser with all rooms
@@ -111,10 +111,7 @@ export default function PropertyInsightsTool() {
   if (!propertyData) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading Property Data</p>
-        </div>
+        <p className="text-gray-600">Failed to load property data</p>
       </div>
     )
   }
@@ -252,22 +249,18 @@ export default function PropertyInsightsTool() {
         </Tabs>
 
         {/* Room Detail Modal */}
-        <RoomDetailModal
-          room={
-            selectedRoom
-              ? {
-                  id: selectedRoom.id,
-                  name: selectedRoom.name || "Unknown Room",
-                  type: selectedRoom.type,
-                  area: selectedRoom.area,
-                  condition: "Good", // Default value since RoomData doesn't have condition
-                  features: [], // Default empty array since RoomData doesn't have features
-                  hasSheetData: false,
-                }
-              : null
-          }
-          isOpen={showRoomDetail}
-          onClose={() => setShowRoomDetail(false)}
+        <RoomDetailModal 
+          room={selectedRoom ? {
+            id: selectedRoom.id,
+            name: selectedRoom.name || 'Unknown Room',
+            type: selectedRoom.type,
+            area: selectedRoom.area,
+            condition: 'Good', // Default value since RoomData doesn't have condition
+            features: [], // Default empty array since RoomData doesn't have features
+            hasSheetData: false
+          } : null} 
+          isOpen={showRoomDetail} 
+          onClose={() => setShowRoomDetail(false)} 
         />
       </div>
     </div>
