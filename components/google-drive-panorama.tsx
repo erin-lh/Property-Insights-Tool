@@ -152,136 +152,209 @@ export function GoogleDrivePanorama({
   )
 }
 
-// Update the RoomPanoramaGrid to include Room 4 with gallery images
+interface EmbeddedPanoramaProps {
+  roomNumber: string
+  roomType: string
+  panoramaImages?: string[]
+  panoramaCount: number
+  source: string
+}
+
+function EmbeddedPanorama({ roomNumber, roomType, panoramaImages = [], panoramaCount, source }: EmbeddedPanoramaProps) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+
+  const formatRoomType = (type: string) => {
+    return type
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
+  }
+
+  const hasImages = panoramaImages.length > 0
+
+  return (
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+      {/* Panorama Preview */}
+      <div className="aspect-video bg-gray-100 relative">
+        {hasImages ? (
+          <img
+            src={panoramaImages[0] || "/placeholder.svg"}
+            alt={`Room ${roomNumber} - ${formatRoomType(roomType)} 360° View`}
+            className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+            onClick={() => setSelectedImage(panoramaImages[0])}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+            <div className="text-center">
+              <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+              <p className="text-sm text-gray-500">No panoramic images available</p>
+            </div>
+          </div>
+        )}
+
+        {/* Panorama Count Badge */}
+        {panoramaCount > 0 && (
+          <div className="absolute top-3 right-3 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
+            {panoramaCount} views
+          </div>
+        )}
+      </div>
+
+      {/* Room Info */}
+      <div className="p-4">
+        <h3 className="font-semibold text-gray-900 mb-1">
+          Room {roomNumber}: {formatRoomType(roomType)}
+        </h3>
+        <p className="text-sm text-gray-600 mb-2">Source: {source}</p>
+
+        {hasImages && (
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" onClick={() => setSelectedImage(panoramaImages[0])} className="text-xs">
+              View 360°
+            </Button>
+            {panoramaImages.length > 1 && (
+              <Button size="sm" variant="outline" className="text-xs bg-transparent">
+                View All ({panoramaImages.length})
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Modal for full-size panorama */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-6xl max-h-full">
+            <img
+              src={selectedImage || "/placeholder.svg"}
+              alt="360° Panoramic View"
+              className="max-w-full max-h-full object-contain"
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              className="absolute top-4 right-4 bg-white"
+              onClick={() => setSelectedImage(null)}
+            >
+              Close
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+const ROOM_DATA = {
+  "1": {
+    type: "hallway",
+    panoramaCount: 2,
+    panoramaImages: [
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_1m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_1m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg",
+    ],
+  },
+  "2": {
+    type: "patio",
+    panoramaCount: 4,
+    panoramaImages: [
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg",
+    ],
+  },
+  "3": {
+    type: "bathroom",
+    panoramaCount: 4,
+    panoramaImages: [
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg-DybvROpI27IWHSdHb2KCEVDQKjA8sw.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg-0U773bQXctTFUI3oCYs4MjGGChlV4X.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg-38W7KABIGlqKllAWl8riaQGzo8HHg2.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg-qTthxDlQMoEP0VTeF87su16QkDKGzg.jpeg",
+    ],
+  },
+  "4": {
+    type: "master bedroom",
+    panoramaCount: 5,
+    panoramaImages: [
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_bcmacw08fqdi7acr9x6shfi4b_skybox.jpg-fsUN4KHF3Ave2J76VIl49FVVJwyFnh.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_3ax98exw84easbammy1kdy59a_skybox.jpg-8q3pEN2vs0zn7UPO1QDUoQoFcoTQB9.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_yq3ye9yehkru7142z65q2acwa_skybox.jpg-A1K49g6osUSUpFF5NwMUM3JY7HqRxt.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_n62yt7zbfe8gbthibrauparaa_skybox.jpg-Z0JJ2kLwXejM19pfvYzEQtuNr4Reiv.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_q30i0t1qaqnm9w9ahabpw94qd_skybox.jpg-Dl7Zn5dyH3MEVoBEnMqHnLX8fTAASe.jpeg",
+    ],
+  },
+  "5": {
+    type: "living room",
+    panoramaCount: 13,
+    panoramaImages: [
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_k2zwk015t51gw99zpztx4egaa_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_ecdy23xprhp3q3f0rth5c5hac_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_5wza109uxdtiah3khz7teiwna_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_txkwf277fq24hepe3gi002nfa_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_tx5m3eudcum0iigcxbu2rpbka_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_udkrwr2wfte2anpi6taw68ycb_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_wds8heu9aarna9tk8t9s9ygwc_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_yehgh6y0ztzq71b0dckb5795d_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_aq8zqxp329yhkc290pzgm9h3b_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_uf6ssx7puqskhh5dibe1tp8aa_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_37r3c3nk8ud8rkpb9a28eyd1a_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_cr857sqay5qbzbe8xdx784acb_skybox.jpg",
+      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_m96rn180d4f690kwy89umae0c_skybox.jpg",
+    ],
+  },
+  "6": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
+  "7": { type: "bathroom", panoramaCount: 0, panoramaImages: [] },
+  "8": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
+  "9": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
+  "10": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
+  "11": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
+  "12": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
+  "13": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
+}
+
 export function RoomPanoramaGrid() {
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Room Panoramic Image Collections</h2>
-        <p className="text-gray-600">Access high-resolution 360° panoramic images for rooms 1-4</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">360° Panoramic Images</h2>
+        <p className="text-gray-600">High-resolution panoramic views for all property rooms</p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        <GoogleDrivePanorama roomNumber="1" roomType="hallway" driveUrl={ROOM_DRIVE_URLS["1"]} panoramaCount={2} />
-        <GoogleDrivePanorama roomNumber="2" roomType="patio" driveUrl={ROOM_DRIVE_URLS["2"]} panoramaCount={4} />
-        <GoogleDrivePanorama
-          roomNumber="3"
-          roomType="bathroom"
-          driveUrl={ROOM_DRIVE_URLS["3"]}
-          panoramaCount={4}
-          coverImage="/images/room3-bathroom.png"
-        />
-        <GoogleDrivePanorama
-          roomNumber="4"
-          roomType="bedroom"
-          driveUrl={ROOM_DRIVE_URLS["4"]}
-          panoramaCount={5} // CORRECTED: Actual count from CSV file
-          coverImage="/images/room4-bedroom-1.png"
-        />
+      {/* All rooms with embedded panoramic previews */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">All Rooms (Embedded Panoramic Views)</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* All rooms 1-13 */}
+          {Object.entries(ROOM_DATA).map(([roomNumber, roomData]) => (
+            <EmbeddedPanorama
+              key={roomNumber}
+              roomNumber={roomNumber}
+              roomType={roomData.type}
+              panoramaImages={roomData.panoramaImages}
+              panoramaCount={roomData.panoramaCount}
+              source="Matterport Pro2 Camera"
+            />
+          ))}
+        </div>
       </div>
-
-      {/* Room 4 Bedroom Gallery */}
-      <Card className="bg-purple-50 border-purple-200">
-        <CardContent className="p-6">
-          <div className="flex items-start gap-3 mb-4">
-            <ImageIcon className="h-5 w-5 text-purple-600 mt-0.5" />
-            <div>
-              <h3 className="font-semibold text-purple-800 mb-2">Room 4 - Bedroom (Complete Data & Gallery)</h3>
-              <div className="text-sm text-purple-700 space-y-1">
-                <p>
-                  • <strong>Area:</strong> 19.12 sqm • <strong>Volume:</strong> 38.78 m³ • <strong>Height:</strong>{" "}
-                  2.41m
-                </p>
-                <p>
-                  • <strong>Features:</strong> 1 window, 1 ceiling light, carpet flooring, drywall walls, air
-                  conditioning
-                </p>
-                <p>
-                  • <strong>Panoramas:</strong> 5 high-resolution 360° views available in Google Drive
-                </p>
-                <p>
-                  • <strong>Gallery:</strong> 2 professional bedroom photos showing different angles
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Bedroom Gallery */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="aspect-video rounded-lg overflow-hidden">
-              <img
-                src="/images/room4-bedroom-1.png"
-                alt="Room 4 Bedroom - View 1"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="aspect-video rounded-lg overflow-hidden">
-              <img
-                src="/images/room4-bedroom-2.jpeg"
-                alt="Room 4 Bedroom - View 2"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Room 3 Highlight */}
-      <Card className="bg-green-50 border-green-200">
-        <CardContent className="p-6">
-          <div className="flex items-start gap-3">
-            <ImageIcon className="h-5 w-5 text-green-600 mt-0.5" />
-            <div>
-              <h3 className="font-semibold text-green-800 mb-2">Room 3 - Bathroom (Complete Data)</h3>
-              <div className="text-sm text-green-700 space-y-1">
-                <p>
-                  • <strong>Area:</strong> 4.25 sqm • <strong>Volume:</strong> 9.19 m³ • <strong>Height:</strong> 2.16m
-                </p>
-                <p>
-                  • <strong>Features:</strong> 1 window, 1 ceiling light, tile flooring, plaster walls
-                </p>
-                <p>
-                  • <strong>Panoramas:</strong> 4 high-resolution 360° views available in Google Drive
-                </p>
-                <p>
-                  • <strong>Condition:</strong> Excellent - no damage detected in any surface
-                </p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Additional Rooms Notice */}
-      <Card className="bg-yellow-50 border-yellow-200">
-        <CardContent className="p-6">
-          <div className="flex items-start gap-3">
-            <Folder className="h-5 w-5 text-yellow-600 mt-0.5" />
-            <div>
-              <h3 className="font-semibold text-yellow-800 mb-2">Additional Rooms (5-14)</h3>
-              <div className="text-sm text-yellow-700 space-y-1">
-                <p>• Rooms 5-14 contain detailed measurement and specification data</p>
-                <p>• Panoramic images for these rooms are available through the property tour system</p>
-                <p>• Access individual room details through the Room Insights tab</p>
-                <p>• Total property contains 14 rooms with comprehensive data coverage</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Instructions */}
       <Card className="bg-blue-50 border-blue-200">
         <CardContent className="p-6">
           <div className="flex items-start gap-3">
-            <ExternalLink className="h-5 w-5 text-blue-600 mt-0.5" />
+            <ImageIcon className="h-5 w-5 text-blue-600 mt-0.5" />
             <div>
-              <h3 className="font-semibold text-blue-800 mb-2">Accessing Panoramic Images</h3>
+              <h3 className="font-semibold text-blue-800 mb-2">360° Panoramic Image Information</h3>
               <div className="text-sm text-blue-700 space-y-1">
-                <p>• Click "Open Drive" to access the full collection of panoramic images</p>
-                <p>• Images are stored in high-resolution Matterport skybox format</p>
-                <p>• Each room contains multiple 360° viewpoints for comprehensive coverage</p>
-                <p>• Download individual images or entire folders for offline use</p>
+                <p>• Rooms 1-5: Embedded panoramic views with clickable previews</p>
+                <p>• Room 5: 13 high-resolution embedded panoramic views available</p>
+                <p>• Rooms 6-13: Panoramic data collection in progress</p>
+                <p>• All images captured using Matterport Pro2 Camera technology</p>
               </div>
             </div>
           </div>

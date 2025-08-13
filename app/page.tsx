@@ -21,6 +21,18 @@ export default function PropertyInsightsTool() {
   const [showRoomDetail, setShowRoomDetail] = useState(false)
   const [showSearch, setShowSearch] = useState(true)
   const [selectedAddress, setSelectedAddress] = useState<string>("")
+  const [activeTab, setActiveTab] = useState<string>("overview")
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const tabParam = urlParams.get("tab")
+
+    if (tabParam) {
+      setShowSearch(false)
+      setActiveTab(tabParam)
+      setSelectedAddress("3 Bellavista Terrace, Paddington, QLD") // Default property for tab navigation
+    }
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -196,7 +208,7 @@ export default function PropertyInsightsTool() {
         </div>
 
         {/* Navigation Tabs */}
-        <Tabs defaultValue="overview" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="mb-8">
             <Card className="bg-white shadow-sm border-0 rounded-2xl">
               <CardContent className="p-2">

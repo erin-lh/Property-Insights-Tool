@@ -1,1017 +1,742 @@
 "use client"
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { X } from "lucide-react"
-import {
-  ArrowLeft,
-  Camera,
-  Eye,
-  Ruler,
-  Home,
-  Package,
-  Lightbulb,
-  Wind,
-  Shield,
-  FileText,
-  MapPin,
-  ExternalLink,
-  Thermometer,
-} from "lucide-react"
+import { ArrowLeft, Home, Ruler, Eye, CheckCircle, XCircle } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
 
-// Mock room data - in a real app this would come from your data source
-interface Room {
-  id: string
-  name: string
-  type: string
-  area: string
-  volume: string
-  height: string
-  depth: string
-  width: string
-  valuation: string
-  condition: string
-  doors: number
-  windows: number
-  description: string
-  panoramaCount: string
-  panoramaLinks: string[]
-  panoramaImages: string[]
-  roomLocationImage: string
-  flooring: string
-  wallMaterial: string
-  ceilingType: string
-  ceilingLights: string
-  ceilingLightType?: string
-  contents: {
-    name: string
-    quantity: number
-    rrp: string
-    total: string
-    url: string
-  }[]
-}
+export default function RoomPage({ params }) {
+  const [selectedImage, setSelectedImage] = useState(null)
 
-const roomsData: Record<string, Room> = {
-  "1": {
-    id: "1",
-    name: "Room 1: Hallway",
-    type: "Hallway",
-    area: "2.47",
-    volume: "5.98",
-    height: "2.42",
-    depth: "2.23",
-    width: "0.88",
-    valuation: "$7,171.29",
-    condition: "Complete",
-    doors: 1,
-    windows: 0,
-    description:
-      "This hallway features soft neutral carpeting and crisp white walls, creating a bright and airy feel. A staircase curves up on one side, while doors lead to bedrooms and a bathroom. Recessed ceiling lights add to the clean, modern look, and natural light filters in from the open staircase to the top floor and bedroom windows.",
-    panoramaCount: "2",
-    panoramaLinks: [
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_9atk8hw6bpr2kixswfbit6kya_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_71mwb6u62ih98rhx2bwyc8b8b_skybox.jpg",
-    ],
-    panoramaImages: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_9atk8hw6bpr2kixswfbit6kya_skybox%20%281%29.jpg-VQ1rRU14Q114Ge0td1DRgV5HrkSZ8n.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_71mwb6u62ih98rhx2bwyc8b8b_skybox%20%281%29.jpg-hpnL3NcCfYc8k7hkQLGiG1dC6fqmPd.jpeg",
-    ],
-    roomLocationImage:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-2JaixJDeM9NWUh5WybykRXW5Hu9oTZ.png",
-    flooring: "Carpet",
-    wallMaterial: "Drywall",
-    ceilingType: "Flat",
-    ceilingLights: "2",
-    airConditioning: false,
-    smokeAlarm: true,
-    ceilingFan: false,
-    smokeAlarmCount: 1,
-    ceilingLightCount: 2,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "Other",
-    floorDamage: "No",
-    ceilingDamage: "No",
-    wallDamage: "No",
-    contents: [
-      {
-        name: "Atom Recessed LED Downlight",
-        quantity: 2,
-        rrp: "$25",
-        total: "$50",
-        url: "https://haymans.mmem.com.au/burleigh/atoat9034-2f-lt-2f-wh-2f-tri",
-      },
-    ],
-  },
-  "2": {
-    id: "2",
-    name: "Room 2: Patio",
-    type: "Patio",
-    area: "5.01",
-    volume: "13.61",
-    height: "2.72",
-    depth: "2.17",
-    width: "1.58",
-    valuation: "$14,046.71",
-    condition: "Complete",
-    doors: 1,
-    windows: 2,
-    description:
-      "This outdoor patio space features durable tile flooring and concrete walls, designed for entertaining and relaxation. The space includes modern outdoor lighting and provides seamless indoor-outdoor living with easy access from the main living areas.",
-    panoramaCount: "4",
-    panoramaLinks: [
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_zibi0h0ges2t5dxryrb7800wd_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_cct379k0f1t6gnmuutm23i4ac_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_mw5ymdiqgmkaiasgdiksy3i5a_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_pxk5thts3iiwc5azq4drsitfc_skybox.jpg",
-    ],
-    panoramaImages: [
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_zibi0h0ges2t5dxryrb7800wd_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_cct379k0f1t6gnmuutm23i4ac_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_mw5ymdiqgmkaiasgdiksy3i5a_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_pxk5thts3iiwc5azq4drsitfc_skybox.jpg",
-    ],
-    roomLocationImage:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-08-12%20at%204.24.05%E2%80%AFpm-sv7yY2hY8kdqPgXTDbkPJ8XLVTiwA6.png",
-    flooring: "Tile",
-    wallMaterial: "Concrete",
-    ceilingType: "Metal",
-    ceilingLights: "2",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 2,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 2,
-    windowCover: "None",
-    floorDamage: "No",
-    ceilingDamage: "No",
-    wallDamage: "No",
-    contents: [
-      {
-        name: "Outdoor Ceiling Light",
-        quantity: 2,
-        rrp: "$45",
-        total: "$90",
-        url: "https://example.com/outdoor-ceiling-light",
-      },
-    ],
-  },
-  "3": {
-    id: "3",
-    name: "Room 3: Bathroom",
-    type: "Bathroom",
-    area: "4.25",
-    volume: "9.19",
-    height: "2.16",
-    depth: "2.04",
-    width: "1.87",
-    valuation: "$13,025.63",
-    condition: "Complete",
-    doors: 1,
-    windows: 1,
-    description:
-      "This bathroom features a corner glass-enclosed shower, a white toilet, and a compact vanity with a curved countertop, integrated basin, and under-bench storage. Twin frosted windows provide natural light while maintaining privacy, complemented by a wall-mounted mirrored cabinet. The space is tiled throughout, with mild wear and tear visible on the floor tiles, consistent with regular use.",
-    panoramaCount: "4",
-    panoramaLinks: [
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg",
-    ],
-    panoramaImages: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg-DybvROpI27IWHSdHb2KCEVDQKjA8sw.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg-0U773bQXctTFUI3oCYs4MjGGChlV4X.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg-38W7KABIGlqKllAWl8riaQGzo8HHg2.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg-qTthxDlQMoEP0VTeF87su16QkDKGzg.jpeg",
-    ],
-    roomLocationImage:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-08-12%20at%208.28.33%E2%80%AFpm-zTl3ItG3cvPV7cIoKuSUk6o1uYEcno.png",
-    flooring: "Tile",
-    wallMaterial: "Plaster",
-    ceilingType: "Flat",
-    ceilingLights: "1",
-    ceilingLightType: "Recessed",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 1,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 1,
-    windowCover: "Other",
-    floorDamage: "Yes (Wear and Tear)",
-    ceilingDamage: "No",
-    wallDamage: "No",
-    contents: [
-      {
-        name: "Bathroom Recessed LED Downlight",
-        quantity: 1,
-        rrp: "$35",
-        total: "$35",
-        url: "https://example.com/bathroom-recessed-light",
-      },
-    ],
-  },
-  "4": {
-    id: "4",
-    name: "Room 4: Master Bedroom",
-    type: "Bedroom",
-    area: "19.12",
-    volume: "38.78",
-    height: "2.41",
-    depth: "2.89",
-    width: "5.85",
-    valuation: "$56,428.32",
-    condition: "Complete",
-    doors: 5,
-    windows: 1,
-    description:
-      "This master bedroom is bright and inviting, featuring a large bed with a deep blue upholstered headboard, flanked by matching white bedside tables and lamps. Neutral carpet flooring adds warmth underfoot, complemented by crisp white walls and contemporary décor. A sliding glass door opens to a private balcony overlooking lush greenery, while a large window on the adjacent wall brings in additional natural light. The space includes built-in wardrobes with sliding doors, airconditioning, and a decorative timber-framed artwork above a wooden console table, enhancing the room's modern yet comfortable feel.",
-    panoramaCount: "7",
-    panoramaLinks: [
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_3ax98exw84easbammy1kdy59a_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_q30i0t1qaqnm9w9ahabpw94qd_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_bcmacw08fqdi7acr9x6shfi4b_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_n62yt7zbfe8gbthibrauparaa_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_yq3ye9yehkru7142z65q2acwa_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_37fty8w3n4tw0nkac909ri7pc_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_1hsznrxt775cdf5e5fr400crc_skybox.jpg",
-    ],
-    panoramaImages: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_bcmacw08fqdi7acr9x6shfi4b_skybox.jpg-fsUN4KHF3Ave2J76VIl49FVVJwyFnh.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_3ax98exw84easbammy1kdy59a_skybox.jpg-8q3pEN2vs0zn7UPO1QDUoQoFcoTQB9.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_yq3ye9yehkru7142z65q2acwa_skybox.jpg-A1K49g6osUSUpFF5NwMUM3JY7HqRxt.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_n62yt7zbfe8gbthibrauparaa_skybox.jpg-Z0JJ2kLwXejM19pfvYzEQtuNr4Reiv.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_q30i0t1qaqnm9w9ahabpw94qd_skybox.jpg-Dl7Zn5dyH3MEVoBEnMqHnLX8fTAASe.jpeg",
-    ],
-    roomLocationImage:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-E5vtmbTffEJBOpzsVn67E3E2OpOMXJ.png",
-    flooring: "Carpet",
-    wallMaterial: "Drywall",
-    ceilingType: "Flat",
-    ceilingLights: "2",
-    ceilingLightType: "Recessed",
-    airConditioning: true,
-    smokeAlarm: true,
-    ceilingFan: false,
-    smokeAlarmCount: 1,
-    ceilingLightCount: 2,
-    ceilingFanCount: 0,
-    airConditioningCount: 1,
-    windowCount: 1,
-    windowCover: "Other",
-    floorDamage: "No",
-    ceilingDamage: "No",
-    wallDamage: "No",
-    contents: [
-      {
-        name: "Master Bedroom Recessed LED Downlight",
-        quantity: 2,
-        rrp: "$40",
-        total: "$80",
-        url: "https://example.com/master-bedroom-recessed-light",
-      },
-    ],
-  },
-  "5": {
-    id: "5",
-    name: "Room 5: Patio",
-    type: "Patio",
-    area: "X",
-    height: "X",
-    width: "X",
-    depth: "X",
-    volume: "X",
-    windows: "X",
-    doors: "X",
-    description: "",
-    panoramaCount: "X",
-    panoramaLinks: [],
-    panoramaImages: [],
-    roomLocationImage: "",
-    flooring: "X",
-    wallMaterial: "X",
-    ceilingType: "X",
-    ceilingLights: "X",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 0,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "",
-    floorDamage: "",
-    ceilingDamage: "",
-    wallDamage: "",
-    contents: [],
-  },
-  "6": {
-    id: "6",
-    name: "Room 6: Living room",
-    type: "Living room",
-    area: "X",
-    height: "X",
-    width: "X",
-    depth: "X",
-    volume: "X",
-    windows: "X",
-    doors: "X",
-    description: "",
-    panoramaCount: "X",
-    panoramaLinks: [],
-    panoramaImages: [],
-    // Added dedicated room location image for living room
-    roomLocationImage: "",
-    flooring: "X",
-    wallMaterial: "X",
-    ceilingType: "X",
-    ceilingLights: "X",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 0,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "",
-    floorDamage: "",
-    ceilingDamage: "",
-    wallDamage: "",
-    contents: [],
-  },
-  "7": {
-    id: "7",
-    name: "Room 7: Hallway",
-    type: "Hallway",
-    area: "X",
-    height: "X",
-    width: "X",
-    depth: "X",
-    volume: "X",
-    windows: "X",
-    doors: "X",
-    description: "",
-    panoramaCount: "X",
-    panoramaLinks: [],
-    panoramaImages: [],
-    roomLocationImage: "",
-    flooring: "X",
-    wallMaterial: "X",
-    ceilingType: "X",
-    ceilingLights: "X",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 0,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "",
-    floorDamage: "",
-    ceilingDamage: "",
-    wallDamage: "",
-    contents: [],
-  },
-  "8": {
-    id: "8",
-    name: "Room 8: Living room/ Kitchen",
-    type: "Living room/ Kitchen",
-    area: "X",
-    height: "X",
-    width: "X",
-    depth: "X",
-    volume: "X",
-    windows: "X",
-    doors: "X",
-    description: "",
-    panoramaCount: "X",
-    panoramaLinks: [],
-    panoramaImages: [],
-    // Added dedicated room location image for living room/ kitchen
-    roomLocationImage: "",
-    flooring: "X",
-    wallMaterial: "X",
-    ceilingType: "X",
-    ceilingLights: "X",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 0,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "",
-    floorDamage: "",
-    ceilingDamage: "",
-    wallDamage: "",
-    contents: [],
-  },
-  "9": {
-    id: "9",
-    name: "Room 9: Bathroom",
-    type: "Bathroom",
-    area: "X",
-    height: "X",
-    width: "X",
-    depth: "X",
-    volume: "X",
-    windows: "X",
-    doors: "X",
-    description: "",
-    panoramaCount: "X",
-    panoramaLinks: [],
-    panoramaImages: [],
-    roomLocationImage: "",
-    flooring: "X",
-    wallMaterial: "X",
-    ceilingType: "X",
-    ceilingLights: "X",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 0,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "",
-    floorDamage: "",
-    ceilingDamage: "",
-    wallDamage: "",
-    contents: [],
-  },
-  "10": {
-    id: "10",
-    name: "Room 10: Hallway",
-    type: "Hallway",
-    area: "X",
-    height: "X",
-    width: "X",
-    depth: "X",
-    volume: "X",
-    windows: "X",
-    doors: "X",
-    description: "",
-    panoramaCount: "X",
-    panoramaLinks: [],
-    panoramaImages: [],
-    roomLocationImage: "",
-    flooring: "X",
-    wallMaterial: "X",
-    ceilingType: "X",
-    ceilingLights: "X",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 0,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "",
-    floorDamage: "",
-    ceilingDamage: "",
-    wallDamage: "",
-    contents: [],
-  },
-  "11": {
-    id: "11",
-    name: "Room 11: Bathroom",
-    type: "Bathroom",
-    area: "X",
-    height: "X",
-    width: "X",
-    depth: "X",
-    volume: "X",
-    windows: "X",
-    doors: "X",
-    description: "",
-    panoramaCount: "X",
-    panoramaLinks: [],
-    panoramaImages: [],
-    roomLocationImage: "",
-    flooring: "X",
-    wallMaterial: "X",
-    ceilingType: "X",
-    ceilingLights: "X",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 0,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "",
-    floorDamage: "",
-    ceilingDamage: "",
-    wallDamage: "",
-    contents: [],
-  },
-  "12": {
-    id: "12",
-    name: "Room 12: Bedroom",
-    type: "Bedroom",
-    area: "X",
-    height: "X",
-    width: "X",
-    depth: "X",
-    volume: "X",
-    windows: "X",
-    doors: "X",
-    description: "",
-    panoramaCount: "X",
-    panoramaLinks: [],
-    panoramaImages: [],
-    // Added dedicated room location image for bedroom
-    roomLocationImage: "",
-    flooring: "X",
-    wallMaterial: "X",
-    ceilingType: "X",
-    ceilingLights: "X",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 0,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "",
-    floorDamage: "",
-    ceilingDamage: "",
-    wallDamage: "",
-    contents: [],
-  },
-  "13": {
-    id: "13",
-    name: "Room 13: Bedroom",
-    type: "Bedroom",
-    area: "X",
-    height: "X",
-    width: "X",
-    depth: "X",
-    volume: "X",
-    windows: "X",
-    doors: "X",
-    description: "",
-    panoramaCount: "X",
-    panoramaLinks: [],
-    panoramaImages: [],
-    // Added dedicated room location image for bedroom
-    roomLocationImage: "",
-    flooring: "X",
-    wallMaterial: "X",
-    ceilingType: "X",
-    ceilingLights: "X",
-    airConditioning: false,
-    smokeAlarm: false,
-    ceilingFan: false,
-    smokeAlarmCount: 0,
-    ceilingLightCount: 0,
-    ceilingFanCount: 0,
-    airConditioningCount: 0,
-    windowCount: 0,
-    windowCover: "",
-    floorDamage: "",
-    ceilingDamage: "",
-    wallDamage: "",
-    contents: [],
-  },
-}
+  const roomData = {
+    "1": {
+      id: "1",
+      name: "Room 1: Hallway",
+      type: "Hallway",
+      area: "2.47 m²",
+      height: "2.42 m",
+      width: "0.88 m",
+      depth: "2.23 m",
+      volume: "5.98 m³",
+      windows: "0",
+      doors: "N/A",
+      valuation: "$7,171.29",
+      condition: "Complete",
+      description:
+        "Entry hallway with carpet flooring and drywall walls. Features ceiling lights and connects to main living areas.",
+      panoramaCount: "2",
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room1_panorama1_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room1_panorama2_skybox.jpg",
+      ],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
+      propertyImages: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room1-property1.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room1-property2.jpg",
+      ],
+      flooring: "Carpet",
+      wallMaterial: "Drywall",
+      ceilingType: "Flat",
+      ceilingLights: "Standard",
+      airConditioning: false,
+      smokeAlarm: true,
+      ceilingFan: false,
+      smokeAlarmCount: 1,
+      ceilingLightCount: 2,
+      ceilingFanCount: 0,
+      airConditioningCount: 0,
+      windowCount: 0,
+      windowCover: "None",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+    "2": {
+      id: "2",
+      name: "Room 2: Patio",
+      type: "Patio",
+      area: "15.20 m²",
+      height: "2.41 m",
+      width: "4.86 m",
+      depth: "3.13 m",
+      volume: "36.63 m³",
+      windows: "0",
+      doors: "2",
+      valuation: "$45,600.00",
+      condition: "Complete",
+      description:
+        "Covered outdoor patio area with tile flooring and open-air design. Features ceiling fan and connects to main living areas through sliding doors.",
+      panoramaCount: "4",
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room2_panorama1_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room2_panorama2_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room2_panorama3_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room2_panorama4_skybox.jpg",
+      ],
+      roomLocationImage: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-9V8ko.png",
+      propertyImages: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room2-patio1.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room2-patio2.jpg",
+      ],
+      flooring: "Tile",
+      wallMaterial: "N/A",
+      ceilingType: "Open",
+      ceilingLights: "None",
+      airConditioning: false,
+      smokeAlarm: false,
+      ceilingFan: true,
+      smokeAlarmCount: 0,
+      ceilingLightCount: 0,
+      ceilingFanCount: 1,
+      airConditioningCount: 0,
+      windowCount: 0,
+      windowCover: "None",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+    "3": {
+      id: "3",
+      name: "Room 3: Bedroom",
+      type: "Bedroom",
+      area: "12.85 m²",
+      height: "2.41 m",
+      width: "3.50 m",
+      depth: "3.67 m",
+      volume: "30.97 m³",
+      windows: "2",
+      doors: "1",
+      valuation: "$38,550.00",
+      condition: "Complete",
+      description:
+        "Comfortable bedroom with carpet flooring and built-in wardrobes. Features natural light from windows and ceiling fan for comfort.",
+      panoramaCount: "3",
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room3_panorama1_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room3_panorama2_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room3_panorama3_skybox.jpg",
+      ],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
+      propertyImages: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room3-bedroom1.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room3-bedroom2.jpg",
+      ],
+      flooring: "Carpet",
+      wallMaterial: "Drywall",
+      ceilingType: "Flat",
+      ceilingLights: "Standard",
+      airConditioning: false,
+      smokeAlarm: true,
+      ceilingFan: true,
+      smokeAlarmCount: 1,
+      ceilingLightCount: 1,
+      ceilingFanCount: 1,
+      airConditioningCount: 0,
+      windowCount: 2,
+      windowCover: "Blinds",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+    "4": {
+      id: "4",
+      name: "Room 4: Master Bedroom",
+      type: "Master Bedroom",
+      area: "16.75 m²",
+      height: "2.41 m",
+      width: "4.20 m",
+      depth: "3.99 m",
+      volume: "40.37 m³",
+      windows: "3",
+      doors: "2",
+      valuation: "$50,250.00",
+      condition: "Complete",
+      description:
+        "Spacious master bedroom with carpet flooring and ensuite access. Features multiple windows for natural light and built-in storage solutions.",
+      panoramaCount: "5",
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room4_panorama1_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room4_panorama2_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room4_panorama3_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room4_panorama4_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room4_panorama5_skybox.jpg",
+      ],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ovqqovg6G4qwOTH66jAhMmEMZp4iH2.png",
+      propertyImages: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room4-master1.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room4-master2.jpg",
+      ],
+      flooring: "Carpet",
+      wallMaterial: "Drywall",
+      ceilingType: "Flat",
+      ceilingLights: "Recessed",
+      airConditioning: true,
+      smokeAlarm: true,
+      ceilingFan: false,
+      smokeAlarmCount: 1,
+      ceilingLightCount: 2,
+      ceilingFanCount: 0,
+      airConditioningCount: 1,
+      windowCount: 3,
+      windowCover: "Curtains",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+    "5": {
+      id: "5",
+      name: "Room 5: Living Room",
+      type: "Living Room",
+      area: "39.83 m²",
+      height: "2.41 m",
+      width: "4.86 m",
+      depth: "N/A",
+      volume: "95.99 m³",
+      windows: "6",
+      doors: "3",
+      valuation: "$124,609.35",
+      condition: "Complete",
+      description:
+        "This open-plan living area combines lounge, dining, and kitchen spaces in a bright, airy setting. Polished timber floors and high ceilings with feature windows create a warm, inviting atmosphere, while a skylight adds extra natural light. The lounge area is styled with a modern grey sofa, round white coffee table, and neutral rug, positioned near the dining space with a timber table and black chairs. The kitchen features warm wood cabinetry, a contrasting island with dark benchtop, and stainless steel appliances.",
+      panoramaCount: "13",
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_k2zwk015t51gw99zpztx4egaa_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_ecdy23xprhp3q3f0rth5c5hac_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_5wza109uxdtiah3khz7teiwna_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_txkwf277fq24hepe3gi002nfa_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_tx5m3eudcum0iigcxbu2rpbka_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_udkrwr2wfte2anpi6taw68ycb_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_wds8heu9aarna9tk8t9s9ygwc_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_yehgh6y0ztzq71b0dckb5795d_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_aq8zqxp329yhkc290pzgm9h3b_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_uf6ssx7puqskhh5dibe1tp8aa_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_37r3c3nk8ud8rkpb9a28eyd1a_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_cr857sqay5qbzbe8xdx784acb_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_0rgwxt1ets18w34c1n8sh4idb_skybox.jpg",
+      ],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
+      propertyImages: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215315.jpg-euDXbwyOuBjjTy5twRoFkpQJZFzNDb.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215410.jpg-RnlV8k1EiNwBlcNDrFIp8PuNQQgRPg.jpeg",
+      ],
+      flooring: "Hardwood",
+      wallMaterial: "Gypsum",
+      ceilingType: "Gypsum",
+      ceilingLights: "Recessed",
+      airConditioning: true,
+      smokeAlarm: true,
+      ceilingFan: true,
+      smokeAlarmCount: 1,
+      ceilingLightCount: 1,
+      ceilingFanCount: 1,
+      airConditioningCount: 1,
+      windowCount: 6,
+      windowCover: "Other",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+    "6": {
+      id: "6",
+      name: "Room 6: Hallway",
+      type: "Hallway",
+      area: "6.41 m²",
+      height: "2.41 m",
+      width: "6.52 m",
+      depth: "0.88 m",
+      volume: "15.45 m³",
+      windows: "0",
+      doors: "3",
+      valuation: "$18,591.02",
+      condition: "Complete",
+      description:
+        "This hallway features soft carpet underfoot and clean white walls, with a staircase connecting the upper and lower levels via timber railings and cable balustrades. Multiple doorways lead to bedrooms and other living spaces, while downlights keep the area bright. The layout provides clear sightlines from one end of the hall to the other, giving a sense of openness despite its functional, transitional purpose.",
+      panoramaCount: "5",
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_mnz5qufzx838bh2ifngu1t43d_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_mndhi0uf7rsb24icpat8x03pd_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_u5nmsfeun7ye1cxfr7q9kcfzc_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_nzzaazqnf0qxcfz412mcbfuhb_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_0hfne4usqcy0ew5dxycbhh9fc_skybox.jpg",
+      ],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
+      propertyImages: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room6-hallway1.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room6-hallway2.jpg",
+      ],
+      flooring: "Carpet",
+      wallMaterial: "Drywall",
+      ceilingType: "Flat",
+      ceilingLights: "Recessed",
+      airConditioning: false,
+      smokeAlarm: true,
+      ceilingFan: false,
+      smokeAlarmCount: 1,
+      ceilingLightCount: 1,
+      ceilingFanCount: 0,
+      airConditioningCount: 0,
+      windowCount: 0,
+      windowCover: "Other",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+    "7": {
+      id: "7",
+      name: "Room 7: Kitchen/Dining",
+      type: "Kitchen/Dining",
+      area: "18.91 m²",
+      height: "3.30 m",
+      width: "4.86 m",
+      depth: "N/A",
+      volume: "62.40 m³",
+      windows: "6",
+      doors: "N/A",
+      valuation: "$57,335.78",
+      condition: "Complete",
+      description:
+        "This open-plan living and dining area is light-filled and spacious, featuring polished timber floors and high ceilings with a skylight for added natural illumination. The dining zone is anchored by a large timber table paired with sleek black chairs, while the adjacent lounge offers a comfortable setting with a sofa and contemporary décor. Full-height sliding glass doors open to a covered balcony, seamlessly blending indoor and outdoor living. The kitchen, finished in warm wood cabinetry with dark benchtops, includes stainless steel appliances, a central island, and ample counter space, creating a practical yet welcoming hub for cooking and entertaining.",
+      panoramaCount: "8",
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_ediidma5zg15dufx3n0qyq21a_giepn8c8hn3s2zfp2t4sheh1b_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_ediidma5zg15dufx3n0qyq21a_7a02a7k2dmbaq0szbqpci6a8c_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_ediidma5zg15dufx3n0qyq21a_5uwdq5n5n42c0sg009u035ged_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_ediidma5zg15dufx3n0qyq21a_iwr0u8kdin6z0bde33ngqucec_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_ediidma5zg15dufx3n0qyq21a_mz4h00qx18y13hsi0fti8a3gb_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_ediidma5zg15dufx3n0qyq21a_pgpbabyyi5nne2168asks2kud_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_ediidma5zg15dufx3n0qyq21a_r8i08rum266tkqq5kuqgcm9mb_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_ediidma5zg15dufx3n0qyq21a_m1m8dxa3uufnzrmxgen3i84ab_skybox.jpg",
+      ],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
+      propertyImages: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215738.jpg-NDOSKYpOP9WoJz4GstaBdtCGz5ZcAB.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/08012025_221050.jpg-Eakha1hrOXZwwUmi3eXE83q2Z5ANjG.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215446.jpg-WHxk0rx2NEh415vnFNkbUDuHBdMIMP.jpeg",
+      ],
+      flooring: "Hardwood and Tile",
+      wallMaterial: "Drywall",
+      ceilingType: "Flat",
+      ceilingLights: "Recessed",
+      airConditioning: true,
+      smokeAlarm: true,
+      ceilingFan: true,
+      smokeAlarmCount: 1,
+      ceilingLightCount: 1,
+      ceilingFanCount: 1,
+      airConditioningCount: 1,
+      windowCount: 6,
+      windowCover: "Other",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+    "8": {
+      id: "8",
+      name: "Room 8: Bathroom + Euro Laundry",
+      type: "Bathroom + Euro Laundry",
+      area: "6.89 m²",
+      height: "2.36 m",
+      width: "1.51 m",
+      depth: "3.88 m",
+      volume: "16.26 m³",
+      windows: "2",
+      doors: "N/A",
+      valuation: "$21,108.60",
+      condition: "Good",
+      description:
+        "This spacious bathroom features a large mirrored wall above a double vanity with vessel sinks, dark benchtops, and a mix of timber and lime-green cabinetry for a pop of colour. A glass-enclosed shower sits beside the toilet, with frosted windows allowing natural light while maintaining privacy. The floor is fully tiled in a neutral tone, showing mild signs of wear consistent with use. Built-in storage cupboards and a towel rail add practicality, making the space both functional and bright. This property includes a compact Euro laundry discreetly tucked behind concertina doors. It features a stainless steel sink with tiled splashback, and wall taps for both washing machine and dryer connections.",
+      panoramaCount: "4",
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_h26t7ky77ew74yb0pg8qqf5rd_myhwqxziu77419ti4sgkrba4b_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_h26t7ky77ew74yb0pg8qqf5rd_uzh5ar9q3b9muaafm5nuqnk4c_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_h26t7ky77ew74yb0pg8qqf5rd_b8r10ewiy8yrasbrq6kr82afb_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_h26t7ky77ew74yb0pg8qqf5rd_d83wu89trcyu4f4z3f4crcfxc_skybox.jpg",
+      ],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ovqqovg6G4qwOTH66jAhMmEMZp4iH2.png",
+      propertyImages: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-8MnQOobGwBAsAYlubSY1PeGbzVAqiD.png",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_4694-OB0ze190MICuCDChoaoMNhGGAFGtIz.jpeg",
+      ],
+      flooring: "Tile",
+      wallMaterial: "Drywall",
+      ceilingType: "Drywall",
+      ceilingLights: "Recessed",
+      airConditioning: false,
+      smokeAlarm: false,
+      ceilingFan: false,
+      smokeAlarmCount: 0,
+      ceilingLightCount: 1,
+      ceilingFanCount: 0,
+      airConditioningCount: 0,
+      windowCount: 2,
+      windowCover: "Other",
+      floorDamage: "Yes (Wear and Tear)",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+    "9": {
+      id: "9",
+      name: "Room 9: Hallway",
+      type: "Hallway",
+      area: "2.39 m²",
+      height: "2.41 m",
+      width: "2.43 m",
+      depth: "0.79 m",
+      volume: "5.77 m³",
+      windows: "0",
+      doors: "N/A",
+      valuation: "$6,938.72",
+      condition: "Good",
+      description:
+        "This short hallway connects directly to the bathroom (with integrated Euro-laundry) and a bedroom. It is carpeted in a soft, neutral-toned pile that contrasts with the tiled bathroom flooring. The walls are painted in a crisp white, creating a bright and open feel. A single downlight overhead provides illumination, while the curved wall lines give the space a smooth, modern flow. The hallway is wide enough for easy movement between rooms and frames a clear sightline straight through to the double vanity area in the bathroom.",
+      panoramaCount: "2",
+      panoramaLinks: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_m8npxsuk79xy21dd09x9wtped_77bug6dex2fzdp3my4up5x3dd_skybox.jpg-g3Wto7raScQe6uumg1NvFoApCptGHq.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_m8npxsuk79xy21dd09x9wtped_a7h77eu1i3kdnwz5ypd0dhbbc_skybox.jpg-5gtUvIwpQdIOc6Gz5Vechm2uk6EkdI.jpeg",
+      ],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7QJ3KYpzVFb1ZmWTWAEMRZy5ODalIa.png",
+      propertyImages: ["https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room9-hallway1.jpg"],
+      flooring: "Carpet",
+      wallMaterial: "Painted Drywall",
+      ceilingType: "Flat",
+      ceilingLights: "Recessed",
+      airConditioning: false,
+      smokeAlarm: false,
+      ceilingFan: false,
+      smokeAlarmCount: 0,
+      ceilingLightCount: 1,
+      ceilingFanCount: 0,
+      airConditioningCount: 0,
+      windowCount: 0,
+      windowCover: "Other",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+    "10": {
+      id: "10",
+      name: "Room 10: Bathroom",
+      type: "Bathroom",
+      area: "2.18 m²",
+      height: "2.41 m",
+      width: "1.48 m",
+      depth: "N/A",
+      volume: "5.25 m³",
+      windows: "3",
+      doors: "N/A",
+      valuation: "$6,679.75",
+      condition: "Good",
+      description:
+        "Compact bathroom with tile flooring and plaster walls. Features recessed lighting and multiple windows for natural light.",
+      panoramaCount: "3",
+      panoramaLinks: [
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_n81qfe51azs8iexnbqwspye6c_ucirpuknnqi17cg1dc294dhyc_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_n81qfe51azs8iexnbqwspye6c_9entd33y20xbr4u7f2yauqzfd_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_n81qfe51azs8iexnbqwspye6c_nh1tid1ai2rew77sd5rhsxhpc_skybox.jpg",
+      ],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-OvrUOeTBdatNOU1fXFzGljEpu4al2A.png",
+      propertyImages: ["https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room10-bathroom1.jpg"],
+      flooring: "Tile",
+      wallMaterial: "Plaster",
+      ceilingType: "Flat",
+      ceilingLights: "Recessed",
+      airConditioning: false,
+      smokeAlarm: false,
+      ceilingFan: false,
+      smokeAlarmCount: 0,
+      ceilingLightCount: 1,
+      ceilingFanCount: 0,
+      airConditioningCount: 0,
+      windowCount: 3,
+      windowCover: "Other",
+      floorDamage: "Yes",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [],
+    },
+  }
 
-export default function RoomDetailPage({ params }: { params: { roomId: string } }) {
-  const router = useRouter()
-  const [loading, setLoading] = useState(true)
-  const [selectedPanorama, setSelectedPanorama] = useState<string | null>(null)
-  const roomId = Number.parseInt(params.roomId)
-  const room = roomsData[roomId as keyof typeof roomsData]
+  const room = roomData[params.roomId]
 
-  useEffect(() => {
-    setLoading(false)
-  }, [])
-
-  if (!room || loading) {
+  if (!room) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-4xl mx-auto">
-          <Card className="bg-white shadow-sm border-0 rounded-2xl">
-            <CardContent className="p-12 text-center">
-              <Home className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Room Not Found</h3>
-              <p className="text-gray-600 mb-4">The requested room could not be found.</p>
-              <Button onClick={() => (window.location.href = "/?tab=room-insights")}>
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Property Overview
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+      <div className="p-6">
+        <h1 className="text-2xl font-bold text-red-600">Room Not Found</h1>
+        <p className="text-gray-600 mt-2">
+          Room {params.roomId} data is not available. Please check the room number and try again.
+        </p>
       </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="pt-8">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button variant="outline" size="sm" onClick={() => (window.location.href = "/?tab=room-insights")}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Property
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">{room.name}</h1>
-              <p className="text-gray-600">Detailed room analysis and specifications</p>
+      {/* Header */}
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-4">
+              <Link href="/?tab=room-insights">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  <span>Back to Rooms</span>
+                </Button>
+              </Link>
+              <div className="h-6 w-px bg-gray-300" />
+              <h1 className="text-xl font-semibold text-gray-900">{room.name}</h1>
+              <Badge variant={room.condition === "Complete" ? "default" : "secondary"}>{room.condition}</Badge>
             </div>
           </div>
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="space-y-8">
+          {/* Room Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mx-auto mb-4">
+                  <Ruler className="h-6 w-6 text-blue-600" />
+                </div>
+                <div className="text-2xl font-bold text-blue-600">{room.area}</div>
+                <div className="text-sm text-gray-500">Floor Area</div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mx-auto mb-4">
+                  <Home className="h-6 w-6 text-green-600" />
+                </div>
+                <div className="text-2xl font-bold text-green-600">{room.volume}</div>
+                <div className="text-sm text-gray-500">Volume</div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-lg mx-auto mb-4">
+                  <Ruler className="h-6 w-6 text-purple-600" />
+                </div>
+                <div className="text-2xl font-bold text-purple-600">{room.height}</div>
+                <div className="text-sm text-gray-500">Height</div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mx-auto mb-4">
+                  <Eye className="h-6 w-6 text-orange-600" />
+                </div>
+                <div className="text-2xl font-bold text-orange-600">{room.panoramaCount}</div>
+                <div className="text-sm text-gray-500">360° Views</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Room Location and Property Images */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Room Location */}
-            <Card className="bg-white shadow-sm border-0 rounded-2xl">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-medium text-gray-800 flex items-center gap-2">
-                  <MapPin className="h-5 w-5" />
-                  Room Location
+                <CardTitle className="flex items-center space-x-2">
+                  <Home className="h-5 w-5" />
+                  <span>Room Location</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                  <img
+                  <Image
                     src={room.roomLocationImage || "/placeholder.svg"}
                     alt="Room location in property"
+                    width={400}
+                    height={300}
                     className="w-full h-full object-cover"
                   />
                 </div>
               </CardContent>
             </Card>
 
-            {/* Assets */}
-            <Card className="bg-white shadow-sm border-0 rounded-2xl">
-              <CardHeader>
-                <CardTitle className="text-xl font-semibold text-gray-800">Assets</CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <Tabs defaultValue="panoramas" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="panoramas">Property Panoramas</TabsTrigger>
-                    <TabsTrigger value="images">Property Images</TabsTrigger>
-                  </TabsList>
-
-                  <TabsContent value="panoramas" className="space-y-4 mt-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {room.panoramaImages
-                        .filter((img) => img && img !== "/placeholder.svg")
-                        .map((imageSrc, index) => (
-                          <div
-                            key={index}
-                            className="aspect-video relative rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-blue-200 border border-gray-300 cursor-pointer hover:shadow-lg transition-shadow"
-                            onClick={() => setSelectedPanorama(imageSrc)}
-                          >
-                            <img
-                              src={imageSrc || "/placeholder.svg"}
-                              alt={`360° Panorama View ${index + 1}`}
-                              className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-                              onError={(e) => {
-                                // Hide the broken image and show fallback
-                                e.currentTarget.style.display = "none"
-                              }}
-                              onLoad={(e) => {
-                                // Ensure image is visible when it loads successfully
-                                e.currentTarget.style.display = "block"
-                              }}
-                            />
-                            {/* Fallback content when image fails to load */}
-                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200">
-                              <div className="text-center">
-                                <Eye className="h-12 w-12 mx-auto mb-2 text-blue-600" />
-                                <div className="text-blue-800 font-medium">360° View {index + 1}</div>
-                                <div className="text-blue-600 text-sm">Click to open</div>
-                              </div>
-                            </div>
-                            {/* Hover overlay */}
-                            <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all flex items-center justify-center">
-                              <div className="opacity-0 hover:opacity-100 transition-opacity">
-                                <Eye className="h-8 w-8 text-white drop-shadow-lg" />
-                              </div>
-                            </div>
-                            {/* Label */}
-                            <div className="absolute bottom-2 left-2 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
-                              360° View {index + 1}
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                    {room.panoramaImages.filter((img) => img && img !== "/placeholder.svg").length === 0 && (
-                      <div className="text-center py-12 text-gray-500">
-                        <Eye className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                        <div className="text-lg font-medium">No panoramic images available</div>
-                        <div className="text-sm">Panoramic views will appear here when available</div>
-                      </div>
-                    )}
-                  </TabsContent>
-
-                  <TabsContent value="images" className="space-y-4 mt-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {room.panoramaImages?.map((imageSrc, index) => (
-                        <div key={index} className="aspect-video relative rounded-lg overflow-hidden bg-gray-100">
-                          <img
-                            src={imageSrc || "/placeholder.svg"}
-                            alt={`Property Image ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
-
-            {/* Room Description */}
+            {/* Property Images */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  Room Description
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-700 leading-relaxed">{room.description}</p>
-              </CardContent>
-            </Card>
-
-            {/* Room Details */}
-            <Card className="bg-white shadow-sm border-0 rounded-2xl">
-              <CardHeader>
-                <CardTitle className="text-xl font-semibold text-gray-800">Room Details</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Tabs defaultValue="overview" className="w-full">
-                  <TabsList className="grid w-full grid-cols-4">
-                    <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="specifications">Specifications</TabsTrigger>
-                    <TabsTrigger value="materials">Materials</TabsTrigger>
-                    <TabsTrigger value="features">Features</TabsTrigger>
-                  </TabsList>
-
-                  <TabsContent value="overview" className="space-y-6 mt-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="bg-blue-50 p-4 rounded-lg text-center">
-                        <Ruler className="h-6 w-6 text-blue-600 mx-auto mb-2" />
-                        <p className="text-2xl font-bold text-blue-700">{room.area} m²</p>
-                        <p className="text-sm text-blue-600">Floor Area</p>
-                      </div>
-                      <div className="bg-green-50 p-4 rounded-lg text-center">
-                        <Home className="h-6 w-6 text-green-600 mx-auto mb-2" />
-                        <p className="text-2xl font-bold text-green-700">{room.volume} m³</p>
-                        <p className="text-sm text-green-600">Volume</p>
-                      </div>
-                      <div className="bg-purple-50 p-4 rounded-lg text-center">
-                        <Home className="h-6 w-6 text-purple-600 mx-auto mb-2" />
-                        <p className="text-2xl font-bold text-purple-700">{room.height} m</p>
-                        <p className="text-sm text-purple-600">Height</p>
-                      </div>
-                      <div className="bg-orange-50 p-4 rounded-lg text-center">
-                        <Camera className="h-6 w-6 text-orange-600 mx-auto mb-2" />
-                        <p className="text-2xl font-bold text-orange-700">{room.panoramaCount}</p>
-                        <p className="text-sm text-orange-600">360° Views</p>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <Card>
-                        <CardHeader>
-                          <CardTitle className="text-lg">Room Information</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-3">
-                          <div className="flex justify-between">
-                            <span className="text-sm font-medium">Type:</span>
-                            <Badge variant="outline">{room.type}</Badge>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm font-medium">Condition:</span>
-                            <Badge variant="default">{room.condition}</Badge>
-                          </div>
-                        </CardContent>
-                      </Card>
-
-                      <Card>
-                        <CardHeader>
-                          <CardTitle className="text-lg">Damage Assessment</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-3">
-                          <div className="flex justify-between">
-                            <span className="text-sm font-medium">Floor Damage:</span>
-                            <Badge variant={room.floorDamage === "No" ? "default" : "destructive"}>
-                              {room.floorDamage}
-                            </Badge>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm font-medium">Ceiling Damage:</span>
-                            <Badge variant={room.ceilingDamage === "No" ? "default" : "destructive"}>
-                              {room.ceilingDamage}
-                            </Badge>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm font-medium">Wall Damage:</span>
-                            <Badge variant={room.wallDamage === "No" ? "default" : "destructive"}>
-                              {room.wallDamage}
-                            </Badge>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="specifications" className="space-y-6 mt-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Floor Area:</span>
-                        <p className="text-lg font-semibold">{room.area} m²</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Width:</span>
-                        <p className="text-lg font-semibold">{room.width} m</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Depth:</span>
-                        <p className="text-lg font-semibold">{room.depth} m</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Height:</span>
-                        <p className="text-lg font-semibold">{room.height} m</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Volume:</span>
-                        <p className="text-lg font-semibold">{room.volume} m³</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Windows:</span>
-                        <p className="text-lg font-semibold">{room.windows}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Doors:</span>
-                        <p className="text-lg font-semibold">{room.doors}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Window Cover:</span>
-                        <p className="text-lg font-semibold">{room.windowCover}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Panorama Count:</span>
-                        <p className="text-lg font-semibold">{room.panoramaCount}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Downlight Type:</span>
-                        <p className="text-lg font-semibold">Recessed</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-sm font-medium text-gray-500">Room Valuation:</span>
-                        <p className="text-lg font-semibold text-green-600">{room.valuation}</p>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="materials" className="space-y-6 mt-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <Package className="h-5 w-5 text-gray-600" />
-                          <span className="font-medium">Flooring:</span>
-                        </div>
-                        <span className="text-gray-700 capitalize">{room.flooring}</span>
-                      </div>
-                      <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <Home className="h-5 w-5 text-gray-600" />
-                          <span className="font-medium">Walls:</span>
-                        </div>
-                        <span className="text-gray-700 capitalize">{room.wallMaterial}</span>
-                      </div>
-                      <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <Ruler className="h-5 w-5 text-gray-600" />
-                          <span className="font-medium">Windows:</span>
-                        </div>
-                        <span className="text-gray-700">{room.windowCount === 0 ? "None" : room.windowCount}</span>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="features" className="space-y-6 mt-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                        <Lightbulb className="h-5 w-5 text-gray-600" />
-                        <div>
-                          <p className="font-medium">{room.ceilingLightCount}</p>
-                          <p className="text-sm text-gray-500">Ceiling Lights</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                        <Thermometer className="h-5 w-5 text-gray-600" />
-                        <div>
-                          <p className="font-medium">{room.airConditioningCount}</p>
-                          <p className="text-sm text-gray-500">Air Conditioning Units</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                        <Shield className="h-5 w-5 text-gray-600" />
-                        <div>
-                          <p className="font-medium">{room.smokeAlarmCount}</p>
-                          <p className="text-sm text-gray-500">Smoke Alarms</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                        <Wind className="h-5 w-5 text-gray-600" />
-                        <div>
-                          <p className="font-medium">{room.ceilingFanCount}</p>
-                          <p className="text-sm text-gray-500">Ceiling Fans</p>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
-
-            {/* Contents */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Package className="h-5 w-5" />
-                  Contents
+                <CardTitle className="flex items-center space-x-2">
+                  <Eye className="h-5 w-5" />
+                  <span>Property Images</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {room.contents?.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">{item.name}</h4>
-                        <p className="text-sm text-gray-600">
-                          Quantity: {item.quantity} | RRP: {item.rrp} each
-                        </p>
-                        <p className="text-sm font-medium text-green-600">Total: {item.total}</p>
+                  {room.propertyImages.length > 0 ? (
+                    room.propertyImages.map((image, index) => (
+                      <div key={index} className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                        <Image
+                          src={image || "/placeholder.svg"}
+                          alt={`Property view ${index + 1}`}
+                          width={400}
+                          height={300}
+                          className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                          onClick={() => setSelectedImage(image)}
+                        />
                       </div>
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        View Product
-                      </a>
+                    ))
+                  ) : (
+                    <div className="aspect-video bg-gray-100 flex items-center justify-center">
+                      <p className="text-gray-500">No property images available</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Right sidebar content if needed */}
-          <div className="space-y-6"></div>
-        </div>
-      </main>
+          {/* Room Details */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Room Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Room Information */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Room Information</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Type:</span>
+                      <span className="font-medium">{room.type}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Condition:</span>
+                      <span className="font-medium">{room.condition}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Valuation:</span>
+                      <span className="font-medium text-green-600">{room.valuation}</span>
+                    </div>
+                  </div>
+                </div>
 
-      {selectedPanorama && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
-          onClick={() => setSelectedPanorama(null)}
-        >
-          <div className="relative max-w-6xl max-h-full">
-            <button
-              onClick={() => setSelectedPanorama(null)}
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
-            >
-              <X className="h-8 w-8" />
-            </button>
-            <img
-              src={selectedPanorama || "/placeholder.svg"}
-              alt="360° Panorama View"
-              className="max-w-full max-h-[90vh] object-contain rounded-lg"
-              onClick={(e) => e.stopPropagation()}
+                {/* Damage Assessment */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Damage Assessment</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Floor Damage:</span>
+                      <div className="flex items-center space-x-2">
+                        {room.floorDamage === "No" ? (
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        )}
+                        <span className="font-medium">{room.floorDamage}</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Ceiling Damage:</span>
+                      <div className="flex items-center space-x-2">
+                        {room.ceilingDamage === "No" ? (
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        )}
+                        <span className="font-medium">{room.ceilingDamage}</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Wall Damage:</span>
+                      <div className="flex items-center space-x-2">
+                        {room.wallDamage === "No" ? (
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        )}
+                        <span className="font-medium">{room.wallDamage}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Room Description */}
+              {room.description && (
+                <div className="mt-8">
+                  <h3 className="text-lg font-semibold mb-4">Description</h3>
+                  <p className="text-gray-700 leading-relaxed">{room.description}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Panoramic Images */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Eye className="h-5 w-5" />
+                <span>Panoramic Images</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {room.panoramaLinks.map((link, index) => (
+                  <div key={index} className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                    <Image
+                      src={link || "/placeholder.svg"}
+                      alt={`360° view ${index + 1}`}
+                      width={400}
+                      height={300}
+                      className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                      onClick={() => setSelectedImage(link)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+          <div className="relative max-w-4xl max-h-full">
+            <Image
+              src={selectedImage || "/placeholder.svg"}
+              alt="Full size view"
+              width={800}
+              height={600}
+              className="max-w-full max-h-full object-contain"
             />
+            <Button
+              variant="secondary"
+              size="sm"
+              className="absolute top-4 right-4"
+              onClick={() => setSelectedImage(null)}
+            >
+              Close
+            </Button>
           </div>
         </div>
       )}

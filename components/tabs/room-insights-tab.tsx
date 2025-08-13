@@ -15,9 +15,8 @@ import {
   XCircle,
   RefreshCw,
   Database,
-  Camera,
-  Package,
   Ruler,
+  Building,
 } from "lucide-react"
 import Link from "next/link"
 import { refreshSheetData } from "@/lib/data-parser"
@@ -36,6 +35,9 @@ export function RoomInsightsTab() {
         panoramaLinks: [
           "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_9atk8hw6bpr2kixswfbit6kya_skybox.jpg",
           "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_71mwb6u62ih98rhx2bwyc8b8b_skybox.jpg",
+        ],
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-2JaixJDeM9NWUh5WybykRXW5Hu9oTZ.png",
         ],
         roomType: "hallway",
         area: "2.47 m²",
@@ -103,6 +105,9 @@ export function RoomInsightsTab() {
           "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_mw5ymdiqgmkaiasgdiksy3i5a_skybox.jpg",
           "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_pxk5thts3iiwc5azq4drsitfc_skybox.jpg",
         ],
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-08-12%20at%204.24.05%E2%80%AFpm-sv7yY2hY8kdqPgXTDbkPJ8XLVTiwA6.png",
+        ],
         roomType: "patio",
         area: "5.01 m²",
         volume: "13.61 m³",
@@ -159,6 +164,9 @@ export function RoomInsightsTab() {
       {
         id: "3",
         name: "Room 3: Bathroom",
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220829%20%281%29.jpg-17gJ1YdLFJxcEJL6JUAa0mIIGvWdJW.jpeg",
+        ],
         area: "4.25 m²",
         volume: "9.19 m³",
         condition: "Good",
@@ -199,6 +207,10 @@ export function RoomInsightsTab() {
       {
         id: "4",
         name: "Room 4: Master Bedroom",
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220648%20%281%29.jpg-RzynbqvbKwtcva7gQR1MNthn2cHACQ.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220608%20%281%29.jpg-CJAERaRUTF3zUevupoVz1GYKz5tYh4.jpeg",
+        ],
         area: "19.12 m²",
         volume: "38.78 m³",
         condition: "Good", // Updated Room 4 condition from Complete to Good
@@ -249,183 +261,306 @@ export function RoomInsightsTab() {
       },
       {
         id: "5",
-        name: "Room 5: Patio",
-        area: "X m²",
-        volume: "X m³",
-        condition: "X",
-        temperature: "X°C",
-        humidity: "X%",
-        hasSheetData: false,
+        name: "Room 5: Living Room",
+        roomId: "b4qtykzcazp4iumkamm7y7h2b",
+        panoramaIds: [
+          "k2zwk015t51gw99zpztx4egaa",
+          "ecdy23xprhp3q3f0rth5c5hac",
+          "5wza109uxdtiah3khz7teiwna",
+          "txkwf277fq24hepe3gi002nfa",
+          "tx5m3eudcum0iigcxbu2rpbka",
+          "udkrwr2wfte2anpi6taw68ycb",
+          "wds8heu9aarna9tk8t9s9ygwc",
+          "yehgh6y0ztzq71b0dckb5795d",
+          "aq8zqxp329yhkc290pzgm9h3b",
+          "uf6ssx7puqskhh5dibe1tp8aa",
+          "37r3c3nk8ud8rkpb9a28eyd1a",
+          "cr857sqay5qbzbe8xdx784acb",
+          "0rgwxt1ets18w34c1n8sh4idb",
+          "380yg5497h86wkdc5wq4r6fhc",
+          "m96rn180d4f690kwy89umae0c",
+        ],
+        panoramaLinks: [
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_k2zwk015t51gw99zpztx4egaa_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_ecdy23xprhp3q3f0rth5c5hac_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_5wza109uxdtiah3khz7teiwna_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_txkwf277fq24hepe3gi002nfa_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_tx5m3eudcum0iigcxbu2rpbka_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_udkrwr2wfte2anpi6taw68ycb_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_wds8heu9aarna9tk8t9s9ygwc_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_yehgh6y0ztzq71b0dckb5795d_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_aq8zqxp329yhkc290pzgm9h3b_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_uf6ssx7puqskhh5dibe1tp8aa_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_37r3c3nk8ud8rkpb9a28eyd1a_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_cr857sqay5qbzbe8xdx784acb_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_0rgwxt1ets18w34c1n8sh4idb_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_380yg5497h86wkdc5wq4r6fhc_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_m96rn180d4f690kwy89umae0c_skybox.jpg",
+        ],
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215315.jpg-LZxLaUFYfeHL5UFpogUiQYO72hTE36.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215410.jpg-7KvF1eN6eqcBYEJhsSIiN22uIKob4A.jpeg",
+        ],
+        roomType: "living room",
+        area: "39.83 m²",
+        volume: "N/A",
+        condition: "Good",
+        temperature: "22°C",
+        humidity: "45%",
+        hasSheetData: true,
+        roomValuation: "$124,609.35",
+        smokeAlarmCount: 1,
+        floorDamage: "No",
+        ceilingDamage: "No",
+        wallDamage: "No",
+        windowCount: 6,
+        doorCount: 3,
+        ceilingLightCount: 1,
+        ceilingFanCount: 1,
+        airConditioningCount: 1,
         specifications: {
-          floorArea: "X m²",
-          ceilingHeight: "X m",
-          wallArea: "X m²",
-          windowArea: "X m²",
-          doorArea: "X m²",
+          floorArea: "39.83 m²",
+          ceilingHeight: "N/A",
+          wallArea: "N/A",
+          windowArea: "N/A",
+          doorArea: "N/A",
+          width: "4.86 m",
+          doors: "3",
+          windows: "6",
         },
         materials: {
-          flooring: "Concrete",
-          walls: "Brick",
-          ceiling: "Open",
-          windows: "None",
-          doors: "Glass Sliding",
+          flooring: "Hardwood",
+          walls: "Gypsum",
+          ceiling: "Gypsum",
+          windows: "Other",
+          doors: "Multiple Access Points",
+          windowCover: "Other",
         },
         features: [
-          { name: "Outdoor Space", status: "available", icon: "sun" },
-          { name: "Weather Protection", status: "partial", icon: "umbrella" },
-          { name: "Drainage", status: "adequate", icon: "droplets" },
-          { name: "Privacy", status: "good", icon: "shield" },
+          { name: "Smoke Alarm", status: "installed", count: 1, icon: "shield" },
+          { name: "Ceiling Lights", status: "installed", count: 1, icon: "lightbulb", type: "Recessed" },
+          { name: "Ceiling Fan", status: "installed", count: 1, icon: "wind" },
+          { name: "Air Conditioning", status: "installed", count: 1, icon: "snowflake" },
+          { name: "Windows", status: "installed", count: 6, icon: "square" },
+          { name: "Doors", status: "installed", count: 3, icon: "door-open" },
         ],
+        damage: {
+          floor: "No",
+          ceiling: "No",
+          walls: "No",
+        },
+        valuation: "$124,609.35",
       },
       {
         id: "6",
-        name: "Room 6: Living room",
-        area: "X m²",
-        volume: "X m³",
-        condition: "X",
-        temperature: "X°C",
-        humidity: "X%",
+        name: "Room 6: Hallway",
+        roomId: "cdz3fkt38kae7tapstpt0eaeb",
+        panoramaIds: [
+          "mnz5qufzx838bh2ifngu1t43d",
+          "mndhi0uf7rsb24icpat8x03pd",
+          "u5nmsfeun7ye1cxfr7q9kcfzc",
+          "nzzaazqnf0qxcfz412mcbfuhb",
+          "0hfne4usqcy0ew5dxycbhh9fc",
+        ],
+        panoramaLinks: [
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_mnz5qufzx838bh2ifngu1t43d_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_mndhi0uf7rsb24icpat8x03pd_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_u5nmsfeun7ye1cxfr7q9kcfzc_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_nzzaazqnf0qxcfz412mcbfuhb_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_0hfne4usqcy0ew5dxycbhh9fc_skybox.jpg",
+        ],
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
+        ],
+        roomType: "hallway",
+        area: "6.41 m²",
+        volume: "15.45 m³",
+        depth: "0.88 m",
+        height: "2.41 m",
+        width: "6.52 m",
+        condition: "Good",
+        temperature: "22°C",
+        humidity: "45%",
         hasSheetData: true,
+        roomValuation: "$18,591.02",
+        smokeAlarmCount: 1,
+        floorDamage: "No",
+        ceilingDamage: "No",
+        wallDamage: "No",
+        windowCount: 0,
+        ceilingLightCount: 1,
+        ceilingFanCount: 0,
+        airConditioningCount: 0,
         specifications: {
-          floorArea: "X m²",
-          ceilingHeight: "X m",
-          wallArea: "X m²",
-          windowArea: "X m²",
-          doorArea: "X m²",
+          floorArea: "6.41 m²",
+          ceilingHeight: "2.41 m",
+          wallArea: "15.7 m²",
+          windowArea: "0 m²",
+          doorArea: "2.1 m²",
+          depth: "0.88 m",
+          width: "6.52 m",
+          volume: "15.45 m³",
         },
         materials: {
-          flooring: "Timber",
-          walls: "Plasterboard",
-          ceiling: "Plasterboard",
-          windows: "Aluminium Frame",
+          flooring: "Carpet",
+          walls: "Drywall",
+          ceiling: "Flat",
+          windows: "None",
           doors: "Timber",
         },
         features: [
-          { name: "Natural Light", status: "good", icon: "sun" },
-          { name: "Ventilation", status: "adequate", icon: "wind" },
-          { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
-          { name: "Storage", status: "limited", icon: "archive" },
+          { name: "Smoke Alarm", status: "installed", count: 1, icon: "shield-check" },
+          { name: "Ceiling Lights", status: "installed", count: 1, icon: "lightbulb", type: "Recessed" },
+          { name: "Ceiling Fan", status: "none", count: 0, icon: "fan" },
+          { name: "Air Conditioning", status: "none", count: 0, icon: "snowflake" },
+          { name: "Windows", status: "none", count: 0, icon: "square" },
         ],
+        roomDescription:
+          "This hallway features soft carpet underfoot and clean white walls, with a staircase connecting the upper and lower levels via timber railings and cable balustrades. Multiple doorways lead to bedrooms and other living spaces, while downlights keep the area bright. The layout provides clear sightlines from one end of the hall to the other, giving a sense of openness despite its functional, transitional purpose.",
       },
       {
         id: "7",
-        name: "Room 7: Hallway",
-        area: "X m²",
-        volume: "X m³",
-        condition: "X",
-        temperature: "X°C",
-        humidity: "X%",
-        hasSheetData: false,
+        name: "Room 7: Kitchen/Dining",
+        area: "18.91 m²",
+        volume: "62.40 m³",
+        condition: "Complete",
+        temperature: "22°C",
+        humidity: "45%",
+        hasSheetData: true,
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215738.jpg-NDOSKYpOP9WoJz4GstaBdtCGz5ZcAB.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/08012025_221050.jpg-Eakha1hrOXZwwUmi3eXE83q2Z5ANjG.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215446.jpg-WHxk0rx2NEh415vnFNkbUDuHBdMIMP.jpeg",
+        ],
         specifications: {
-          floorArea: "X m²",
-          ceilingHeight: "X m",
-          wallArea: "X m²",
-          windowArea: "X m²",
-          doorArea: "X m²",
+          floorArea: "18.91 m²",
+          ceilingHeight: "3.30 m",
+          wallArea: "62.40 m²",
+          windowArea: "12.00 m²",
+          doorArea: "4.20 m²",
+          width: "4.86 m",
         },
         materials: {
-          flooring: "Timber",
-          walls: "Plasterboard",
-          ceiling: "Plasterboard",
-          windows: "Aluminium Frame",
+          flooring: "Hardwood and Tile",
+          walls: "Drywall",
+          ceiling: "Flat",
+          windows: "Other",
           doors: "Timber",
+          cooktopType: "Induction",
+          benchMaterial: "Laminate",
+          kitchenLayout: "U-shaped",
         },
         features: [
-          { name: "Natural Light", status: "limited", icon: "sun" },
-          { name: "Ventilation", status: "adequate", icon: "wind" },
-          { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
-          { name: "Storage", status: "none", icon: "archive" },
+          { name: "Smoke Alarm", status: "installed", count: 1, icon: "shield-check" },
+          { name: "Ceiling Lights", status: "installed", count: 1, type: "Recessed", icon: "lightbulb" },
+          { name: "Ceiling Fan", status: "installed", count: 1, icon: "fan" },
+          { name: "Air Conditioning", status: "installed", count: 1, icon: "snowflake" },
+          { name: "Windows", status: "installed", count: 6, icon: "square" },
         ],
+        valuation: 57335.78,
+        panoramaCount: 8,
+        description:
+          "This open-plan living and dining area is light-filled and spacious, featuring polished timber floors and high ceilings with a skylight for added natural illumination. The dining zone is anchored by a large timber table paired with sleek black chairs, while the adjacent lounge offers a comfortable setting with a sofa and contemporary décor. Full-height sliding glass doors open to a covered balcony, seamlessly blending indoor and outdoor living. The kitchen, finished in warm wood cabinetry with dark benchtops, includes stainless steel appliances, a central island, and ample counter space, creating a practical yet welcoming hub for cooking and entertaining.",
       },
       {
         id: "8",
-        name: "Room 8: Living room/ Kitchen",
-        area: "X m²",
-        volume: "X m³",
-        condition: "X",
-        temperature: "X°C",
-        humidity: "X%",
+        name: "Room 8: Bathroom + Euro Laundry",
+        area: "6.89 m²",
+        volume: "16.26 m³",
+        condition: "Good",
+        temperature: "22°C",
+        humidity: "65%",
         hasSheetData: true,
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_4694-OB0ze190MICuCDChoaoMNhGGAFGtIz.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-8MnQOobGwBAsAYlubSY1PeGbzVAqiD.png",
+        ],
         specifications: {
-          floorArea: "X m²",
-          ceilingHeight: "X m",
-          wallArea: "X m²",
-          windowArea: "X m²",
-          doorArea: "X m²",
+          floorArea: "6.89 m²",
+          ceilingHeight: "2.36 m",
+          depth: "3.88 m",
+          width: "1.51 m",
+          windowArea: "2 windows",
         },
         materials: {
-          flooring: "Timber",
-          walls: "Plasterboard",
-          ceiling: "Plasterboard",
-          windows: "Aluminium Frame",
-          doors: "Timber",
+          flooring: "Tile",
+          walls: "Drywall",
+          ceiling: "Drywall",
+          windows: "Frosted Glass",
+          doors: "Standard",
         },
         features: [
-          { name: "Natural Light", status: "excellent", icon: "sun" },
-          { name: "Ventilation", status: "good", icon: "wind" },
-          { name: "Kitchen Appliances", status: "modern", icon: "chef-hat" },
-          { name: "Storage", status: "ample", icon: "archive" },
+          { name: "Double Vanity", status: "excellent", icon: "droplets" },
+          { name: "Glass Shower", status: "good", icon: "shower" },
+          { name: "Euro Laundry", status: "compact", icon: "washing-machine" },
+          { name: "Natural Light", status: "good", icon: "sun" },
         ],
       },
       {
         id: "9",
-        name: "Room 9: Bathroom",
-        area: "X m²",
-        volume: "X m³",
-        condition: "X",
-        temperature: "X°C",
-        humidity: "X%",
-        hasSheetData: false,
+        name: "Room 9: Hallway",
+        area: "2.39 m²",
+        volume: "5.77 m³",
+        condition: "Good",
+        temperature: "22°C",
+        humidity: "45%",
+        hasSheetData: true,
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_m8npxsuk79xy21dd09x9wtped_77bug6dex2fzdp3my4up5x3dd_skybox.jpg-g3Wto7raScQe6uumg1NvFoApCptGHq.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_m8npxsuk79xy21dd09x9wtped_a7h77eu1i3kdnwz5ypd0dhbbc_skybox.jpg-5gtUvIwpQdIOc6Gz5Vechm2uk6EkdI.jpeg",
+        ],
         specifications: {
-          floorArea: "X m²",
-          ceilingHeight: "X m",
-          wallArea: "X m²",
-          windowArea: "X m²",
-          doorArea: "X m²",
+          floorArea: "2.39 m²",
+          ceilingHeight: "2.41 m",
+          depth: "0.79 m",
+          width: "2.43 m",
         },
         materials: {
-          flooring: "Ceramic Tiles",
-          walls: "Ceramic Tiles",
-          ceiling: "Plasterboard",
-          windows: "Aluminium Frame",
-          doors: "Timber",
+          flooring: "Carpet",
+          walls: "Painted Drywall",
+          ceiling: "Flat",
+          windows: "None",
+          doors: "Multiple Access Points",
         },
         features: [
-          { name: "Ventilation Fan", status: "installed", icon: "fan" },
-          { name: "Waterproofing", status: "good", icon: "shield" },
-          { name: "Fixtures", status: "modern", icon: "wrench" },
-          { name: "Storage", status: "adequate", icon: "archive" },
+          { name: "Smoke Alarm", status: "none", icon: "shield" },
+          { name: "Ceiling Lights", status: "1 Recessed", icon: "lightbulb" },
+          { name: "Ceiling Fan", status: "none", icon: "fan" },
+          { name: "Air Conditioning", status: "none", icon: "snowflake" },
+          { name: "Windows", status: "none", icon: "square" },
         ],
       },
       {
         id: "10",
-        name: "Room 10: Hallway",
-        area: "X m²",
-        volume: "X m³",
-        condition: "X",
-        temperature: "X°C",
-        humidity: "X%",
+        name: "Room 10: Bathroom",
+        area: "2.18 m²",
+        volume: "5.25 m³",
+        condition: "Good",
+        temperature: "22°C",
+        humidity: "65%",
         hasSheetData: true,
         specifications: {
-          floorArea: "X m²",
-          ceilingHeight: "X m",
-          wallArea: "X m²",
-          windowArea: "X m²",
-          doorArea: "X m²",
+          floorArea: "2.18 m²",
+          ceilingHeight: "2.41 m",
+          depth: "N/A",
+          width: "1.48 m",
         },
         materials: {
-          flooring: "Timber",
-          walls: "Plasterboard",
-          ceiling: "Plasterboard",
-          windows: "Aluminium Frame",
-          doors: "Timber",
+          flooring: "Tile",
+          walls: "Plaster",
+          ceiling: "Flat",
+          windows: "Other",
         },
         features: [
-          { name: "Natural Light", status: "limited", icon: "sun" },
-          { name: "Ventilation", status: "adequate", icon: "wind" },
-          { name: "Electrical Outlets", status: "sufficient", icon: "zap" },
-          { name: "Storage", status: "none", icon: "archive" },
+          { name: "Smoke Alarm", status: "none", icon: "shield-alert" },
+          { name: "Ceiling Lights", status: "installed", icon: "lightbulb", count: 1, type: "Recessed" },
+          { name: "Ceiling Fan", status: "none", icon: "fan" },
+          { name: "Air Conditioning", status: "none", icon: "snowflake" },
+          { name: "Windows", status: "installed", icon: "square", count: 3 },
         ],
+        propertyImages: [],
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-OvrUOeTBdatNOU1fXFzGljEpu4al2A.png",
       },
       {
         id: "11",
@@ -589,11 +724,29 @@ export function RoomInsightsTab() {
           <Card key={room.id} className="bg-white shadow-sm border-0 rounded-2xl">
             <CardContent className="p-6">
               <div className="flex items-start justify-between">
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-6 flex-1">
                   <Checkbox
                     checked={selectedRooms.includes(room.id)}
                     onCheckedChange={(checked) => handleRoomSelection(room.id, checked as boolean)}
                   />
+
+                  {/* Property Image */}
+                  {room.propertyImages && room.propertyImages.length > 0 && (
+                    <div className="flex-shrink-0">
+                      <div className="w-32 h-24 rounded-lg overflow-hidden bg-gray-100">
+                        <img
+                          src={room.propertyImages[0] || "/placeholder.svg"}
+                          alt={`${room.name} property view`}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.currentTarget
+                            target.src = "/placeholder.svg?height=96&width=128&text=Property+Image"
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   <div className="space-y-4 flex-1">
                     <div className="flex items-center gap-3">
                       <Home className="h-5 w-5 text-blue-600" />
@@ -606,6 +759,7 @@ export function RoomInsightsTab() {
                       )}
                     </div>
 
+                    {/* Key Metrics */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div className="text-center">
                         <div className="text-2xl font-bold text-gray-800">{room.area}</div>
@@ -615,9 +769,9 @@ export function RoomInsightsTab() {
                         <div className="text-2xl font-bold text-gray-800">{room.volume}</div>
                         <div className="text-sm text-gray-600">Volume</div>
                       </div>
-                      {room.valuation && (
+                      {room.roomValuation && (
                         <div className="text-center">
-                          <div className="text-2xl font-bold text-green-600">{room.valuation}</div>
+                          <div className="text-2xl font-bold text-green-600">{room.roomValuation}</div>
                           <div className="text-sm text-gray-600">Valuation</div>
                         </div>
                       )}
@@ -627,58 +781,71 @@ export function RoomInsightsTab() {
                       </div>
                     </div>
 
-                    {/* Specifications */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <Ruler className="h-4 w-4 text-gray-600" />
-                        <span className="font-medium text-gray-800">Specifications</span>
+                    {/* Specifications - Improved Layout */}
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Ruler className="h-4 w-4 text-gray-600" />
+                          <span className="font-medium text-gray-800">Dimensions</span>
+                        </div>
+                        <div className="space-y-2">
+                          {room.specifications?.ceilingHeight && (
+                            <div className="flex justify-between py-1">
+                              <span className="text-gray-600">Height:</span>
+                              <span className="font-medium">{room.specifications.ceilingHeight}</span>
+                            </div>
+                          )}
+                          {room.specifications?.depth && (
+                            <div className="flex justify-between py-1">
+                              <span className="text-gray-600">Depth:</span>
+                              <span className="font-medium">{room.specifications.depth}</span>
+                            </div>
+                          )}
+                          {room.specifications?.width && (
+                            <div className="flex justify-between py-1">
+                              <span className="text-gray-600">Width:</span>
+                              <span className="font-medium">{room.specifications.width}</span>
+                            </div>
+                          )}
+                          {room.specifications?.floorArea && (
+                            <div className="flex justify-between py-1">
+                              <span className="text-gray-600">Floor Area:</span>
+                              <span className="font-medium">{room.specifications.floorArea}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Ceiling Height:</span>
-                          <span className="font-medium">{room.specifications?.ceilingHeight}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Wall Area:</span>
-                          <span className="font-medium">{room.specifications?.wallArea}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Window Area:</span>
-                          <span className="font-medium">{room.specifications?.windowArea}</span>
-                        </div>
-                        {room.specifications?.depth && (
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Depth:</span>
-                            <span className="font-medium">{room.specifications.depth}</span>
-                          </div>
-                        )}
-                        {room.specifications?.width && (
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Width:</span>
-                            <span className="font-medium">{room.specifications.width}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
 
-                    {/* Materials & Features */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <Palette className="h-4 w-4 text-gray-600" />
-                        <span className="font-medium text-gray-800">Materials & Features</span>
-                      </div>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Flooring:</span>
-                          <span className="font-medium">{room.materials?.flooring}</span>
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Palette className="h-4 w-4 text-gray-600" />
+                          <span className="font-medium text-gray-800">Materials</span>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Walls:</span>
-                          <span className="font-medium">{room.materials?.walls}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Windows:</span>
-                          <span className="font-medium">{room.materials?.windows}</span>
+                        <div className="space-y-2">
+                          {room.materials?.flooring && (
+                            <div className="flex justify-between py-1">
+                              <span className="text-gray-600">Flooring:</span>
+                              <span className="font-medium">{room.materials.flooring}</span>
+                            </div>
+                          )}
+                          {room.materials?.walls && (
+                            <div className="flex justify-between py-1">
+                              <span className="text-gray-600">Walls:</span>
+                              <span className="font-medium">{room.materials.walls}</span>
+                            </div>
+                          )}
+                          {room.materials?.ceiling && (
+                            <div className="flex justify-between py-1">
+                              <span className="text-gray-600">Ceiling:</span>
+                              <span className="font-medium">{room.materials.ceiling}</span>
+                            </div>
+                          )}
+                          {room.specifications?.windows && (
+                            <div className="flex justify-between py-1">
+                              <span className="text-gray-600">Windows:</span>
+                              <span className="font-medium">{room.specifications.windows}</span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -689,7 +856,7 @@ export function RoomInsightsTab() {
                         <Wrench className="h-4 w-4 text-gray-600" />
                         <span className="font-medium text-gray-800">Installed Features</span>
                       </div>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                         {room.features?.map((feature, index) => (
                           <div key={index} className="flex items-center gap-2">
                             {getStatusIcon(feature.status)}
@@ -699,65 +866,6 @@ export function RoomInsightsTab() {
                             </span>
                           </div>
                         ))}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t">
-                      <div className="text-center p-4 bg-blue-50 rounded-lg">
-                        <Eye className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                        <p className="text-sm font-medium text-blue-800">Property Panoramas</p>
-                        <p className="text-xs text-blue-600">{room.panoramaIds?.length || 0} available</p>
-                        {room.panoramaLinks && room.panoramaLinks.length > 0 && (
-                          <div className="mt-2">
-                            <div className="flex gap-1 overflow-x-auto">
-                              {room.panoramaLinks.slice(0, 3).map((link, index) => (
-                                <div key={index} className="flex-shrink-0 w-12 h-8 rounded overflow-hidden bg-gray-100">
-                                  <img
-                                    src={link || "/placeholder.svg"}
-                                    alt={`Panorama ${index + 1}`}
-                                    className="w-full h-full object-cover cursor-pointer hover:opacity-80"
-                                    onClick={() => window.open(link, "_blank")}
-                                    onError={(e) => {
-                                      const target = e.currentTarget
-                                      target.src = `data:image/svg+xml;base64,${btoa(`
-                                        <svg width="48" height="32" xmlns="http://www.w3.org/2000/svg">
-                                          <rect width="48" height="32" fill="#f3f4f6"/>
-                                          <text x="24" y="18" textAnchor="middle" fill="#9ca3af" fontSize="8">360°</text>
-                                        </svg>
-                                      `)}`
-                                    }}
-                                    onLoad={(e) => {
-                                      const target = e.currentTarget
-                                      if (target.naturalWidth === 0) {
-                                        target.src = `data:image/svg+xml;base64,${btoa(`
-                                          <svg width="48" height="32" xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="48" height="32" fill="#f3f4f6"/>
-                                            <text x="24" y="18" textAnchor="middle" fill="#9ca3af" fontSize="8">360°</text>
-                                          </svg>
-                                        `)}`
-                                      }
-                                    }}
-                                  />
-                                </div>
-                              ))}
-                              {room.panoramaLinks.length > 3 && (
-                                <div className="flex-shrink-0 w-12 h-8 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-600">
-                                  +{room.panoramaLinks.length - 3}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="text-center p-4 bg-green-50 rounded-lg">
-                        <Camera className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                        <p className="text-sm font-medium text-green-800">Property Images</p>
-                        <p className="text-xs text-green-600">Coming soon</p>
-                      </div>
-                      <div className="text-center p-4 bg-purple-50 rounded-lg">
-                        <Package className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-                        <p className="text-sm font-medium text-purple-800">Contents</p>
-                        <p className="text-xs text-purple-600">Coming soon</p>
                       </div>
                     </div>
                   </div>
@@ -775,6 +883,160 @@ export function RoomInsightsTab() {
             </CardContent>
           </Card>
         ))}
+
+        {/* Exterior Module */}
+        <Card className="bg-white shadow-sm border-0 rounded-2xl">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between">
+              <div className="flex items-start gap-6 flex-1">
+                <Checkbox disabled />
+
+                {/* Exterior Property Images */}
+                <div className="flex-shrink-0 space-y-3">
+                  <div className="w-32 h-24 rounded-lg overflow-hidden bg-gray-100">
+                    <img
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220204.jpg-HSjLcBgMPfjaiDwuRACztXSt4ia1Iu.jpeg"
+                      alt="Property front exterior view"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.currentTarget
+                        target.src = "/placeholder.svg?height=96&width=128&text=Front+Exterior"
+                      }}
+                    />
+                  </div>
+                  <div className="w-32 h-24 rounded-lg overflow-hidden bg-gray-100">
+                    <img
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220003.jpg-oua7mYFwwy3lO0VgAihCdyV3QbMmpu.jpeg"
+                      alt="Property backyard exterior view"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.currentTarget
+                        target.src = "/placeholder.svg?height=96&width=128&text=Backyard+View"
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-4 flex-1">
+                  <div className="flex items-center gap-3">
+                    <Building className="h-5 w-5 text-blue-600" />
+                    <h3 className="text-lg font-semibold text-gray-800">Exterior</h3>
+                    <div className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">
+                      <Database className="h-3 w-3" />
+                      Property Features
+                    </div>
+                  </div>
+
+                  {/* Key Metrics - Exterior specific */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-gray-800">Corrugated Metal</div>
+                      <div className="text-sm text-gray-600">Roof Material</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-gray-800">Timber</div>
+                      <div className="text-sm text-gray-600">Fencing Type</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-red-600">No</div>
+                      <div className="text-sm text-gray-600">Pool</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-yellow-600">Unknown</div>
+                      <div className="text-sm text-gray-600">Solar</div>
+                    </div>
+                  </div>
+
+                  {/* Exterior Specifications */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Building className="h-4 w-4 text-gray-600" />
+                        <span className="font-medium text-gray-800">Structure</span>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between py-1">
+                          <span className="text-gray-600">Roof Material:</span>
+                          <span className="font-medium">Corrugated Metal</span>
+                        </div>
+                        <div className="flex justify-between py-1">
+                          <span className="text-gray-600">Fencing Type:</span>
+                          <span className="font-medium">Timber</span>
+                        </div>
+                        <div className="flex justify-between py-1">
+                          <span className="text-gray-600">Driveway Material:</span>
+                          <span className="font-medium">Concrete</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Wrench className="h-4 w-4 text-gray-600" />
+                        <span className="font-medium text-gray-800">Features</span>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between py-1">
+                          <span className="text-gray-600">Pool:</span>
+                          <span className="font-medium">No</span>
+                        </div>
+                        <div className="flex justify-between py-1">
+                          <span className="text-gray-600">Solar:</span>
+                          <span className="font-medium">Unknown</span>
+                        </div>
+                        <div className="flex justify-between py-1">
+                          <span className="text-gray-600">Parking:</span>
+                          <span className="font-medium">Concrete Driveway</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Exterior Features */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Palette className="h-4 w-4 text-gray-600" />
+                      <span className="font-medium text-gray-800">Exterior Features</span>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <span className="text-sm">Modern Design</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <span className="text-sm">Timber Fencing</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <span className="text-sm">Concrete Driveway</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <XCircle className="h-4 w-4 text-red-600" />
+                        <span className="text-sm">No Pool</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                        <span className="text-sm">Solar Unknown</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <span className="text-sm">Metal Roofing</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Button size="sm" variant="outline" disabled>
+                  <Eye className="h-4 w-4 mr-2" />
+                  Exterior View
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Analytics Summary */}
