@@ -12,7 +12,7 @@ export function EnergyEfficiency() {
 
   const energyData = {
     overallRating: "7.5",
-    climateZone: "6",
+    climateZone: "2",
     heatingCooling: [
       {
         type: "Split System Air Conditioner",
