@@ -312,7 +312,15 @@ const ROOM_DATA = {
   "7": { type: "bathroom", panoramaCount: 0, panoramaImages: [] },
   "8": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
   "9": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
-  "10": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
+  "10": {
+    type: "bathroom",
+    panoramaCount: 3,
+    panoramaImages: [
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room%2010-%20pano%201.jpg-wVoPxRYyKW9j17pUPwMNmrxI244fUb.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%2010-%20pano%202.jpg-oxkuRGbEWLYrxYmVYstCmiKHtYgBCO.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room%2010-%20pano%203.jpg-yjWy5ItyecRBnjzDd54o1TRm0KNIYX.jpeg",
+    ],
+  },
   "11": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
   "12": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
   "13": { type: "bedroom", panoramaCount: 0, panoramaImages: [] },
@@ -352,9 +360,10 @@ export function RoomPanoramaGrid() {
             <div>
               <h3 className="font-semibold text-blue-800 mb-2">360° Panoramic Image Information</h3>
               <div className="text-sm text-blue-700 space-y-1">
-                <p>• Rooms 1-5: Embedded panoramic views with clickable previews</p>
+                <p>• Rooms 1-5, 10: Embedded panoramic views with clickable previews</p>
                 <p>• Room 5: 13 high-resolution embedded panoramic views available</p>
-                <p>• Rooms 6-13: Panoramic data collection in progress</p>
+                <p>• Room 10: 3 high-resolution embedded panoramic views available</p>
+                <p>• Rooms 6-9, 11-13: Panoramic data collection in progress</p>
                 <p>• All images captured using Matterport Pro2 Camera technology</p>
               </div>
             </div>

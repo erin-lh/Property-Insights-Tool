@@ -381,12 +381,14 @@ export async function GET(request: NextRequest) {
         panoramaCount: 3,
         condition: "Complete",
         roomLocationImage:
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-OvrUOeTBdatNOU1fXFzGljEpu4al2A.png",
-        propertyImages: [],
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%2010-%20location%20image-QiP0IrKqDQWulDXz1DEKmBjEUgZWGV.png",
+        propertyImages: [
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room-10-property-image.jpg-q0eLCT6Ei1mKjk06ROI4uGeSYsByJ1.jpeg",
+        ],
         panoramaImages: [
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_n81qfe51azs8iexnbqwspye6c_ucirpuknnqi17cg1dc294dhyc_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_n81qfe51azs8iexnbqwspye6c_9entd33y20xbr4u7f2yauqzfd_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_n81qfe51azs8iexnbqwspye6c_nh1tid1ai2rew77sd5rhsxhpc_skybox.jpg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room%2010-%20pano%201.jpg-wVoPxRYyKW9j17pUPwMNmrxI244fUb.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%2010-%20pano%202.jpg-oxkuRGbEWLYrxYmVYstCmiKHtYgBCO.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room%2010-%20pano%203.jpg-yjWy5ItyecRBnjzDd54o1TRm0KNIYX.jpeg",
         ],
         flooringType: "tile",
         wallMaterial: "plaster",
@@ -399,7 +401,8 @@ export async function GET(request: NextRequest) {
         ceilingFanCount: 0,
         windowCount: 3,
         airConditioningCount: 0,
-        description: "Compact bathroom with tile flooring and plaster walls.",
+        description:
+          "This bathroom is a compact powder room featuring a corner-mounted wall basin with a chrome tap and exposed plumbing, paired with a close-coupled toilet. The space is brightened by a trio of high-set and mid-height frosted glass windows framed in black, providing privacy while allowing natural light to filter in. White walls and matching white sanitaryware create a clean, fresh feel, while brown-toned floor tiles add warmth. A chrome towel ring and toilet roll holder complete the functional setup, with a small wall-mounted soap dispenser adding a touch of convenience. The entry opens directly to a landing area with polished timber floors, enhancing the light and airy atmosphere",
       },
     }
 

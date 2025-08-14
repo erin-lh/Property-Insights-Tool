@@ -51,7 +51,7 @@ export default function RoomPage({ params }) {
       floorDamage: "No",
       ceilingDamage: "No",
       wallDamage: "No",
-      contents: [],
+      contents: "No contents were detected in this room.",
     },
     "2": {
       id: "2",
@@ -75,7 +75,7 @@ export default function RoomPage({ params }) {
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_mw5ymdiqgmkaiasgdiksy3i5a_skybox.jpg",
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_pxk5thts3iiwc5azq4drsitfc_skybox.jpg",
       ],
-      roomLocationImage: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-9V8ko.png",
+      roomLocationImage: "https://blobs.vusercontent.net/blob/image-OvrUOeTBdatNOU1fXFzGljEpu4al2A.png",
       propertyImages: [
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%202-%20property%20image.jpg-67yN9sVAqOf1D8NSUlGF6b1rrw3pVh.jpeg",
       ],
@@ -95,7 +95,50 @@ export default function RoomPage({ params }) {
       floorDamage: "No",
       ceilingDamage: "No",
       wallDamage: "No",
-      contents: [],
+      contents: [
+        {
+          category: "Furniture",
+          product: "Outdoor Rope Lounge Chair",
+          quantity: 2,
+          totalEstimation: "$670",
+          details:
+            "A low-profile, white metal frame chair with a woven rope seat. The valuation is for the frame only.",
+          productLink: "https://lifeinteriors.com.au/products/life-interiors-studio-wire-lounge-chair",
+        },
+        {
+          category: "Furniture",
+          product: "Hourglass Side Table",
+          quantity: 1,
+          totalEstimation: "$170",
+          details: "A white, stone-look hourglass-shaped side table.",
+          productLink: "https://www.templeandwebster.com.au/White-Kate-Hourglass-Shaped-Side-Table-LVBS1071.html",
+        },
+        {
+          category: "Other",
+          product: "Outdoor Seat Cushion",
+          quantity: 2,
+          totalEstimation: "$78",
+          details:
+            "A plain, white/light-coloured, square seat cushion suitable for outdoor use. Often sold separately from frames.",
+          productLink: "https://www.templeandwebster.com.au/Plain-Outdoor-Cushion-TMPL3983.html",
+        },
+        {
+          category: "Other",
+          product: "Small White Ceramic Pot",
+          quantity: 1,
+          totalEstimation: "$15",
+          details: "A small, simple, white ceramic pot for indoor/outdoor use.",
+          productLink: "https://theplantsproject.com.au/collections/pots-and-planters/products/small-white-pot",
+        },
+        {
+          category: "Other",
+          product: "Small Artificial Plant",
+          quantity: 1,
+          totalEstimation: "$20",
+          details: "A small, artificial green plant insert, similar in appearance to the one pictured.",
+          productLink: "https://theplantsproject.com.au/products/artificial-eucalyptus-stem",
+        },
+      ],
     },
     "3": {
       id: "3",
@@ -205,7 +248,7 @@ export default function RoomPage({ params }) {
       valuation: "$124,609.35",
       condition: "Good",
       description:
-        "This open-plan living area combines lounge, dining, and kitchen spaces in a bright, airy setting. Polished timber floors and high ceilings with feature windows create a warm, inviting atmosphere, while a skylight adds extra natural light. The lounge area is styled with a modern grey sofa, round white coffee table, and neutral rug, positioned near the dining space with a timber table and black chairs. The kitchen features warm wood cabinetry, a contrasting island with dark benchtop, and stainless steel appliances, creating a practical yet welcoming hub for cooking and entertaining.",
+        "This open-plan living area combines lounge, dining, and kitchen spaces in a bright, airy setting. Polished timber floors and high ceilings with feature windows create a warm, inviting atmosphere, while a skylight adds extra natural light. The lounge area is styled with a modern grey sofa, round white coffee table, and neutral rug, positioned near the dining space with a timber table and black chairs. The kitchen features warm wood cabinetry, a contrasting island with dark benchtops, and stainless steel appliances, creating a practical yet welcoming hub for cooking and entertaining.",
       panoramaCount: "15",
       panoramaLinks: [
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_k2zwk015t51gw99zpztx4egaa_skybox.jpg",
@@ -443,22 +486,24 @@ export default function RoomPage({ params }) {
       height: "2.41 m",
       width: "1.48 m",
       depth: "N/A",
-      volume: "5.25 m³",
+      volume: "N/A",
       windows: "3",
       doors: "N/A",
       valuation: "$6,679.75",
       condition: "Good",
       description:
-        "Compact bathroom with tile flooring and plaster walls. Features recessed lighting and multiple windows for natural light.",
+        "This bathroom is a compact powder room featuring a corner-mounted wall basin with a chrome tap and exposed plumbing, paired with a close-coupled toilet. The space is brightened by a trio of high-set and mid-height frosted glass windows framed in black, providing privacy while allowing natural light to filter in. White walls and matching white sanitaryware create a clean, fresh feel, while brown-toned floor tiles add warmth. A chrome towel ring and toilet roll holder complete the functional setup, with a small wall-mounted soap dispenser adding a touch of convenience. The entry opens directly to a landing area with polished timber floors, enhancing the light and airy atmosphere",
       panoramaCount: "3",
       panoramaLinks: [
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_n81qfe51azs8iexnbqwspye6c_ucirpuknnqi17cg1dc294dhyc_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_n81qfe51azs8iexnbqwspye6c_9entd33y20xbr4u7f2yauqzfd_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_n81qfe51azs8iexnbqwspye6c_nh1tid1ai2rew77sd5rhsxhpc_skybox.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room%2010-%20pano%201.jpg-wVoPxRYyKW9j17pUPwMNmrxI244fUb.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%2010-%20pano%202.jpg-oxkuRGbEWLYrxYmVYstCmiKHtYgBCO.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room%2010-%20pano%203.jpg-yjWy5ItyecRBnjzDd54o1TRm0KNIYX.jpeg",
       ],
       roomLocationImage:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-OvrUOeTBdatNOU1fXFzGljEpu4al2A.png",
-      propertyImages: [],
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%2010-%20location%20image-QiP0IrKqDQWulDXz1DEKmBjEUgZWGV.png",
+      propertyImages: [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room-10-property-image.jpg-q0eLCT6Ei1mKjk06ROI4uGeSYsByJ1.jpeg",
+      ],
       flooring: "Tile",
       wallMaterial: "Plaster",
       ceilingType: "Flat",
@@ -549,10 +594,13 @@ export default function RoomPage({ params }) {
             </Card>
 
             <Card>
-              <CardContent className="p-6 text-center">
-                <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mx-auto mb-4">
-                  <Eye className="h-6 w-6 text-orange-600" />
-                </div>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Eye className="h-5 w-5" />
+                  <span>360° Views</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
                 <div className="text-2xl font-bold text-orange-600">{room.panoramaCount}</div>
                 <div className="text-sm text-gray-500">360° Views</div>
               </CardContent>
@@ -689,6 +737,77 @@ export default function RoomPage({ params }) {
                 <div className="mt-8">
                   <h3 className="text-lg font-semibold mb-4">Description</h3>
                   <p className="text-gray-700 leading-relaxed">{room.description}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Contents Report */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Home className="h-5 w-5" />
+                <span>Contents Report</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {typeof room.contents === "string" ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">{room.contents}</p>
+                </div>
+              ) : room.contents.length > 0 ? (
+                <div className="space-y-4">
+                  {room.contents.map((content, index) => (
+                    <div key={index} className="bg-gray-50 rounded-lg p-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Category:</span>
+                          <p className="text-gray-900">{content.category}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Product/Fixture:</span>
+                          <p className="text-gray-900">{content.product}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Quantity:</span>
+                          <p className="text-gray-900">{content.quantity}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Total Estimation:</span>
+                          <p className="text-green-600 font-semibold">{content.totalEstimation}</p>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Details:</span>
+                          <p className="text-gray-700">{content.details}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Product Link:</span>
+                          <a
+                            href={content.productLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 underline"
+                          >
+                            View Product
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {room.id === "2" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$953</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">Contents report not available for this room.</p>
                 </div>
               )}
             </CardContent>
