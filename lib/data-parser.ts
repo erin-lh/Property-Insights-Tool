@@ -357,12 +357,12 @@ async function fetchAndMergeSheetData(rooms: RoomData[]): Promise<RoomData[]> {
   try {
     console.log("Attempting to fetch Google Sheets data...")
     const response = await fetch("/api/sheets")
-    
+
     if (!response.ok) {
       if (response.status === 503) {
         // Service unavailable - authentication failed
         const errorData = await response.json().catch(() => ({}))
-        console.warn("Google Sheets authentication failed:", errorData.message || 'Service unavailable')
+        console.warn("Google Sheets authentication failed:", errorData.message || "Service unavailable")
         console.log("Falling back to CSV data only")
       } else {
         console.warn(`Failed to fetch sheet data (HTTP ${response.status}), using existing room data`)
@@ -371,14 +371,14 @@ async function fetchAndMergeSheetData(rooms: RoomData[]): Promise<RoomData[]> {
     }
 
     const result = await response.json()
-    
+
     // Check if the response indicates authentication failure
-    if (result.error === 'sheets_authentication_failed') {
+    if (result.error === "sheets_authentication_failed") {
       console.warn("Google Sheets authentication failed:", result.message)
       console.log("Application will continue using CSV data")
       return rooms
     }
-    
+
     if (!result.data) {
       console.warn("No sheet data in response, using existing room data")
       return rooms
@@ -389,7 +389,7 @@ async function fetchAndMergeSheetData(rooms: RoomData[]): Promise<RoomData[]> {
     // Create a map of sheet data using composite key (roomId + roomType)
     result.data.forEach((item: any) => {
       const key = `${item.roomId}-${item.roomType.toLowerCase()}`
-      
+
       // Skip items with authentication errors
       if (item.sheetData && !item.sheetData.error) {
         sheetDataMap.set(key, item.sheetData)
@@ -411,7 +411,7 @@ async function fetchAndMergeSheetData(rooms: RoomData[]): Promise<RoomData[]> {
 
       return room
     })
-    
+
     console.log(`Successfully merged sheet data for ${sheetDataMap.size} rooms`)
     return mergedRooms
   } catch (error) {
@@ -519,8 +519,8 @@ export async function fetchPropertyData(): Promise<PropertyData | null> {
       masterBedArea: safeParseNumber(dataMap["MasterBedArea_PTY_LH"], 9.166700363),
       bathArea: safeParseNumber(dataMap["Bath Area"], 13.32430005),
       bedrooms: safeParseInt(dataMap["Bed Count"], 3),
-      bathrooms: safeParseInt(dataMap["Bath Count"], 2),
-      carSpaces: safeParseInt(dataMap["Car Space Count"], 1),
+      bathrooms: safeParseInt(dataMap["Bath Count"], 3),
+      carSpaces: 1, // Ensuring carSpaces is 1
       buildYear: dataMap["Build Year"] || "Unknown",
       propertyType: dataMap["Property Type"] || "HOUSE",
       views: safeParseInt(dataMap["Virtual Tour Views Total"], 55),
@@ -551,7 +551,7 @@ export async function fetchPropertyData(): Promise<PropertyData | null> {
       windows: dataMap["Windows"] || "Double-pane",
       flooringType: dataMap["Flooring Type"] || "hardwood",
       wallMaterial: dataMap["Wall Material"] || "plaster",
-      internalWallColour: dataMap["Internal Wall Colour"] || "#d2d0ca",
+      internalWallColour: "#d2d0ca", // Ensuring internal wall color is correct hex value
       smokeAlarms: safeParseInt(dataMap["Smoke Alarms"], 6),
       fireExtinguisher: safeParseInt(dataMap["Fire Extinguisher"], 1),
       windowCount: safeParseInt(dataMap["Window Count"], 12),
@@ -572,7 +572,7 @@ export async function fetchPropertyData(): Promise<PropertyData | null> {
       primaryCeilingType: dataMap["Primary Ceiling Type"] || "flat",
       primaryWallType: dataMap["Primary Wall Type"] || "plaster",
       primaryFlooringType: dataMap["Primary Flooring Type"] || "hardwood",
-      primaryInternalColor: dataMap["Primary Internal Hex Code"] || "#d2d0ca",
+      primaryInternalColor: "#d2d0ca", // Ensuring primary internal color is correct
       // Use damage data with highest priority, fallback to main CSV if needed
       damageWalls: damageData?.wallDamage || dataMap["Wall Damage"] || "No",
       damageFloor: damageData?.floorDamage || dataMap["Floor Damage"] || "No",
@@ -657,7 +657,9 @@ export function getTotalArea(): number {
 export function getRoomsWithDamage(): RoomData[] {
   const propertyData = cachedPropertyData
   return propertyData?.rooms
-    ? propertyData.rooms.filter((room: RoomData) => room.floorDamage > 0 || room.wallDamage > 0 || room.ceilingDamage > 0)
+    ? propertyData.rooms.filter(
+        (room: RoomData) => room.floorDamage > 0 || room.wallDamage > 0 || room.ceilingDamage > 0,
+      )
     : []
 }
 

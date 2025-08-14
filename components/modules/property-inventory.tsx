@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 
 export function PropertyInventory() {
   return (
@@ -17,8 +17,16 @@ export function PropertyInventory() {
             <div className="text-sm text-muted-foreground">Bedrooms</div>
           </div>
           <div className="text-center p-3 bg-muted rounded-lg">
-            <div className="text-2xl font-bold">2</div>
+            <div className="text-2xl font-bold">3</div>
             <div className="text-sm text-muted-foreground">Bathrooms</div>
+          </div>
+        </div>
+
+        {/* Carpark */}
+        <div className="grid grid-cols-1 gap-4">
+          <div className="text-center p-3 bg-muted rounded-lg">
+            <div className="text-2xl font-bold">1</div>
+            <div className="text-sm text-muted-foreground">Carpark</div>
           </div>
         </div>
 
@@ -37,10 +45,7 @@ export function PropertyInventory() {
             <div className="flex justify-between items-center">
               <span className="text-sm">Internal Wall Colour</span>
               <div className="flex items-center gap-2">
-                <div 
-                  className="w-4 h-4 rounded border border-gray-300" 
-                  style={{ backgroundColor: '#d2d0ca' }}
-                ></div>
+                <div className="w-4 h-4 rounded border border-gray-300" style={{ backgroundColor: "#d2d0ca" }}></div>
                 <Badge variant="outline">#d2d0ca</Badge>
               </div>
             </div>

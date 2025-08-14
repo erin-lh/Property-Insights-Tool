@@ -356,15 +356,15 @@ export default function RoomPage({ params }) {
     "5": {
       id: "5",
       name: "Room 5: Living Room",
-      type: "Living Room",
-      area: "39.83 m²",
+      type: "living room",
+      area: "15.20 m²",
       height: "N/A",
       width: "4.86 m",
       depth: "N/A",
-      volume: "N/A",
+      volume: "36.63 m³",
       windows: "6",
       doors: "3",
-      valuation: "$124,609.35",
+      valuation: "$45,600.00",
       condition: "Good",
       description:
         "This open-plan living area combines lounge, dining, and kitchen spaces in a bright, airy setting. Polished timber floors and high ceilings with feature windows create a warm, inviting atmosphere, while a skylight adds extra natural light. The lounge area is styled with a modern grey sofa, round white coffee table, and neutral rug, positioned near the dining space with a timber table and black chairs. The kitchen features warm wood cabinetry, a contrasting island with dark benchtops, and stainless steel appliances, creating a practical yet welcoming hub for cooking and entertaining.",
@@ -377,7 +377,7 @@ export default function RoomPage({ params }) {
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_tx5m3eudcum0iigcxbu2rpbka_skybox.jpg",
       ],
       roomLocationImage:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
       propertyImages: [
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215315.jpg-LZxLaUFYfeHL5UFpogUiQYO72hTE36.jpeg",
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215410.jpg-7KvF1eN6eqcBYEJhsSIiN22uIKob4A.jpeg",
@@ -557,7 +557,7 @@ export default function RoomPage({ params }) {
         "This hallway features soft carpet underfoot and clean white walls, with a staircase connecting the upper and lower levels via timber railings and cable balustrades. Multiple doorways lead to bedrooms and other living spaces, while downlights keep the area bright. The layout provides clear sightlines from one end of the hall to the other, giving a sense of openness despite its functional, transitional purpose.",
       panoramaCount: "5",
       panoramaLinks: [
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_mnz5qufzx838bh2ifngu1t43d_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_mnz5qufzx838bh2ifngu1t43d_skyboxrhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_mnz5qufzx838bh2ifngu1t43d_skybox.jpg",
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_mndhi0uf7rsb24icpat8x03pd_skybox.jpg",
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_u5nmsfeun7ye1cxfr7q9kcfzc_skybox.jpg",
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_cdz3fkt38kae7tapstpt0eaeb_nzzaazqnf0qxcfz412mcbfuhb_skybox.jpg",
@@ -635,7 +635,80 @@ export default function RoomPage({ params }) {
       floorDamage: "No",
       ceilingDamage: "No",
       wallDamage: "No",
-      contents: [],
+      contents: [
+        {
+          category: "Furniture",
+          product: "Rectangular Dining Table",
+          quantity: "1",
+          totalEstimation: "$949",
+          productLink: "https://oakfurniturestore.com.au/products/seattle-natural-solid-oak-large-dining-table",
+          details: "A large, rectangular dining table made from solid light/natural oak.",
+        },
+        {
+          category: "Furniture",
+          product: "Black Timber Dining Chair",
+          quantity: "6",
+          totalEstimation: "$1,794",
+          productLink: "https://berkowitz.com.au/product/vick-dining-chair-black/",
+          details: "A black, solid timber dining chair with a curved backrest.",
+        },
+        {
+          category: "Furniture",
+          product: "Kitchen Bar Stool",
+          quantity: "4",
+          totalEstimation: "$916",
+          productLink:
+            "https://www.theblockshop.com.au/product/b2c-furniture-gaudi-hardwood-counter-bar-stool-black-beige-fabric/",
+          details: "A counter-height bar stool with a black timber frame, oak seat, and low backrest.",
+        },
+        {
+          category: "Appliances",
+          product: "Kettle",
+          quantity: "1",
+          totalEstimation: "$249",
+          productLink: "https://www.jbhifi.com.au/products/smeg-50s-style-1-7l-kettle-black",
+        },
+        {
+          category: "Appliances",
+          product: "Toaster",
+          quantity: "1",
+          totalEstimation: "$229",
+          productLink: "https://www.thegoodguys.com.au/smeg-50s-style-2-slice-toaster-black-tsf01blau",
+          details: "A Smeg 50's Retro Style 2-slice toaster in black.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Pepper Grinder",
+          quantity: "1",
+          totalEstimation: "$9.95",
+          productLink: "https://www.target.com.au/p/black-classic-pepper-grinder/59997375",
+          details: "A tall, black, manual pepper grinder.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Large Serving Bowl",
+          quantity: "1",
+          totalEstimation: "$29.95",
+          productLink: "https://www.freedom.com.au/product/24581297",
+          details: "A large, white, low-profile ceramic serving bowl, displayed on the dining table.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Large Glass Vase",
+          quantity: "1",
+          totalEstimation: "$79.95",
+          productLink: "https://www.myer.com.au/p/heritage-alcot-glass-vessel-large-32cm-in-clear",
+          details: "A large, clear glass vase with a wide body and narrow neck, on the dining table.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Artificial Eucalyptus Stems",
+          quantity: "1",
+          totalEstimation: "$18",
+          productLink: "https://handcraftedflowers.com.au/products/eucalyptus-bush-artificial",
+          details: "A bunch of artificial eucalyptus stems inside the glass vase.",
+        },
+      ],
     },
     "8": {
       id: "8",
@@ -681,7 +754,48 @@ export default function RoomPage({ params }) {
       floorDamage: "Yes (Wear and Tear)",
       ceilingDamage: "No",
       wallDamage: "No",
-      contents: [],
+      contents: [
+        {
+          productNumber: "841",
+          category: "Other Belongings",
+          productFixture: "Ceramic Soap Dispenser",
+          quantity: 1,
+          estimatedValuation: 19.95,
+          totalEstimation: 19.95,
+          linkToProduct: "https://www.myer.com.au/p/salt-pepper-suds-hepburn-soap-pump-350ml-in-black",
+          details: "A black, ceramic, freestanding soap dispenser with a pump.",
+        },
+        {
+          productNumber: "842",
+          category: "Other Belongings",
+          productFixture: "Ceramic Tumbler",
+          quantity: 1,
+          estimatedValuation: 7,
+          totalEstimation: 7,
+          linkToProduct: "https://www.bigw.com.au/product/openook-ceramic-toothbrush-holder-black/p/240695",
+          details: "A black, ceramic tumbler, matching the soap dispenser.",
+        },
+        {
+          productNumber: "843",
+          category: "Other Belongings",
+          productFixture: "White Hand Towel",
+          quantity: 1,
+          estimatedValuation: 29.9,
+          totalEstimation: 29.9,
+          linkToProduct: "https://www.homegoodshardware.com.au/products/ribbed-hand-towel-white",
+          details: "A white, cotton hand towel with a ribbed texture.",
+        },
+        {
+          productNumber: "845",
+          category: "Other Belongings",
+          productFixture: "Artificial Orchid + Small Black Pot",
+          quantity: 1,
+          estimatedValuation: 97.9,
+          totalEstimation: 97.9,
+          linkToProduct: "https://www.artificialplantshop.com.au/medium-orchid-in-black-pot-40cm",
+          details: "A small, black, ceramic pot containing a small, artificial white phalaenopsis orchid.",
+        },
+      ],
     },
     "9": {
       id: "9",
@@ -725,7 +839,7 @@ export default function RoomPage({ params }) {
       floorDamage: "No",
       ceilingDamage: "No",
       wallDamage: "No",
-      contents: [],
+      contents: "No contents detected",
     },
     "10": {
       id: "10",
@@ -769,7 +883,39 @@ export default function RoomPage({ params }) {
       floorDamage: "Yes",
       ceilingDamage: "No",
       wallDamage: "No",
-      contents: [],
+      contents: [
+        {
+          productNumber: "1046",
+          category: "Other Belongings",
+          productFixture: "Ceramic Soap Dispenser",
+          quantity: 1,
+          estimatedValuation: 19.95,
+          totalEstimation: 19.95,
+          linkToProduct: "https://www.myer.com.au/p/salt-pepper-suds-hepburn-soap-pump-350ml-in-black",
+          details: "A black, ceramic, freestanding soap dispenser with a pump.",
+        },
+        {
+          productNumber: "1047",
+          category: "Other Belongings",
+          productFixture: "Ceramic Tumbler",
+          quantity: 1,
+          estimatedValuation: 7,
+          totalEstimation: 7,
+          linkToProduct: "https://www.bigw.com.au/product/openook-ceramic-toothbrush-holder-black/p/240695",
+          details: "A black, ceramic tumbler, matching the soap dispenser.",
+        },
+        {
+          productNumber: "1048",
+          category: "Other Belongings",
+          productFixture: "White Hand Towel",
+          quantity: 1,
+          estimatedValuation: 29.9,
+          totalEstimation: 29.9,
+          linkToProduct: "https://www.homegoodshardware.com.au/products/ribbed-hand-towel-white",
+          details: "A white, cotton hand towel with a ribbed texture.",
+        },
+      ],
+      contentsTotal: "$56.85",
     },
   }
 
@@ -1267,6 +1413,38 @@ export default function RoomPage({ params }) {
                       <div className="flex justify-between items-center">
                         <span className="text-lg font-semibold text-gray-900">Room Total:</span>
                         <span className="text-xl font-bold text-green-600">$5,072.90</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "7" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$4,274.85</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "8" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$154.75</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "9" && room.contents !== "No contents detected" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$0.00</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "10" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">{room.contentsTotal}</span>
                       </div>
                     </div>
                   )}
