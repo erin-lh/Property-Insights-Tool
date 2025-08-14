@@ -54,8 +54,8 @@ export async function GET(request: NextRequest) {
           "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=400&query=hallway+entrance+drywall+walls",
         ],
         panoramaImages: [
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_9atk8hw6bpr2kixswfbit6kya_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_19ab05tns5h6y4qm42esqqpea_71mwb6u62ih98rhx2bwyc8b8b_skybox.jpg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%201-%20Pano%201.jpg-WLLUUFwjKVMeOIgjQrogLGoAOrqQQk.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%201-%20Pano%202.jpg.jpg-Kdk5JO9RxikhkYCPJK3f6ejijcb8J1.jpeg",
         ],
         flooringType: "carpet",
         wallMaterial: "drywall",
@@ -81,11 +81,9 @@ export async function GET(request: NextRequest) {
         valuation: "$14,046.71",
         panoramaCount: 4,
         condition: "Complete",
-        roomLocationImage:
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=400&query=3D+dollhouse+view+room+2+patio+location",
+        roomLocationImage: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-9V8ko.png",
         propertyImages: [
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=400&query=outdoor+patio+tile+flooring+metal+ceiling",
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=400&query=patio+outdoor+space+concrete+walls",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%202-%20property%20image.jpg-67yN9sVAqOf1D8NSUlGF6b1rrw3pVh.jpeg",
         ],
         panoramaImages: [
           "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_zibi0h0ges2t5dxryrb7800wd_skybox.jpg",
@@ -105,7 +103,7 @@ export async function GET(request: NextRequest) {
         windowCount: 2,
         airConditioningCount: 0,
         description:
-          "Outdoor patio area with tile flooring and metal ceiling. Features recessed lighting and concrete walls.",
+          "Covered outdoor patio area with curved corrugated metal roof, tile flooring, modern outdoor furniture, and panoramic garden views.",
       },
       "3": {
         roomId: "3m54yff1z7crxaywd8if9rb0d",

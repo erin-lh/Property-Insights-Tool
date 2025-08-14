@@ -29,15 +29,12 @@ export default function RoomPage({ params }) {
         "Entry hallway with carpet flooring and drywall walls. Features ceiling lights and connects to main living areas.",
       panoramaCount: "2",
       panoramaLinks: [
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room1_panorama1_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room1_panorama2_skybox.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%201-%20Pano%201.jpg-WLLUUFwjKVMeOIgjQrogLGoAOrqQQk.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%201-%20Pano%202.jpg.jpg-Kdk5JO9RxikhkYCPJK3f6ejijcb8J1.jpeg",
       ],
       roomLocationImage:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
-      propertyImages: [
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room1-property1.jpg",
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room1-property2.jpg",
-      ],
+      propertyImages: [],
       flooring: "Carpet",
       wallMaterial: "Drywall",
       ceilingType: "Flat",
@@ -60,41 +57,40 @@ export default function RoomPage({ params }) {
       id: "2",
       name: "Room 2: Patio",
       type: "Patio",
-      area: "15.20 m²",
-      height: "2.41 m",
-      width: "4.86 m",
-      depth: "3.13 m",
-      volume: "36.63 m³",
-      windows: "0",
-      doors: "2",
-      valuation: "$45,600.00",
+      area: "5.01 m²",
+      height: "2.72 m",
+      width: "1.58 m",
+      depth: "2.17 m",
+      volume: "13.61 m³",
+      windows: "2",
+      doors: "1",
+      valuation: "$14,046.71",
       condition: "Complete",
       description:
-        "Covered outdoor patio area with tile flooring and open-air design. Features ceiling fan and connects to main living areas through sliding doors.",
+        "Covered outdoor patio area with curved corrugated metal roof, tile flooring, modern outdoor furniture, and panoramic garden views.",
       panoramaCount: "4",
       panoramaLinks: [
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room2_panorama1_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room2_panorama2_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room2_panorama3_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_room2_panorama4_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_zibi0h0ges2t5dxryrb7800wd_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_cct379k0f1t6gnmuutm23i4ac_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_mw5ymdiqgmkaiasgdiksy3i5a_skybox.jpg",
+        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2qdmc5i9byxi79ry1pxdkqzea_pxk5thts3iiwc5azq4drsitfc_skybox.jpg",
       ],
       roomLocationImage: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-9V8ko.png",
       propertyImages: [
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room2-patio1.jpg",
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/room2-patio2.jpg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%202-%20property%20image.jpg-67yN9sVAqOf1D8NSUlGF6b1rrw3pVh.jpeg",
       ],
       flooring: "Tile",
-      wallMaterial: "N/A",
-      ceilingType: "Open",
-      ceilingLights: "None",
+      wallMaterial: "Concrete",
+      ceilingType: "Metal",
+      ceilingLights: "Recessed",
       airConditioning: false,
       smokeAlarm: false,
-      ceilingFan: true,
+      ceilingFan: false,
       smokeAlarmCount: 0,
-      ceilingLightCount: 0,
-      ceilingFanCount: 1,
+      ceilingLightCount: 2,
+      ceilingFanCount: 0,
       airConditioningCount: 0,
-      windowCount: 0,
+      windowCount: 2,
       windowCover: "None",
       floorDamage: "No",
       ceilingDamage: "No",
@@ -589,9 +585,11 @@ export default function RoomPage({ params }) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {room.propertyImages.length > 0 ? (
-                    room.propertyImages.map((image, index) => (
+                {room.propertyImages.length > 0 ? (
+                  <div
+                    className={`grid gap-4 ${room.propertyImages.length === 1 ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"}`}
+                  >
+                    {room.propertyImages.map((image, index) => (
                       <div key={index} className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                         <Image
                           src={image || "/placeholder.svg"}
@@ -602,13 +600,13 @@ export default function RoomPage({ params }) {
                           onClick={() => setSelectedImage(image)}
                         />
                       </div>
-                    ))
-                  ) : (
-                    <div className="aspect-video bg-gray-100 flex items-center justify-center">
-                      <p className="text-gray-500">No property images available</p>
-                    </div>
-                  )}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
+                    <p className="text-gray-500">No images currently available to display</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

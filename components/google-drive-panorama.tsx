@@ -253,18 +253,19 @@ const ROOM_DATA = {
     type: "hallway",
     panoramaCount: 2,
     panoramaImages: [
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_1m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_1m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%201-%20Pano%201.jpg-WLLUUFwjKVMeOIgjQrogLGoAOrqQQk.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%201-%20Pano%202.jpg.jpg-Kdk5JO9RxikhkYCPJK3f6ejijcb8J1.jpeg",
     ],
   },
   "2": {
     type: "patio",
-    panoramaCount: 4,
+    panoramaCount: 5,
     panoramaImages: [
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg",
-      "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_2m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%202-%20pano%201.jpg-7vVHTvsOQxjDU2zya2W1jQfDVotfSp.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%202-%20pano%202.jpg-j8ZRK8FWH8m0YjOvobGPNyl1e1o0Pq.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%202-%20pano%203.jpg-9WlJc1Piu8tUHzWxcjRSU85eLNkVem.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%202-%20pano%205.jpg-E7U8EUjzqeB19ATFjrNS2GxcGeuHTt.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%202-%20pano%204.jpg-fh2vPh1ECaODut06CW7WXwqoV7HhWt.jpeg",
     ],
   },
   "3": {
