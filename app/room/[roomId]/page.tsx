@@ -917,6 +917,375 @@ export default function RoomPage({ params }) {
       ],
       contentsTotal: "$56.85",
     },
+    "11": {
+      id: "11",
+      name: "Room 11: Bedroom",
+      type: "Bedroom",
+      area: "12.50 m²",
+      height: "2.41 m",
+      width: "4.20 m",
+      depth: "2.98 m",
+      volume: "30.13 m³",
+      windows: "2",
+      doors: "1",
+      valuation: "$36,875.00",
+      condition: "Good",
+      description:
+        "Secondary bedroom with carpet flooring and built-in wardrobes. Features natural light from windows and ceiling lighting.",
+      panoramaCount: "3",
+      panoramaLinks: [],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
+      propertyImages: [],
+      flooring: "Carpet",
+      wallMaterial: "Drywall",
+      ceilingType: "Flat",
+      ceilingLights: "Recessed",
+      airConditioning: false,
+      smokeAlarm: true,
+      ceilingFan: false,
+      smokeAlarmCount: 1,
+      ceilingLightCount: 2,
+      ceilingFanCount: 0,
+      airConditioningCount: 0,
+      windowCount: 2,
+      windowCover: "Blinds",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [
+        {
+          category: "Furniture",
+          product: "Upholstered Bed Frame",
+          quantity: "1",
+          totalEstimation: "$356",
+          productLink: "https://sleepcenterbeds.com.au/products/modern-headboard-bed-frame-queen-charcoal",
+          details: "A queen-sized bed frame with a dark grey/charcoal upholstered headboard.",
+        },
+        {
+          category: "Furniture",
+          product: "Queen Mattress",
+          quantity: "1",
+          totalEstimation: "$399",
+          productLink: "https://www.ikea.com/au/en/p/valevag-pocket-sprung-mattress-firm-light-blue-40470014/",
+          details: "A standard queen-sized mattress. Valuation based on a popular, basic pocket-sprung model.",
+        },
+        {
+          category: "Furniture",
+          product: "Bedside Table",
+          quantity: "2",
+          totalEstimation: "$123.90",
+          productLink: "https://www.bunnings.com.au/artiss-white-storage-bedside-table-with-shelf_p0225911",
+          details: "A simple, white bedside table with an open lower shelf.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Quilt Cover Set",
+          quantity: "1",
+          totalEstimation: "$149.99",
+          productLink: "https://www.myer.com.au/p/linen-house-nara-400tc-bamboo-cotton-quilt-cover-set-in-white",
+          details: "A plain, white, queen-sized quilt cover set.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Standard Pillow",
+          quantity: "2",
+          totalEstimation: "$60",
+          productLink: "https://www.pillowtalk.com.au/products/essentials-standard-pillow-twin-pack",
+          details: "Standard-sized bed pillows. Valuation based on a twin-pack.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Decorative Cushion (Dark Grey)",
+          quantity: "1",
+          totalEstimation: "$40.95",
+          productLink: "https://mylinen.com.au/products/hallston-charcoal-square-filled-cushion",
+          details: "A square, decorative cushion in a dark grey/charcoal colour.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Decorative Cushion (Light Grey)",
+          quantity: "1",
+          totalEstimation: "$49",
+          productLink: "https://www.revivedartisan.com.au/products/french-linen-geometric-grey-cushion-scroll-dove",
+          details: "A square, decorative cushion in a light grey with a geometric pattern.",
+        },
+        {
+          category: "Electronics",
+          product: "Bedside Table Lamp",
+          quantity: "2",
+          totalEstimation: "$129.80",
+          productLink: "https://www.myer.com.au/p/oriel-lighting-lenny-mesh-bedside-table-lamp-in-black",
+          details: "A small, modern black table lamp with a mesh or wire style shade.",
+        },
+        {
+          category: "Artwork and Valuables",
+          product: "Framed Wall Art",
+          quantity: "1",
+          totalEstimation: "$69.99",
+          productLink: "https://www.wallartprints.com.au/canvas-prints/abstract/forever-flourish/",
+          details: "A large, framed abstract art print with a neutral and dark colour palette.",
+        },
+      ],
+      contentsTotal: "$1,378.63",
+    },
+    "12": {
+      id: "12",
+      name: "Room 12: Balcony",
+      type: "Balcony",
+      area: "8.75 m²",
+      height: "2.41 m",
+      width: "3.50 m",
+      depth: "2.50 m",
+      volume: "21.09 m³",
+      windows: "0",
+      doors: "1",
+      valuation: "$26,250.00",
+      condition: "Good",
+      description:
+        "Covered outdoor balcony with tile flooring and outdoor furniture. Features panoramic views and natural lighting.",
+      panoramaCount: "2",
+      panoramaLinks: [],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ovqqovg6G4qwOTH66jAhMmEMZp4iH2.png",
+      propertyImages: [],
+      flooring: "Tile",
+      wallMaterial: "Concrete",
+      ceilingType: "Concrete",
+      ceilingLights: "None",
+      airConditioning: false,
+      smokeAlarm: false,
+      ceilingFan: false,
+      smokeAlarmCount: 0,
+      ceilingLightCount: 0,
+      ceilingFanCount: 0,
+      airConditioningCount: 0,
+      windowCount: 0,
+      windowCover: "None",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [
+        {
+          category: "Furniture",
+          product: "Outdoor Cafe Table",
+          quantity: "1",
+          totalEstimation: "$139",
+          productLink: "https://www.replicafurniture.com.au/ozone-black-round-outdoor-dining-table-60-cm-diameter",
+          details: "A small, round, black outdoor cafe/bistro table with a pedestal base.",
+        },
+        {
+          category: "Furniture",
+          product: "Outdoor Rope Dining Chair",
+          quantity: "2",
+          totalEstimation: "$478",
+          productLink: "https://www.marcandmain.com.au/products/dillon-rope-dining-chair-in-black",
+          details: "A black outdoor dining chair with a woven rope seat and back, on a black metal frame.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Small Artificial Plant",
+          quantity: "1",
+          totalEstimation: "$12",
+          productLink: "https://www.kmart.com.au/product/artificial-plant-in-cement-pot-42964393/",
+          details: "A small artificial succulent in a simple, small pot, for decorative purposes.",
+        },
+      ],
+      contentsTotal: "$629",
+    },
+    "13": {
+      id: "13",
+      name: "Room 13: Bedroom",
+      type: "Bedroom",
+      area: "14.25 m²",
+      height: "2.41 m",
+      width: "4.75 m",
+      depth: "3.00 m",
+      volume: "34.34 m³",
+      windows: "2",
+      doors: "1",
+      valuation: "$42,112.50",
+      condition: "Good",
+      description:
+        "Third bedroom with carpet flooring and built-in storage. Features natural light and modern fixtures.",
+      panoramaCount: "4",
+      panoramaLinks: [],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
+      propertyImages: [],
+      flooring: "Carpet",
+      wallMaterial: "Drywall",
+      ceilingType: "Flat",
+      ceilingLights: "Recessed",
+      airConditioning: false,
+      smokeAlarm: true,
+      ceilingFan: false,
+      smokeAlarmCount: 1,
+      ceilingLightCount: 2,
+      ceilingFanCount: 0,
+      airConditioningCount: 0,
+      windowCount: 2,
+      windowCover: "Blinds",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [
+        {
+          category: "Furniture",
+          product: "Upholstered Bed Frame",
+          quantity: "1",
+          totalEstimation: "$399",
+          productLink:
+            "https://furnituretrader.com.au/all-furniture/bedroom/beds/queen/orchard-queen-bed-dark-grey.html",
+          details: "A queen-sized bed frame with a dark grey/charcoal upholstered headboard.",
+        },
+        {
+          category: "Furniture",
+          product: "Queen Mattress",
+          quantity: "1",
+          totalEstimation: "$399",
+          productLink: "https://www.ikea.com/au/en/p/valevag-pocket-sprung-mattress-firm-light-blue-40470014/",
+          details: "A standard queen-sized mattress. Valuation based on a popular, basic pocket-sprung model.",
+        },
+        {
+          category: "Furniture",
+          product: "Bedside Table",
+          quantity: "2",
+          totalEstimation: "$127.90",
+          productLink: "https://www.bunnings.com.au/artiss-oak-2-drawer-shelf-storage-bedside-table_p0225916",
+          details: "A simple, white bedside table with a single drawer and an open lower shelf.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Quilt Cover Set",
+          quantity: "1",
+          totalEstimation: "$149.99",
+          productLink: "https://www.myer.com.au/p/linen-house-nara-400tc-bamboo-cotton-quilt-cover-set-in-white",
+          details: "A plain, white, queen-sized quilt cover set.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Standard Pillow",
+          quantity: "2",
+          totalEstimation: "$60",
+          productLink: "https://www.pillowtalk.com.au/products/essentials-standard-pillow-twin-pack",
+          details: "Standard-sized bed pillows. Valuation based on a twin-pack.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Decorative Cushion (Dark Grey)",
+          quantity: "1",
+          totalEstimation: "$40.95",
+          productLink: "https://mylinen.com.au/products/hallston-charcoal-square-filled-cushion",
+          details: "A square, decorative cushion in a dark grey/charcoal colour.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Decorative Cushion (Light Grey)",
+          quantity: "1",
+          totalEstimation: "$49",
+          productLink: "https://www.revivedartisan.com.au/products/french-linen-geometric-grey-cushion-scroll-dove",
+          details: "A square, decorative cushion in a light grey with a geometric pattern.",
+        },
+        {
+          category: "Electronics",
+          product: "Bedside Table Lamp",
+          quantity: "2",
+          totalEstimation: "$129.80",
+          productLink: "https://www.myer.com.au/p/oriel-lighting-lenny-mesh-bedside-table-lamp-in-black",
+          details: "A small, modern black table lamp with a mesh or wire style shade.",
+        },
+        {
+          category: "Artwork and Valuables",
+          product: "Framed Wall Art",
+          quantity: "1",
+          totalEstimation: "$74.95",
+          productLink: "https://oliveetoriel.com/products/palmeras-by-julie-celina-framed-canvas-art-print",
+          details: "A large, framed abstract art print with a neutral colour palette.",
+        },
+      ],
+      contentsTotal: "$1,430.59",
+    },
+    "14": {
+      id: "14",
+      name: "Room 14: Laundry",
+      type: "Laundry",
+      area: "5.00 m²",
+      height: "2.41 m",
+      width: "2.50 m",
+      depth: "2.00 m",
+      volume: "12.05 m³",
+      windows: "1",
+      doors: "1",
+      valuation: "$15,000.00",
+      condition: "Good",
+      description:
+        "Dedicated laundry room with tile flooring and modern appliances. Features natural light and ample storage space.",
+      panoramaCount: "1",
+      panoramaLinks: [],
+      roomLocationImage:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
+      propertyImages: [],
+      flooring: "Tile",
+      wallMaterial: "Drywall",
+      ceilingType: "Flat",
+      ceilingLights: "Recessed",
+      airConditioning: false,
+      smokeAlarm: false,
+      ceilingFan: false,
+      smokeAlarmCount: 0,
+      ceilingLightCount: 1,
+      ceilingFanCount: 0,
+      airConditioningCount: 0,
+      windowCount: 1,
+      windowCover: "Blinds",
+      floorDamage: "No",
+      ceilingDamage: "No",
+      wallDamage: "No",
+      contents: [
+        {
+          category: "Appliances",
+          product: "Washing Machine",
+          quantity: "1",
+          totalEstimation: "$799",
+          productLink: "https://www.thegoodguys.com.au/lg-85kg-front-load-washing-machine-wv5148wg",
+          details: "A modern front load washing machine.",
+        },
+        {
+          category: "Appliances",
+          product: "Clothes Dryer",
+          quantity: "1",
+          totalEstimation: "$699",
+          productLink: "https://www.thegoodguys.com.au/lg-8kg-heat-pump-dryer-dv90bb",
+          details: "A modern heat pump clothes dryer.",
+        },
+        {
+          category: "Furniture",
+          product: "Laundry Tub",
+          quantity: "1",
+          totalEstimation: "$249",
+          productLink: "https://www.bunnings.com.au/flexispace-45l-white-laundry-tub-and-cabinet_p0097987",
+          details: "A white laundry tub with a cabinet.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Laundry Basket",
+          quantity: "1",
+          totalEstimation: "$25",
+          productLink: "https://www.kmart.com.au/product/40l-bamboo-laundry-basket-43077591/",
+          details: "A bamboo laundry basket.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Ironing Board",
+          quantity: "1",
+          totalEstimation: "$39",
+          productLink: "https://www.kmart.com.au/product/ironing-board-with-iron-rest-42878828/",
+          details: "A standard ironing board.",
+        },
+      ],
+      contentsTotal: "$1,811",
+    },
   }
 
   const room = roomData[params.roomId]
@@ -1445,6 +1814,38 @@ export default function RoomPage({ params }) {
                       <div className="flex justify-between items-center">
                         <span className="text-lg font-semibold text-gray-900">Room Total:</span>
                         <span className="text-xl font-bold text-green-600">{room.contentsTotal}</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "11" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$1,378.63</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "12" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$629</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "13" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$1,430.59</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "14" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$1,811</span>
                       </div>
                     </div>
                   )}
