@@ -107,8 +107,8 @@ export async function GET(request: NextRequest) {
       },
       "3": {
         roomId: "3m54yff1z7crxaywd8if9rb0d",
-        name: "Room 3: Bedroom",
-        type: "bedroom",
+        name: "Room 3: Bathroom",
+        type: "bathroom",
         area: "4.25 m²",
         volume: "9.19 m³",
         height: "2.16 m",
@@ -116,16 +116,15 @@ export async function GET(request: NextRequest) {
         panoramaCount: 4,
         condition: "Complete",
         roomLocationImage:
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=400&query=3D+dollhouse+view+room+3+bedroom+location",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
         propertyImages: [
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=400&query=bedroom+tile+flooring+plaster+walls",
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=400&query=bedroom+interior+flat+ceiling+recessed+lighting",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20property%20image.jpg-fYzbBkGbez0UyyC09ne1gwZKPxcoJg.jpeg",
         ],
         panoramaImages: [
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20Pano%201.jpg-3YKPoqnRE6gz5JPtXmMXV3SUpC0l2K.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20Pano%202.jpg-wBKE8q3lUJxs8ueTthmSy0Pc6seE8n.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20pano%203.jpg-T1F6bCIPBCWpstb1b2Fbz0bdHP4zOr.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20Pano%204.jpg-vdflvnGza1d3RKBDkHjuP4cN2gvlh9.jpeg",
         ],
         flooringType: "tile",
         wallMaterial: "plaster",
@@ -139,7 +138,7 @@ export async function GET(request: NextRequest) {
         windowCount: 1,
         airConditioningCount: 0,
         description:
-          "Compact bedroom with tile flooring and plaster walls. Features corner glass-enclosed shower and compact vanity.",
+          "Compact bathroom with tile flooring and plaster walls. Features corner glass-enclosed shower and compact vanity.",
       },
       "4": {
         roomId: "613htqkzf66zz7hf7n8kzszed",

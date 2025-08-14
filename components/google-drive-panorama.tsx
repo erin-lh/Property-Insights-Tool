@@ -272,10 +272,10 @@ const ROOM_DATA = {
     type: "bathroom",
     panoramaCount: 4,
     panoramaImages: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_983x6xg3ixwh2n54sdw8k76ad_skybox.jpg-DybvROpI27IWHSdHb2KCEVDQKjA8sw.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_mu9uxdez3ha971p08w8nqkn3a_skybox.jpg-0U773bQXctTFUI3oCYs4MjGGChlV4X.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_xx97uf4cdb80cba9uy8u539rd_skybox.jpg-38W7KABIGlqKllAWl8riaQGzo8HHg2.jpeg",
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_3m54yff1z7crxaywd8if9rb0d_m4rcxhtirqgqh9enyg9zy5pyd_skybox.jpg-qTthxDlQMoEP0VTeF87su16QkDKGzg.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20Pano%201.jpg-3YKPoqnRE6gz5JPtXmMXV3SUpC0l2K.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20Pano%202.jpg-wBKE8q3lUJxs8ueTthmSy0Pc6seE8n.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20pano%203.jpg-T1F6bCIPBCWpstb1b2Fbz0bdHP4zOr.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20Pano%204.jpg-vdflvnGza1d3RKBDkHjuP4cN2gvlh9.jpeg",
     ],
   },
   "4": {
