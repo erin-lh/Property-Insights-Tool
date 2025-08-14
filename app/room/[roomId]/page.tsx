@@ -268,13 +268,90 @@ export default function RoomPage({ params }) {
       smokeAlarmCount: 1,
       ceilingLightCount: 2,
       ceilingFanCount: 0,
+      contents: [
+        {
+          category: "Furniture",
+          product: "Upholstered Bed Frame",
+          quantity: "1",
+          totalEstimation: "$299",
+          productLink: "https://www.fortywinks.com.au/products/lane-qb-channelled-headboard-bed/",
+          details: "A queen-sized bed frame with a light grey upholstered, channelled headboard.",
+        },
+        {
+          category: "Furniture",
+          product: "Queen Mattress",
+          quantity: "1",
+          totalEstimation: "$399",
+          productLink: "https://www.ikea.com/au/en/p/valevag-pocket-sprung-mattress-firm-light-blue-40470014/",
+          details: "A standard queen-sized mattress. Valuation based on a popular, basic pocket-sprung model.",
+        },
+        {
+          category: "Furniture",
+          product: "Bedside Table",
+          quantity: "2",
+          totalEstimation: "$123.90",
+          productLink: "https://www.bunnings.com.au/artiss-white-storage-bedside-table-with-shelf_p0225911",
+          details: "A simple, white bedside table with an open lower shelf, consistent with the style shown.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Quilt Cover Set",
+          quantity: "1",
+          totalEstimation: "$119.99",
+          productLink:
+            "https://www.manchesterwarehouse.com.au/products/linen-house-lifestyle-nara-400thc-bamboo-cotton-quilt-cover-set-range-white",
+          details: "A plain, white, queen-sized quilt cover set.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Standard Pillow",
+          quantity: "2",
+          totalEstimation: "$62.98",
+          productLink:
+            "https://www.sheridanoutlet.com.au/sheridan-outlet-polyester-fresh-sleep-medium-pillow-t2707-b100-c200-na-white.html",
+          details: "Standard-sized bed pillows.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Decorative Cushion",
+          quantity: "1",
+          totalEstimation: "$29.95",
+          productLink: "https://www.willowhomeliving.com.au/products/light-grey-cushion-cover",
+          details: "A light grey, textured, square decorative cushion.",
+        },
+        {
+          category: "Electronics",
+          product: "Bedside Table Lamp",
+          quantity: "2",
+          totalEstimation: "$129.82",
+          productLink: "https://www.myer.com.au/p/oriel-lighting-lenny-mesh-bedside-table-lamp-in-black",
+          details: "A small, modern black table lamp with a mesh or wire style shade.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Book",
+          quantity: "2",
+          totalEstimation: "$39.98",
+          productLink: "https://www.booktopia.com.au/the-last-thing-he-told-me-laura-dave/book/9781761103362.html",
+          details: "Standard hardcover books. Valuation is an average estimate per book.",
+        },
+        {
+          category: "Artwork and Valuables",
+          product: "Framed Wall Art",
+          quantity: "1",
+          totalEstimation: "$65",
+          productLink:
+            "https://www.iheartwallart.com.au/products/lush-two-piece-abstract-green-print-set-by-dan-hobday",
+          details:
+            "A large, framed abstract art print with green and neutral tones. Valuation is for a single print of a similar size and style.",
+        },
+      ],
       airConditioningCount: 1,
       windowCount: 1,
       windowCover: "Other",
       floorDamage: "No",
       ceilingDamage: "No",
       wallDamage: "No",
-      contents: [],
     },
     "5": {
       id: "5",
@@ -291,23 +368,13 @@ export default function RoomPage({ params }) {
       condition: "Good",
       description:
         "This open-plan living area combines lounge, dining, and kitchen spaces in a bright, airy setting. Polished timber floors and high ceilings with feature windows create a warm, inviting atmosphere, while a skylight adds extra natural light. The lounge area is styled with a modern grey sofa, round white coffee table, and neutral rug, positioned near the dining space with a timber table and black chairs. The kitchen features warm wood cabinetry, a contrasting island with dark benchtops, and stainless steel appliances, creating a practical yet welcoming hub for cooking and entertaining.",
-      panoramaCount: "15",
+      panoramaCount: "5",
       panoramaLinks: [
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_k2zwk015t51gw99zpztx4egaa_skybox.jpg",
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_ecdy23xprhp3q3f0rth5c5hac_skybox.jpg",
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_5wza109uxdtiah3khz7teiwna_skybox.jpg",
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_txkwf277fq24hepe3gi002nfa_skybox.jpg",
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_tx5m3eudcum0iigcxbu2rpbka_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_udkrwr2wfte2anpi6taw68ycb_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_wds8heu9aarna9tk8t9s9ygwc_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_yehgh6y0ztzq71b0dckb5795d_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_aq8zqxp329yhkc290pzgm9h3b_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_uf6ssx7puqskhh5dibe1tp8aa_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_37r3c3nk8ud8rkpb9a28eyd1a_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_cr857sqay5qbzbe8xdx784acb_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_0rgwxt1ets18w34c1n8sh4idb_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_380yg5497h86wkdc5wq4r6fhc_skybox.jpg",
-        "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_m96rn180d4f690kwy89umae0c_skybox.jpg",
       ],
       roomLocationImage:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
@@ -331,7 +398,147 @@ export default function RoomPage({ params }) {
       floorDamage: "No",
       ceilingDamage: "No",
       wallDamage: "No",
-      contents: [],
+      contents: [
+        {
+          category: "Furniture",
+          product: "3-Seater Fabric Sofa",
+          quantity: "1",
+          totalEstimation: "$1,299",
+          productLink: "https://www.loungelovers.com.au/linda-3-seat-sofa-coral-bay-textured-light-grey",
+          details: "A 3-seater sofa in a light grey textured fabric with light oak legs.",
+        },
+        {
+          category: "Furniture",
+          product: "Rattan Buffet Sideboard",
+          quantity: "1",
+          totalEstimation: "$899",
+          productLink: "https://www.templeandwebster.com.au/Cannes-Rattan-4-Door-Buffet-Sideboard-HANS1001.html",
+          details: "An oak-finish sideboard with four woven rattan/wicker doors.",
+        },
+        {
+          category: "Furniture",
+          product: "Boucle Accent Chair",
+          quantity: "1",
+          totalEstimation: "$549",
+          productLink: "https://www.templeandwebster.com.au/Togo-Boucle-Armchair-TPWT2954.html",
+          details: "A modern tub-style armchair upholstered in a dark grey/charcoal boucle fabric.",
+        },
+        {
+          category: "Furniture",
+          product: "Round Low Coffee Table",
+          quantity: "1",
+          totalEstimation: "$279",
+          productLink: "https://www.freedom.com.au/product/24216858",
+          details: "A large, round, low-profile coffee table in a plain white finish.",
+        },
+        {
+          category: "Furniture",
+          product: "Marble Side Table",
+          quantity: "1",
+          totalEstimation: "$149",
+          productLink: "https://www.castlery.com/au/products/odette-marble-side-table",
+          details: "A small, round side table with a white marble top and a white tulip-style pedestal base.",
+        },
+        {
+          category: "Furniture",
+          product: "Slim Console Table",
+          quantity: "1",
+          totalEstimation: "$199",
+          productLink: "https://www.freedom.com.au/product/24329245",
+          details: "A slim, minimalist console table with a black metal frame and a white/light-coloured top.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Large Patterned Rug",
+          quantity: "1",
+          totalEstimation: "$499",
+          productLink: "https://www.templeandwebster.com.au/Ivory-and-Grey-Skandi-Diamond-Wool-Rug-VRAI1266.html",
+          details: "A large, textured floor rug with a grey and ivory diamond pattern.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Decorative Cushion (Beige/Gold)",
+          quantity: "2",
+          totalEstimation: "$79.90",
+          productLink: "https://www.pillowtalk.com.au/products/heath-cushion-sahara",
+          details: "A square decorative cushion with a beige and mustard/gold geometric pattern.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Decorative Cushion (Cream)",
+          quantity: "2",
+          totalEstimation: "$69.90",
+          productLink: "https://www.adairs.com.au/homewares/cushions/home-republic/stonewashed-cotton-cream-cushion/",
+          details: "A square decorative cushion in a plain, textured cream/off-white fabric.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Decorative Cushion (White)",
+          quantity: "1",
+          totalEstimation: "$29.95",
+          productLink: "https://www.templeandwebster.com.au/Linen-House-Lifestyle-Delray-Cushion-LHLF1109.html",
+          details: "A small, white rectangular cushion with corner tassels, placed on the accent chair.",
+        },
+        {
+          category: "Artwork and Valuables",
+          product: "Large Abstract Figure Art",
+          quantity: "1",
+          totalEstimation: "$380",
+          productLink:
+            "https://www.theblockshop.com.au/product/figurative-art-print-by-adrian-o-labrador-dawn-by-the-sea/",
+          details: "A large, framed canvas print of an abstract figure in a striped robe.",
+        },
+        {
+          category: "Artwork and Valuables",
+          product: "Framed Beach Scene Art",
+          quantity: "1",
+          totalEstimation: "$250",
+          productLink: "https://www.oliveetoriel.com/products/sorrento-ii-framed-canvas-art-print",
+          details: "A framed print depicting a beach/pool scene with a straw hat and sunglasses.",
+        },
+        {
+          category: "Artwork and Valuables",
+          product: "Round Wall Mirror",
+          quantity: "1",
+          totalEstimation: "$229",
+          productLink: "https://www.adairs.com.au/homewares/mirrors/home-republic/marley-mirror-gold/",
+          details: "A medium-sized round wall mirror with a thin gold/brass metal frame.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Large White Vase",
+          quantity: "1",
+          totalEstimation: "$49.95",
+          productLink: "https://www.pillowtalk.com.au/products/habitate-cali-vase-white",
+          details: "A large, round, matte white ceramic vase, on the coffee table.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Clear Glass Vase",
+          quantity: "1",
+          totalEstimation: "$35",
+          productLink: "https://www.countryroad.com.au/arlo-vase-60265818-1",
+          details: "A medium-sized, clear glass vase with a flared opening, on the sideboard.",
+        },
+        {
+          category: "Other Belongings",
+          product: "Dried Branches/Stems",
+          quantity: "1",
+          totalEstimation: "$24.95",
+          productLink:
+            "https://www.adairs.com.au/homewares/artificial-plants--flowers/home-republic/dried-look-eucalyptus-spray-brown/",
+          details: "A bunch of dried decorative branches or stems.",
+        },
+        {
+          category: "Other Belongings",
+          product: "At Home Hardcover Book",
+          quantity: "1",
+          totalEstimation: "$51.25",
+          productLink: "https://www.booktopia.com.au/at-home-brian-paquette/book/9781423648937.html",
+          details: "At Home by Brian Paquette, used as a decorative book on the coffee table.",
+        },
+      ],
+      contentsTotal: "$5,072.90",
     },
     "6": {
       id: "6",
@@ -886,45 +1093,151 @@ export default function RoomPage({ params }) {
                 </div>
               ) : room.contents.length > 0 ? (
                 <div className="space-y-4">
-                  {room.contents.map((content, index) => (
-                    <div key={index} className="bg-gray-50 rounded-lg p-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                        <div>
-                          <span className="text-sm font-medium text-gray-600">Category:</span>
-                          <p className="text-gray-900">{content.category}</p>
+                  {room.id === "5" ? (
+                    <>
+                      {/* Show first 10 products */}
+                      {room.contents.slice(0, 10).map((content, index) => (
+                        <div key={index} className="bg-gray-50 rounded-lg p-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                            <div>
+                              <span className="text-sm font-medium text-gray-600">Category:</span>
+                              <p className="text-gray-900">{content.category}</p>
+                            </div>
+                            <div>
+                              <span className="text-sm font-medium text-gray-600">Product/Fixture:</span>
+                              <p className="text-gray-900">{content.product}</p>
+                            </div>
+                            <div>
+                              <span className="text-sm font-medium text-gray-600">Quantity:</span>
+                              <p className="text-gray-900">{content.quantity}</p>
+                            </div>
+                            <div>
+                              <span className="text-sm font-medium text-gray-600">Total Estimation:</span>
+                              <p className="text-green-600 font-semibold">{content.totalEstimation}</p>
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <div>
+                              <span className="text-sm font-medium text-gray-600">Details:</span>
+                              <p className="text-gray-700">{content.details}</p>
+                            </div>
+                            <div>
+                              <span className="text-sm font-medium text-gray-600">Product Link:</span>
+                              <a
+                                href={content.productLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:text-blue-800 underline"
+                              >
+                                View Product
+                              </a>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <span className="text-sm font-medium text-gray-600">Product/Fixture:</span>
-                          <p className="text-gray-900">{content.product}</p>
+                      ))}
+
+                      {/* Dropdown for remaining products */}
+                      {room.contents.length > 10 && (
+                        <details className="group">
+                          <summary className="cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-lg p-4 flex items-center justify-between">
+                            <span className="font-medium text-blue-900">
+                              Show {room.contents.length - 10} more items
+                            </span>
+                            <svg
+                              className="w-5 h-5 text-blue-600 group-open:rotate-180 transition-transform"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </summary>
+                          <div className="mt-4 space-y-4">
+                            {room.contents.slice(10).map((content, index) => (
+                              <div key={index + 10} className="bg-gray-50 rounded-lg p-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                                  <div>
+                                    <span className="text-sm font-medium text-gray-600">Category:</span>
+                                    <p className="text-gray-900">{content.category}</p>
+                                  </div>
+                                  <div>
+                                    <span className="text-sm font-medium text-gray-600">Product/Fixture:</span>
+                                    <p className="text-gray-900">{content.product}</p>
+                                  </div>
+                                  <div>
+                                    <span className="text-sm font-medium text-gray-600">Quantity:</span>
+                                    <p className="text-gray-900">{content.quantity}</p>
+                                  </div>
+                                  <div>
+                                    <span className="text-sm font-medium text-gray-600">Total Estimation:</span>
+                                    <p className="text-green-600 font-semibold">{content.totalEstimation}</p>
+                                  </div>
+                                </div>
+                                <div className="space-y-2">
+                                  <div>
+                                    <span className="text-sm font-medium text-gray-600">Details:</span>
+                                    <p className="text-gray-700">{content.details}</p>
+                                  </div>
+                                  <div>
+                                    <span className="text-sm font-medium text-gray-600">Product Link:</span>
+                                    <a
+                                      href={content.productLink}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-blue-600 hover:text-blue-800 underline"
+                                    >
+                                      View Product
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </details>
+                      )}
+                    </>
+                  ) : (
+                    /* Regular display for other rooms */
+                    room.contents.map((content, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Category:</span>
+                            <p className="text-gray-900">{content.category}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Product/Fixture:</span>
+                            <p className="text-gray-900">{content.product}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Quantity:</span>
+                            <p className="text-gray-900">{content.quantity}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Total Estimation:</span>
+                            <p className="text-green-600 font-semibold">{content.totalEstimation}</p>
+                          </div>
                         </div>
-                        <div>
-                          <span className="text-sm font-medium text-gray-600">Quantity:</span>
-                          <p className="text-gray-900">{content.quantity}</p>
-                        </div>
-                        <div>
-                          <span className="text-sm font-medium text-gray-600">Total Estimation:</span>
-                          <p className="text-green-600 font-semibold">{content.totalEstimation}</p>
+                        <div className="space-y-2">
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Details:</span>
+                            <p className="text-gray-700">{content.details}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Product Link:</span>
+                            <a
+                              href={content.productLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 underline"
+                            >
+                              View Product
+                            </a>
+                          </div>
                         </div>
                       </div>
-                      <div className="space-y-2">
-                        <div>
-                          <span className="text-sm font-medium text-gray-600">Details:</span>
-                          <p className="text-gray-700">{content.details}</p>
-                        </div>
-                        <div>
-                          <span className="text-sm font-medium text-gray-600">Product Link:</span>
-                          <a
-                            href={content.productLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-800 underline"
-                          >
-                            View Product
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                   {room.id === "2" && (
                     <div className="bg-blue-50 rounded-lg p-4 mt-4">
                       <div className="flex justify-between items-center">
@@ -938,6 +1251,22 @@ export default function RoomPage({ params }) {
                       <div className="flex justify-between items-center">
                         <span className="text-lg font-semibold text-gray-900">Room Total:</span>
                         <span className="text-xl font-bold text-green-600">$64.94</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "4" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$1,269.60</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "5" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$5,072.90</span>
                       </div>
                     </div>
                   )}
