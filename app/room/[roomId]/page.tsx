@@ -183,7 +183,49 @@ export default function RoomPage({ params }) {
       floorDamage: "Yes (wear and tear)",
       ceilingDamage: "No",
       wallDamage: "No",
-      contents: [],
+      contents: [
+        {
+          category: "Other Belongings",
+          product: "Liquid Soap Dispenser",
+          quantity: 1,
+          totalEstimation: "$25.97",
+          details:
+            "A black, wall-mounted liquid soap dispenser. The item in the image appears to be a basic, modern design consistent with this product.",
+          productLink: "https://fusionloc.com.au/product/fusion-loc-suction-bathroom-tumbler-matte-black/",
+        },
+        {
+          category: "Other Belongings",
+          product: "Bathroom Tumbler",
+          quantity: 1,
+          totalEstimation: "$25.97",
+          details: "A black, wall-mounted tumbler for toothbrushes. It matches the soap dispenser.",
+          productLink: "https://fusionloc.com.au/product/fusion-loc-suction-bathroom-tumbler-matte-black/",
+        },
+        {
+          category: "Other Belongings",
+          product: "White Hand Towel",
+          quantity: 1,
+          totalEstimation: "$4",
+          details: "A standard, plain white cotton hand towel.",
+          productLink: "https://www.bigw.com.au/product/openook-australian-cotton-hand-towel-white/p/140667",
+        },
+        {
+          category: "Other Belongings",
+          product: "Small Black Pot",
+          quantity: 1,
+          totalEstimation: "$4",
+          details: "A small, black, cylindrical pot.",
+          productLink: "https://www.ikea.com.au/en/p/nypon-plant-pot-in-outdoor-black-20476211/",
+        },
+        {
+          category: "Other Belongings",
+          product: "Small Artificial Plant",
+          quantity: 1,
+          totalEstimation: "$5",
+          details: "A small, artificial green plant insert.",
+          productLink: "https://www.ikea.com.au/en/p/fejka-artificial-potted-plant-in-outdoor-grass-30395342/",
+        },
+      ],
     },
     "4": {
       id: "4",
@@ -671,7 +713,134 @@ export default function RoomPage({ params }) {
               <CardTitle>Room Details</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 lg:grid-2 gap-8">
+                {/* Dimensions */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
+                    <Ruler className="h-5 w-5" />
+                    <span>Dimensions</span>
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Height:</span>
+                      <span className="font-medium">{room.height}</span>
+                    </div>
+                    {room.depth !== "N/A" && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Depth:</span>
+                        <span className="font-medium">{room.depth}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Width:</span>
+                      <span className="font-medium">{room.width}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Floor Area:</span>
+                      <span className="font-medium">{room.area}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Materials */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
+                    <Home className="h-5 w-5" />
+                    <span>Materials</span>
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Flooring:</span>
+                      <span className="font-medium">{room.flooring}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Walls:</span>
+                      <span className="font-medium">{room.wallMaterial}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Ceiling:</span>
+                      <span className="font-medium">{room.ceilingType}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Installed Features */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
+                    <CheckCircle className="h-5 w-5" />
+                    <span>Installed Features</span>
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Smoke Alarm:</span>
+                      <div className="flex items-center space-x-2">
+                        {room.smokeAlarmCount > 0 ? (
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        )}
+                        <span className="font-medium">({room.smokeAlarmCount})</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Ceiling Lights:</span>
+                      <div className="flex items-center space-x-2">
+                        {room.ceilingLightCount > 0 ? (
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        )}
+                        <span className="font-medium">({room.ceilingLightCount})</span>
+                      </div>
+                    </div>
+                    {room.ceilingLights && room.ceilingLights !== "Standard" && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Light Type:</span>
+                        <span className="font-medium">{room.ceilingLights}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Ceiling Fan:</span>
+                      <div className="flex items-center space-x-2">
+                        {room.ceilingFanCount > 0 ? (
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        )}
+                        <span className="font-medium">({room.ceilingFanCount})</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Air Conditioning:</span>
+                      <div className="flex items-center space-x-2">
+                        {room.airConditioningCount > 0 ? (
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        )}
+                        <span className="font-medium">({room.airConditioningCount})</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Windows:</span>
+                      <div className="flex items-center space-x-2">
+                        {room.windowCount > 0 ? (
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        )}
+                        <span className="font-medium">({room.windowCount})</span>
+                      </div>
+                    </div>
+                    {room.doors && room.doors !== "N/A" && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Doors:</span>
+                        <span className="font-medium">{room.doors}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 {/* Room Information */}
                 <div>
                   <h3 className="text-lg font-semibold mb-4">Room Information</h3>
@@ -687,46 +856,6 @@ export default function RoomPage({ params }) {
                     <div className="flex justify-between">
                       <span className="text-gray-600">Valuation:</span>
                       <span className="font-medium text-green-600">{room.valuation}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Damage Assessment */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Damage Assessment</h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Floor Damage:</span>
-                      <div className="flex items-center space-x-2">
-                        {room.floorDamage === "No" ? (
-                          <CheckCircle className="h-4 w-4 text-green-500" />
-                        ) : (
-                          <XCircle className="h-4 w-4 text-red-500" />
-                        )}
-                        <span className="font-medium">{room.floorDamage}</span>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Ceiling Damage:</span>
-                      <div className="flex items-center space-x-2">
-                        {room.ceilingDamage === "No" ? (
-                          <CheckCircle className="h-4 w-4 text-green-500" />
-                        ) : (
-                          <XCircle className="h-4 w-4 text-red-500" />
-                        )}
-                        <span className="font-medium">{room.ceilingDamage}</span>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Wall Damage:</span>
-                      <div className="flex items-center space-x-2">
-                        {room.wallDamage === "No" ? (
-                          <CheckCircle className="h-4 w-4 text-green-500" />
-                        ) : (
-                          <XCircle className="h-4 w-4 text-red-500" />
-                        )}
-                        <span className="font-medium">{room.wallDamage}</span>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -801,6 +930,14 @@ export default function RoomPage({ params }) {
                       <div className="flex justify-between items-center">
                         <span className="text-lg font-semibold text-gray-900">Room Total:</span>
                         <span className="text-xl font-bold text-green-600">$953</span>
+                      </div>
+                    </div>
+                  )}
+                  {room.id === "3" && (
+                    <div className="bg-blue-50 rounded-lg p-4 mt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Room Total:</span>
+                        <span className="text-xl font-bold text-green-600">$64.94</span>
                       </div>
                     </div>
                   )}
