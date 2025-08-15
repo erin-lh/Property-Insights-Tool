@@ -163,7 +163,7 @@ export default function RoomPage({ params }) {
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20Pano%204.jpg-vdflvnGza1d3RKBDkHjuP4cN2gvlh9.jpeg",
       ],
       roomLocationImage:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ovqqovg6G4qwOTH66jAhMmEMZp4iH2.png",
       propertyImages: [
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%203-%20property%20image.jpg-fYzbBkGbez0UyyC09ne1gwZKPxcoJg.jpeg",
       ],
@@ -253,7 +253,7 @@ export default function RoomPage({ params }) {
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_1hsznrxt775cdf5e5fr400crc_skybox.jpg",
       ],
       roomLocationImage:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ovqqovg6G4qwOTH66jAhMmEMZp4iH2.png",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
       propertyImages: [
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220648%20%281%29.jpg-RzynbqvbKwtcva7gQR1MNthn2cHACQ.jpeg",
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220608%20%281%29.jpg-CJAERaRUTF3zUevupoVz1GYKz5tYh4.jpeg",
@@ -377,7 +377,7 @@ export default function RoomPage({ params }) {
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_tx5m3eudcum0iigcxbu2rpbka_skybox.jpg",
       ],
       roomLocationImage:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
       propertyImages: [
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215315.jpg-LZxLaUFYfeHL5UFpogUiQYO72hTE36.jpeg",
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215410.jpg-7KvF1eN6eqcBYEJhsSIiN22uIKob4A.jpeg",
@@ -935,7 +935,7 @@ export default function RoomPage({ params }) {
       panoramaCount: "3",
       panoramaLinks: [],
       roomLocationImage:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ovqqovg6G4qwOTH66jAhMmEMZp4iH2.png",
       propertyImages: [],
       flooring: "Carpet",
       wallMaterial: "Drywall",
@@ -1046,8 +1046,7 @@ export default function RoomPage({ params }) {
         "Covered outdoor balcony with tile flooring and outdoor furniture. Features panoramic views and natural lighting.",
       panoramaCount: "2",
       panoramaLinks: [],
-      roomLocationImage:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ovqqovg6G4qwOTH66jAhMmEMZp4iH2.png",
+      roomLocationImage: "https://blobs.vusercontent.net/blob/image-OvrUOeTBdatNOU1fXFzGljEpu4al2A.png",
       propertyImages: [],
       flooring: "Tile",
       wallMaterial: "Concrete",
@@ -1111,7 +1110,7 @@ export default function RoomPage({ params }) {
       panoramaCount: "4",
       panoramaLinks: [],
       roomLocationImage:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7QJ3KYpzVFb1ZmWTWAEMRZy5ODalIa.png",
       propertyImages: [],
       flooring: "Carpet",
       wallMaterial: "Drywall",
