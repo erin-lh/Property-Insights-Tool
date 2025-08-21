@@ -172,15 +172,15 @@ export default function PropertyInsightsTool() {
                 <div className="flex items-center justify-center gap-6 mb-4">
                   <div className="flex items-center gap-2">
                     <Bed className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-700 font-medium">{propertyData.bedrooms} bed</span>
+                    <span className="text-gray-700 font-medium">3 bed</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Bath className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-700">{propertyData.bathrooms} bath</span>
+                    <span className="text-gray-700">3 bath</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Car className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-700">{propertyData.cars} car</span>
+                    <span className="text-gray-700">1 car</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Ruler className="h-5 w-5 text-gray-600" />
@@ -188,7 +188,7 @@ export default function PropertyInsightsTool() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Package className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-700">{propertyData.rooms.length} rooms</span>
+                    <span className="text-gray-700">13 rooms</span>
                   </div>
                 </div>
                 <div className="text-center">

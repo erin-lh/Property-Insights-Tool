@@ -58,6 +58,9 @@ export function RoomInsightsTab() {
         ceilingLightCount: 2,
         ceilingFanCount: 0,
         airConditioningCount: 0,
+        panoramaCount: 2,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
         specifications: {
           floorArea: "2.47 m²",
           ceilingHeight: "2.42 m",
@@ -129,6 +132,9 @@ export function RoomInsightsTab() {
         ceilingLightType: "Recessed",
         ceilingFanCount: 0,
         airConditioningCount: 0,
+        panoramaCount: 4,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%202-%20location%20image-MxYbEsSX622BITwolnPJ0yZAXpKTqn.png",
         specifications: {
           floorArea: "5.01 m²",
           ceilingHeight: "2.72 m",
@@ -173,6 +179,9 @@ export function RoomInsightsTab() {
         temperature: "23°C",
         humidity: "55%",
         hasSheetData: true,
+        panoramaCount: 4,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
         specifications: {
           floorArea: "4.25 m²",
           ceilingHeight: "2.16 m",
@@ -219,6 +228,8 @@ export function RoomInsightsTab() {
         hasSheetData: true,
         valuation: "$56,428.32",
         panoramaCount: 7,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%204-%20Location-lN6EGF986bSvAWwMEZzL3KTo0eDFy1.png", // Updated Room 4 location image to new blob URL
         specifications: {
           floorArea: "19.12 m²",
           ceilingHeight: "2.41 m",
@@ -268,56 +279,41 @@ export function RoomInsightsTab() {
           "ecdy23xprhp3q3f0rth5c5hac",
           "5wza109uxdtiah3khz7teiwna",
           "txkwf277fq24hepe3gi002nfa",
-          "tx5m3eudcum0iigcxbu2rpbka",
-          "udkrwr2wfte2anpi6taw68ycb",
-          "wds8heu9aarna9tk8t9s9ygwc",
-          "yehgh6y0ztzq71b0dckb5795d",
-          "aq8zqxp329yhkc290pzgm9h3b",
-          "uf6ssx7puqskhh5dibe1tp8aa",
-          "37r3c3nk8ud8rkpb9a28eyd1a",
-          "cr857sqay5qbzbe8xdx784acb",
-          "0rgwxt1ets18w34c1n8sh4idb",
-          "380yg5497h86wkdc5wq4r6fhc",
-          "m96rn180d4f690kwy89umae0c",
+          "wr35r3xpqxm2cwiqcud4pr0cb",
         ],
         panoramaLinks: [
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_k2zwk015t51gw99zpztx4egaa_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_ecdy23xprhp3q3f0rth5c5hac_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_5wza109uxdtiah3khz7teiwna_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_txkwf277fq24hepe3gi002nfa_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_tx5m3eudcum0iigcxbu2rpbka_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_udkrwr2wfte2anpi6taw68ycb_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_wds8heu9aarna9tk8t9s9ygwc_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_yehgh6y0ztzq71b0dckb5795d_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_aq8zqxp329yhkc290pzgm9h3b_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_uf6ssx7puqskhh5dibe1tp8aa_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_37r3c3nk8ud8rkpb9a28eyd1a_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_cr857sqay5qbzbe8xdx784acb_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_0rgwxt1ets18w34c1n8sh4idb_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_380yg5497h86wkdc5wq4r6fhc_skybox.jpg",
-          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/pd0i1c4yq9w0y2zsb07ed23sb_pd0i1c4yq9w0y2zsb07ed23sb_b4qtykzcazp4iumkamm7y7h2b_m96rn180d4f690kwy89umae0c_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_b4qtykzcazp4iumkamm7y7h2b_k2zwk015t51gw99zpztx4egaa_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_b4qtykzcazp4iumkamm7y7h2b_ecdy23xprhp3q3f0rth5c5hac_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_b4qtykzcazp4iumkamm7y7h2b_5wza109uxdtiah3khz7teiwna_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_b4qtykzcazp4iumkamm7y7h2b_txkwf277fq24hepe3gi002nfa_skybox.jpg",
+          "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_b4qtykzcazp4iumkamm7y7h2b_wr35r3xpqxm2cwiqcud4pr0cb_skybox.jpg",
         ],
         propertyImages: [
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215315.jpg-LZxLaUFYfeHL5UFpogUiQYO72hTE36.jpeg",
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215410.jpg-7KvF1eN6eqcBYEJhsSIiN22uIKob4A.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220608%20%281%29.jpg-CJAERaRUTF3zUevupoVz1GYKz5tYh4.jpeg",
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220648%20%281%29.jpg-RzynbqvbKwtcva7gQR1MNthn2cHACQ.jpeg",
         ],
         roomType: "living room",
-        area: "39.83 m²",
-        volume: "N/A",
+        area: "25.12 m²",
+        volume: "60.54 m³",
+        depth: "4.86 m",
+        height: "2.41 m",
+        width: "4.86 m",
         condition: "Good",
         temperature: "22°C",
         humidity: "45%",
         hasSheetData: true,
-        roomValuation: "$124,609.35",
+        roomValuation: "$74,097.12",
         smokeAlarmCount: 1,
         floorDamage: "No",
         ceilingDamage: "No",
         wallDamage: "No",
         windowCount: 6,
-        doorCount: 3,
         ceilingLightCount: 1,
         ceilingFanCount: 1,
         airConditioningCount: 1,
+        panoramaCount: 5,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ovqqovg6G4qwOTH66jAhMmEMZp4iH2.png",
         specifications: {
           floorArea: "39.83 m²",
           ceilingHeight: "N/A",
@@ -391,6 +387,9 @@ export function RoomInsightsTab() {
         ceilingLightCount: 1,
         ceilingFanCount: 0,
         airConditioningCount: 0,
+        panoramaCount: 5,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7Ox7Nu4RJOTOfUdLVbEyfeU70BkQHl.png",
         specifications: {
           floorArea: "6.41 m²",
           ceilingHeight: "2.41 m",
@@ -432,6 +431,9 @@ export function RoomInsightsTab() {
           "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/08012025_221050.jpg-Eakha1hrOXZwwUmi3eXE83q2Z5ANjG.jpeg",
           "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_215446.jpg-WHxk0rx2NEh415vnFNkbUDuHBdMIMP.jpeg",
         ],
+        panoramaCount: 8,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
         specifications: {
           floorArea: "18.91 m²",
           ceilingHeight: "3.30 m",
@@ -475,6 +477,9 @@ export function RoomInsightsTab() {
           "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_4694-OB0ze190MICuCDChoaoMNhGGAFGtIz.jpeg",
           "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-8MnQOobGwBAsAYlubSY1PeGbzVAqiD.png",
         ],
+        panoramaCount: 3,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
         specifications: {
           floorArea: "6.89 m²",
           ceilingHeight: "2.36 m",
@@ -505,6 +510,9 @@ export function RoomInsightsTab() {
         temperature: "22°C",
         humidity: "45%",
         hasSheetData: true,
+        panoramaCount: 0,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7QJ3KYpzVFb1ZmWTWAEMRZy5ODalIa.png",
         propertyImages: [
           "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_m8npxsuk79xy21dd09x9wtped_77bug6dex2fzdp3my4up5x3dd_skybox.jpg-g3Wto7raScQe6uumg1NvFoApCptGHq.jpeg",
           "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_m8npxsuk79xy21dd09x9wtped_a7h77eu1i3kdnwz5ypd0dhbbc_skybox.jpg-5gtUvIwpQdIOc6Gz5Vechm2uk6EkdI.jpeg",
@@ -541,6 +549,8 @@ export function RoomInsightsTab() {
         humidity: "65%",
         hasSheetData: true,
         panoramaCount: 3,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%2010-%20location%20image-QiP0IrKqDQWulDXz1DEKmBjEUgZWGV.png",
         specifications: {
           floorArea: "2.18 m²",
           ceilingHeight: "2.41 m",
@@ -576,6 +586,8 @@ export function RoomInsightsTab() {
         humidity: "45%",
         hasSheetData: true,
         panoramaCount: 4,
+        roomLocationImage:
+          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%2011-%20location-KfSkEpIYCc78Xd8W2LoISlC9ewekpF.png",
         specifications: {
           floorArea: "8.50 m²",
           ceilingHeight: "2.41 m",

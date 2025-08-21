@@ -34,9 +34,9 @@ export function ReportsTab({ propertyData }: ReportsTabProps) {
       id: 2,
       title: "Home Contents Report",
       description:
-        "Detailed inventory of fixtures, fittings, and permanent installations throughout the property with total valuation of $77,750 AUD",
+        "Detailed inventory of fixtures, fittings, and permanent installations throughout the property with total valuation of $21,220.16 AUD",
       type: "Contents Inventory",
-      date: "2024-08-02",
+      date: "2025-08-21",
       size: "2.1 MB",
       status: "Complete",
       downloadUrl: "https://blob.v0.dev/home-contents-report.pdf",
@@ -115,104 +115,465 @@ export function ReportsTab({ propertyData }: ReportsTabProps) {
 
     // Header
     doc.setFontSize(16)
-    doc.text("Little Hinges Australia", 20, 20)
-    doc.text("Home Contents Report", 20, 30)
+    doc.text("Home Contents Report", 20, 20)
 
     doc.setFontSize(12)
-    doc.text("Property Address: 3 Bellavista Terrace, Paddington, QLD", 20, 45)
-    doc.text("Date of Report: 2nd August 2025", 20, 55)
-    doc.text("Report Reference Number: #4", 20, 65)
+    doc.text("Property Address: 3 Bellavista Terrace, Paddington, QLD", 20, 35)
+    doc.text("Date of Report: 21 August 2025", 20, 45)
+    doc.text("Report Reference Number: #21", 20, 55)
 
     doc.setFontSize(14)
-    doc.text("1. Summary", 20, 80)
+    doc.text("Summary", 20, 70)
     doc.setFontSize(10)
-    doc.text("Purpose of Report: Item descriptions and contents valuation based on RRP.", 20, 90)
-    doc.text("Date of Inspection: 2nd August 2025", 20, 100)
-    doc.text("Scope of Report: Includes all household furniture and contents at the property.", 20, 110)
+    doc.text("Purpose of Report: Item descriptions and contents valuation based on RRP.", 20, 80)
+    doc.text("Date of Inspection: 21 August 2025", 20, 90)
+    doc.text("Scope of Report: Includes all household furniture and contents at the property.", 20, 100)
 
-    doc.setFontSize(14)
-    doc.text("3. Contents Inventory", 20, 125)
+    let yPos = 115
 
-    // Table header
+    // Room 2 - Outdoor Furniture
+    doc.setFontSize(12)
+    doc.text("Room 2 - Outdoor Furniture", 20, yPos)
+    yPos += 10
     doc.setFontSize(8)
-    let yPos = 135
-    doc.text("Room/Location", 20, yPos)
-    doc.text("Item Description", 70, yPos)
-    doc.text("Price (AUD)", 150, yPos)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
 
-    // Inventory data
-    const inventory = [
-      ["Hallway", "Globe West Sketch Mono Console", "$1,380"],
-      ["Hallway", 'Designer Boys "Ethereal" Framed Canvas', "$1,199"],
-      ["Hallway", "Atom Recessed LED Downlight (each)", "$25"],
-      ["Patio", 'Barbeques Galore "Captiva" 7-Piece Dining Set', "$1,499"],
-      ["Patio", "BeefEater 1600 Series 5 Burner BBQ", "$1,280"],
-      ["Patio", 'Beacon Lighting "Lucci Air" Ceiling Fan', "$299"],
-      ["Patio", 'Havit "Leva" Up/Down Exterior Wall Light', "$119"],
-      ["Bathroom", 'Victoria + Albert "Amiata" Freestanding Bath', "$5,995"],
-      ["Bathroom", "Meir Round Floor Mounted Bath Mixer", "$1,279"],
-      ["Bathroom", 'ADP "Clifton" Wall Hung Vanity', "$2,150"],
-      ["Bathroom", 'ADP "Arch" Mirror', "$499"],
-      ["Bathroom", 'Milli "Pure" Heated Towel Rail', "$986"],
-      ["Bathroom", 'Stegbar "Grange" Frameless Shower Screen', "$1,200"],
-      ["Bathroom", 'Phoenix "Vivid" Twin Shower', "$652"],
-      ["Bathroom", 'Caroma "Luna" Cleanflush Back-to-Wall Toilet', "$799"],
-      ["Bedroom", 'Snooze "My Style" Upholstered Bed Frame', "$1,890"],
-      ["Bedroom", 'Globe West "Elle" Bedside Table (each)', "$1,090"],
-      ["Bedroom", 'Beacon Lighting "Husk" Table Lamp', "$199"],
-      ["Bedroom", "DIY Blinds White Plantation Shutters", "$750"],
-      ["Bedroom", 'Hunter "Pacific" 4-Blade Ceiling Fan with Light', "$349"],
-      ["Bedroom", 'Stegbar "Glengary" Sliding Wardrobe Doors', "$1,500"],
-      ["Patio", 'Globe West "Maui" Outdoor Sofa', "$3,495"],
-      ["Patio", 'Globe West "Maui" Outdoor Coffee Table', "$1,295"],
-      ["Living", 'King "Jasper" L-Shaped Sofa', "$5,990"],
-      ["Living", 'Nick Scali "Cooper" TV Unit', "$1,590"],
-      ["Living", 'Armadillo "Granada" Rug', "$2,950"],
-      ["Hallway", 'Armadillo "Sierra" Hall Runner', "$1,250"],
-      ["Living Room", 'Coco Republic "Sorrento" 3-Seater Sofa', "$6,995"],
-      ["Living Room", 'Coco Republic "Montauk" Occasional Chair', "$3,495"],
-      ["Living Room", 'Samsung 65" The Frame QLED Smart TV', "$2,895"],
-      ["Living Room", 'Globe West "Vittoria" Coffee Table', "$1,895"],
-      ["Bathroom", 'Caroma "Newbury" Shower Bath', "$950"],
-      ["Bathroom", 'Arova "Luxe" Mirrored Cabinet', "$550"],
-      ["Hallway", 'West Elm "Metal Frame" Arched Wall Mirror', "$599"],
-      ["Bathroom", 'Reece "Posh" Domaine Double Vanity', "$1,800"],
-      ["Bathroom", 'Hydrotherm "TR2" Heated Towel Ladder', "$1,245"],
-      ["Bedroom", 'Freedom "Floating" Bed Base', "$1,299"],
-      ["Bedroom", 'Freedom "Frank" Chest of Drawers', "$1,499"],
-      ["Bedroom", 'Freedom "Frank" Bedside Table (each)', "$599"],
-      ["Patio", 'Tait "Jak" Outdoor Bar Table & Stools', "$3,500"],
-      ["Patio", 'Tait "Trace" Armchair', "$1,950"],
-      ["Bedroom", 'King "Encore" Bed', "$3,990"],
-      ["Bedroom", 'King "Oliver" Tub Chair', "$1,890"],
-      ["Bedroom", 'King "Encore" Bedside Table (each)', "$890"],
+    const room2Items = [
+      ["Furniture", "Outdoor Rope Lounge Chair", "2", "$335", "$670"],
+      ["Furniture", "Hourglass Side Table", "1", "$170", "$170"],
+      ["Other", "Outdoor Seat Cushion", "2", "$39", "$78"],
+      ["Other", "Small White Ceramic Pot", "1", "$15", "$15"],
+      ["Other", "Small Artificial Plant", "1", "$20", "$20"],
     ]
 
+    yPos += 5
+    room2Items.forEach((item) => {
+      yPos += 8
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
+    })
     yPos += 10
-    inventory.forEach((row) => {
+    doc.setFontSize(10)
+    doc.text("Room Total: $953", 20, yPos)
+
+    // Room 3 - Bathroom Accessories
+    yPos += 15
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
+    doc.setFontSize(12)
+    doc.text("Room 3 - Bathroom Accessories", 20, yPos)
+    yPos += 10
+    doc.setFontSize(8)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
+
+    const room3Items = [
+      ["Other", "Liquid Soap Dispenser", "1", "$25.97", "$25.97"],
+      ["Other", "Bathroom Tumbler", "1", "$25.97", "$25.97"],
+      ["Other", "White Hand Towel", "1", "$4", "$4"],
+      ["Other", "Small Black Pot", "1", "$4", "$4"],
+      ["Other", "Small Artificial Plant", "1", "$5", "$5"],
+    ]
+
+    yPos += 5
+    room3Items.forEach((item) => {
+      yPos += 8
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
+    })
+    yPos += 10
+    doc.setFontSize(10)
+    doc.text("Room Total: $64.94", 20, yPos)
+
+    // Room 4 - Bedroom
+    yPos += 15
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
+    doc.setFontSize(12)
+    doc.text("Room 4 - Bedroom", 20, yPos)
+    yPos += 10
+    doc.setFontSize(8)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
+
+    const room4Items = [
+      ["Furniture", "Upholstered Bed Frame", "1", "$299", "$299"],
+      ["Furniture", "Queen Mattress", "1", "$399", "$399"],
+      ["Furniture", "Bedside Table", "2", "$61.95", "$123.90"],
+      ["Other", "Quilt Cover Set", "1", "$119.99", "$119.99"],
+      ["Other", "Standard Pillow", "2", "$31.49", "$62.98"],
+      ["Other", "Decorative Cushion", "1", "$29.95", "$29.95"],
+      ["Electronics", "Bedside Table Lamp", "2", "$64.90", "$129.80"],
+      ["Other", "Book", "2", "$19.99", "$39.98"],
+      ["Artwork", "Framed Wall Art", "1", "$65", "$65"],
+    ]
+
+    yPos += 5
+    room4Items.forEach((item) => {
+      yPos += 8
       if (yPos > 270) {
         doc.addPage()
         yPos = 20
       }
-      doc.text(row[0], 20, yPos, { maxWidth: 45 })
-      doc.text(row[1], 70, yPos, { maxWidth: 75 })
-      doc.text(row[2], 150, yPos)
-      yPos += 8
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
     })
-
-    // Add totals on new page
-    doc.addPage()
-    doc.setFontSize(14)
-    doc.text("6. Total Estimated Value", 20, 30)
+    yPos += 10
     doc.setFontSize(10)
-    doc.text("Bathroom: $18,105", 20, 45)
-    doc.text("Bedroom: $15,945", 20, 55)
-    doc.text("Hallway: $4,453", 20, 65)
-    doc.text("Living: $10,530", 20, 75)
-    doc.text("Living Room: $15,280", 20, 85)
-    doc.text("Patio: $13,437", 20, 95)
+    doc.text("Room Total: $1,269.60", 20, yPos)
+
+    // Room 5 - Living Room
+    yPos += 15
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
     doc.setFontSize(12)
-    doc.text("Total: $77,750.00 AUD", 20, 110)
+    doc.text("Room 5 - Living Room", 20, yPos)
+    yPos += 10
+    doc.setFontSize(8)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
+
+    const room5Items = [
+      ["Furniture", "3-Seater Fabric Sofa", "1", "$1299", "$1299"],
+      ["Furniture", "Rattan Buffet Sideboard", "1", "$4100", "$4100"],
+      ["Furniture", "Boucle Accent Chair", "1", "$549", "$549"],
+      ["Furniture", "Round Low Coffee Table", "1", "$279", "$279"],
+      ["Furniture", "Marble Side Table", "1", "$149", "$149"],
+      ["Furniture", "Slim Console Table", "1", "$199", "$199"],
+      ["Other", "Large Patterned Rug", "1", "$499", "$499"],
+      ["Other", "Decorative Cushion (Beige/Gold)", "2", "$39.95", "$79.90"],
+      ["Other", "Decorative Cushion (Cream)", "2", "$34.95", "$69.90"],
+      ["Other", "Decorative Cushion (White)", "1", "$29.95", "$29.95"],
+      ["Artwork", "Large Abstract Figure Art", "1", "$380", "$380"],
+      ["Artwork", "Framed Beach Scene Art", "1", "$250", "$250"],
+      ["Artwork", "Designer Boys 'Ethereal' Framed Canvas", "1", "$1199", "$1199"],
+      ["Artwork", "Round Wall Mirror", "1", "$229", "$229"],
+      ["Other", "Large White Vase", "1", "$49.95", "$49.95"],
+      ["Other", "Clear Glass Vase", "1", "$35", "$35"],
+      ["Other", "Dried Branches/Stems", "1", "$24.95", "$24.95"],
+      ["Other", "At Home Hardcover Book", "1", "$51.25", "$51.25"],
+    ]
+
+    yPos += 5
+    room5Items.forEach((item) => {
+      yPos += 8
+      if (yPos > 270) {
+        doc.addPage()
+        yPos = 20
+      }
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
+    })
+    yPos += 10
+    doc.setFontSize(10)
+    doc.text("Room Total: $9,472.90", 20, yPos)
+
+    // Room 7 - Kitchen & Dining
+    yPos += 15
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
+    doc.setFontSize(12)
+    doc.text("Room 7 - Kitchen & Dining", 20, yPos)
+    yPos += 10
+    doc.setFontSize(8)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
+
+    const room7Items = [
+      ["Appliances", "Dishwasher - Blanco", "1", "$799", "$799"],
+      ["Other", "Mortar and Pestle", "1", "$61.95", "$61.95"],
+      ["Furniture", "Rectangular Dining Table", "1", "$949", "$949"],
+      ["Furniture", "Black Timber Dining Chair", "6", "$299", "$1794"],
+      ["Furniture", "Kitchen Bar Stool", "4", "$229", "$916"],
+      ["Appliances", "Kettle", "1", "$249", "$249"],
+      ["Appliances", "Toaster", "1", "$229", "$229"],
+      ["Other", "Pepper Grinder", "1", "$9.95", "$9.95"],
+      ["Other", "Large Serving Bowl", "1", "$29.95", "$29.95"],
+      ["Other", "Large Glass Vase", "1", "$79.95", "$79.95"],
+      ["Other", "Artificial Eucalyptus Stems", "1", "$18", "$18"],
+    ]
+
+    yPos += 5
+    room7Items.forEach((item) => {
+      yPos += 8
+      if (yPos > 270) {
+        doc.addPage()
+        yPos = 20
+      }
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
+    })
+    yPos += 10
+    doc.setFontSize(10)
+    doc.text("Room Total: $5,135.80", 20, yPos)
+
+    // Room 8 - Bathroom
+    yPos += 15
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
+    doc.setFontSize(12)
+    doc.text("Room 8 - Bathroom", 20, yPos)
+    yPos += 10
+    doc.setFontSize(8)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
+
+    const room8Items = [
+      ["Other", "Ceramic Soap Dispenser", "1", "$19.95", "$19.95"],
+      ["Other", "Ceramic Tumbler", "1", "$7", "$7"],
+      ["Other", "White Hand Towel", "1", "$29.90", "$29.90"],
+      ["Other", "Artificial Orchid + Small Black Pot", "1", "$97.90", "$97.90"],
+    ]
+
+    yPos += 5
+    room8Items.forEach((item) => {
+      yPos += 8
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
+    })
+    yPos += 10
+    doc.setFontSize(10)
+    doc.text("Room Total: $154.75", 20, yPos)
+
+    // Room 10 - Bathroom
+    yPos += 15
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
+    doc.setFontSize(12)
+    doc.text("Room 10 - Bathroom", 20, yPos)
+    yPos += 10
+    doc.setFontSize(8)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
+
+    const room10Items = [
+      ["Other", "Ceramic Soap Dispenser", "1", "$19.95", "$19.95"],
+      ["Other", "Ceramic Tumbler", "1", "$7", "$7"],
+      ["Other", "White Hand Towel", "1", "$29.90", "$29.90"],
+    ]
+
+    yPos += 5
+    room10Items.forEach((item) => {
+      yPos += 8
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
+    })
+    yPos += 10
+    doc.setFontSize(10)
+    doc.text("Room Total: $56.85", 20, yPos)
+
+    // Room 11 - Bedroom
+    yPos += 15
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
+    doc.setFontSize(12)
+    doc.text("Room 11 - Bedroom", 20, yPos)
+    yPos += 10
+    doc.setFontSize(8)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
+
+    const room11Items = [
+      ["Furniture", "Upholstered Bed Frame", "1", "$356", "$356"],
+      ["Furniture", "Queen Mattress", "1", "$399", "$399"],
+      ["Furniture", "Bedside Table", "2", "$399", "$798"],
+      ["Other", "Quilt Cover Set", "1", "$149.99", "$149.99"],
+      ["Other", "Standard Pillow", "2", "$30", "$60"],
+      ["Other", "Decorative Cushion (Dark Grey)", "1", "$40.95", "$40.95"],
+      ["Other", "Decorative Cushion (Light Grey)", "1", "$49", "$49"],
+      ["Electronics", "Bedside Table Lamp", "2", "$64.90", "$129.80"],
+      ["Artwork", "Framed Wall Art", "1", "$69.99", "$69.99"],
+    ]
+
+    yPos += 5
+    room11Items.forEach((item) => {
+      yPos += 8
+      if (yPos > 270) {
+        doc.addPage()
+        yPos = 20
+      }
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
+    })
+    yPos += 10
+    doc.setFontSize(10)
+    doc.text("Room Total: $2,052.73", 20, yPos)
+
+    // Room 12 - Outdoor Dining
+    yPos += 15
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
+    doc.setFontSize(12)
+    doc.text("Room 12 - Outdoor Dining", 20, yPos)
+    yPos += 10
+    doc.setFontSize(8)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
+
+    const room12Items = [
+      ["Furniture", "Outdoor Cafe Table", "1", "$139", "$139"],
+      ["Furniture", "Outdoor Rope Dining Chair", "2", "$239", "$478"],
+      ["Other", "Small Artificial Plant", "1", "$12", "$12"],
+    ]
+
+    yPos += 5
+    room12Items.forEach((item) => {
+      yPos += 8
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
+    })
+    yPos += 10
+    doc.setFontSize(10)
+    doc.text("Room Total: $629", 20, yPos)
+
+    // Room 13 - Bedroom
+    yPos += 15
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
+    doc.setFontSize(12)
+    doc.text("Room 13 - Bedroom", 20, yPos)
+    yPos += 10
+    doc.setFontSize(8)
+    doc.text("Category", 20, yPos)
+    doc.text("Item", 50, yPos)
+    doc.text("Qty", 120, yPos)
+    doc.text("Price (each)", 140, yPos)
+    doc.text("Total", 170, yPos)
+
+    const room13Items = [
+      ["Furniture", "Upholstered Bed Frame", "1", "$399", "$399"],
+      ["Furniture", "Queen Mattress", "1", "$399", "$399"],
+      ["Furniture", "Bedside Table", "2", "$63.95", "$127.90"],
+      ["Other", "Quilt Cover Set", "1", "$149.99", "$149.99"],
+      ["Other", "Standard Pillow", "2", "$30", "$60"],
+      ["Other", "Decorative Cushion (Dark Grey)", "1", "$40.95", "$40.95"],
+      ["Other", "Decorative Cushion (Light Grey)", "1", "$49", "$49"],
+      ["Electronics", "Bedside Table Lamp", "2", "$64.90", "$129.80"],
+      ["Artwork", "Framed Wall Art", "1", "$74.95", "$74.95"],
+    ]
+
+    yPos += 5
+    room13Items.forEach((item) => {
+      yPos += 8
+      if (yPos > 270) {
+        doc.addPage()
+        yPos = 20
+      }
+      doc.text(item[0], 20, yPos, { maxWidth: 25 })
+      doc.text(item[1], 50, yPos, { maxWidth: 65 })
+      doc.text(item[2], 120, yPos)
+      doc.text(item[3], 140, yPos)
+      doc.text(item[4], 170, yPos)
+    })
+    yPos += 10
+    doc.setFontSize(10)
+    doc.text("Room Total: $1,430.59", 20, yPos)
+
+    // Total Estimated Value
+    yPos += 20
+    if (yPos > 250) {
+      doc.addPage()
+      yPos = 20
+    }
+    doc.setFontSize(14)
+    doc.text("Total Estimated Value", 20, yPos)
+    yPos += 15
+    doc.setFontSize(10)
+    doc.text("Room 2 - Outdoor Furniture: $953", 20, yPos)
+    yPos += 10
+    doc.text("Room 3 - Bathroom Accessories: $64.94", 20, yPos)
+    yPos += 10
+    doc.text("Room 4 - Bedroom: $1,269.60", 20, yPos)
+    yPos += 10
+    doc.text("Room 5 - Living Room: $9,472.90", 20, yPos)
+    yPos += 10
+    doc.text("Room 7 - Kitchen & Dining: $5,135.80", 20, yPos)
+    yPos += 10
+    doc.text("Room 8 - Bathroom: $154.75", 20, yPos)
+    yPos += 10
+    doc.text("Room 10 - Bathroom: $56.85", 20, yPos)
+    yPos += 10
+    doc.text("Room 11 - Bedroom: $2,052.73", 20, yPos)
+    yPos += 10
+    doc.text("Room 12 - Outdoor Dining: $629", 20, yPos)
+    yPos += 10
+    doc.text("Room 13 - Bedroom: $1,430.59", 20, yPos)
+    yPos += 15
+    doc.setFontSize(12)
+    doc.text("House Total: $21,220.16 AUD", 20, yPos)
 
     doc.save("Home_Contents_Report.pdf")
   }
@@ -383,49 +744,62 @@ export function ReportsTab({ propertyData }: ReportsTabProps) {
                       <div className="mb-4">
                         <h5 className="font-semibold mb-2">Home Contents Report</h5>
                         <p className="text-gray-600 mb-2">Property Address: 3 Bellavista Terrace, Paddington, QLD</p>
-                        <p className="text-gray-600 mb-2">Date of Report: 2nd August 2025</p>
-                        <p className="text-gray-600 mb-4">Report Reference Number: #4</p>
+                        <p className="text-gray-600 mb-2">Date of Report: 21 August 2025</p>
+                        <p className="text-gray-600 mb-4">Report Reference Number: #21</p>
                       </div>
                       <div className="space-y-3">
                         <h6 className="font-semibold">Contents Inventory (Sample)</h6>
-                        <div className="grid grid-cols-3 gap-4 text-xs">
-                          <div className="font-semibold">Room/Location</div>
-                          <div className="font-semibold">Item Description</div>
-                          <div className="font-semibold">Purchase Price (AUD)</div>
+                        <div className="grid grid-cols-4 gap-4 text-xs">
+                          <div className="font-semibold">Room</div>
+                          <div className="font-semibold">Category</div>
+                          <div className="font-semibold">Item</div>
+                          <div className="font-semibold">Total</div>
                         </div>
-                        <div className="grid grid-cols-3 gap-4 text-xs py-2 border-t">
-                          <div>Hallway</div>
-                          <div>Globe West Sketch Mono Console</div>
-                          <div>$1,380</div>
+                        <div className="grid grid-cols-4 gap-4 text-xs py-2 border-t">
+                          <div>Room 2</div>
+                          <div>Furniture</div>
+                          <div>Outdoor Rope Lounge Chair (2)</div>
+                          <div>$670</div>
                         </div>
-                        <div className="grid grid-cols-3 gap-4 text-xs py-2 border-t">
-                          <div>Hallway</div>
-                          <div>Designer Boys "Ethereal" Framed Canvas</div>
-                          <div>$1,199</div>
+                        <div className="grid grid-cols-4 gap-4 text-xs py-2 border-t">
+                          <div>Room 3</div>
+                          <div>Other</div>
+                          <div>Liquid Soap Dispenser</div>
+                          <div>$25.97</div>
                         </div>
-                        <div className="grid grid-cols-3 gap-4 text-xs py-2 border-t">
-                          <div>Bathroom</div>
-                          <div>Victoria + Albert "Amiata" Freestanding Bath</div>
-                          <div>$5,995</div>
+                        <div className="grid grid-cols-4 gap-4 text-xs py-2 border-t">
+                          <div>Room 4</div>
+                          <div>Furniture</div>
+                          <div>Queen Mattress</div>
+                          <div>$399</div>
                         </div>
-                        <div className="grid grid-cols-3 gap-4 text-xs py-2 border-t">
-                          <div>Bedroom</div>
-                          <div>Snooze "My Style" Upholstered Bed Frame</div>
-                          <div>$1,890</div>
+                        <div className="grid grid-cols-4 gap-4 text-xs py-2 border-t">
+                          <div>Room 5</div>
+                          <div>Furniture</div>
+                          <div>Rattan Buffet Sideboard</div>
+                          <div>$4,100</div>
                         </div>
-                        <div className="grid grid-cols-3 gap-4 text-xs py-2 border-t">
-                          <div>Living Room</div>
-                          <div>Coco Republic "Sorrento" 3-Seater Sofa</div>
-                          <div>$6,995</div>
+                        <div className="grid grid-cols-4 gap-4 text-xs py-2 border-t">
+                          <div>Room 7</div>
+                          <div>Furniture</div>
+                          <div>Rectangular Dining Table</div>
+                          <div>$949</div>
                         </div>
                       </div>
                       <div className="mt-4 p-3 bg-blue-50 rounded">
                         <h6 className="font-semibold text-sm mb-2">Total Estimated Value</h6>
                         <div className="text-xs space-y-1">
-                          <div>Bathroom: $18,105</div>
-                          <div>Bedroom: $15,945</div>
-                          <div>Living Room: $15,280</div>
-                          <div className="font-semibold pt-2 border-t">Total: $77,750.00 AUD</div>
+                          <div>Room 2 - Outdoor Furniture: $953</div>
+                          <div>Room 3 - Bathroom Accessories: $64.94</div>
+                          <div>Room 4 - Bedroom: $1,269.60</div>
+                          <div>Room 5 - Living Room: $9,472.90</div>
+                          <div>Room 7 - Kitchen & Dining: $5,135.80</div>
+                          <div>Room 8 - Bathroom: $154.75</div>
+                          <div>Room 10 - Bathroom: $56.85</div>
+                          <div>Room 11 - Bedroom: $2,052.73</div>
+                          <div>Room 12 - Outdoor Dining: $629</div>
+                          <div>Room 13 - Bedroom: $1,430.59</div>
+                          <div className="font-semibold pt-2 border-t">House Total: $21,220.16 AUD</div>
                         </div>
                       </div>
                       <div className="mt-4 text-xs text-gray-500">

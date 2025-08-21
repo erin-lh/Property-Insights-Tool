@@ -253,7 +253,7 @@ export default function RoomPage({ params }) {
         "https://s3.ap-southeast-2.amazonaws.com/platform.tourassets.bucket/tour_25763/panoramas/tsmq1wak12rhgn0mawksxcwcd_tsmq1wak12rhgn0mawksxcwcd_613htqkzf66zz7hf7n8kzszed_1hsznrxt775cdf5e5fr400crc_skybox.jpg",
       ],
       roomLocationImage:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D6ymHOPAPDVRRv8srvo10ZGcexl5Ll.png",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Room%204-%20Location-lN6EGF986bSvAWwMEZzL3KTo0eDFy1.png",
       propertyImages: [
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220648%20%281%29.jpg-RzynbqvbKwtcva7gQR1MNthn2cHACQ.jpeg",
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3-Bellavista-Tce-08012025_220608%20%281%29.jpg-CJAERaRUTF3zUevupoVz1GYKz5tYh4.jpeg",
