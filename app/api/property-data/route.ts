@@ -13,6 +13,10 @@ export async function GET() {
       carSpaces: 1,
       internalWallColour: "#d2d0ca",
       primaryInternalColor: "#d2d0ca",
+      estimatedValue: 1340589,
+      lowPrice: 1152907,
+      highPrice: 1528271,
+      lastSalePrice: 375000,
     }
 
     return Response.json(responseData)

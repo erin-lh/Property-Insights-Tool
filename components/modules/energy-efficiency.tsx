@@ -4,15 +4,30 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Thermometer, Zap, Leaf, ChevronDown, ChevronUp, Snowflake, AlertTriangle, XCircle } from "lucide-react"
+import {
+  Thermometer,
+  Zap,
+  Leaf,
+  ChevronDown,
+  ChevronUp,
+  Snowflake,
+  AlertTriangle,
+  XCircle,
+  CheckCircle,
+} from "lucide-react"
 import Image from "next/image"
 
 export function EnergyEfficiency() {
   const [isHeatingCoolingOpen, setIsHeatingCoolingOpen] = useState(false)
+  const [isEnergyFeaturesOpen, setIsEnergyFeaturesOpen] = useState(false)
 
   const energyData = {
-    overallRating: "7.5",
+    overallRating: "3.6",
     climateZone: "2",
+    eerScore: "Pending",
+    homeEnergyRating: "Pending",
+    totalFeatures: 14,
+    passedFeatures: 5,
     heatingCooling: [
       {
         type: "Split System Air Conditioner",
@@ -33,12 +48,44 @@ export function EnergyEfficiency() {
         image: "/images/mitsubishi-ac-specs.png",
       },
     ],
-    features: [
+    passingFeatures: [
+      {
+        name: "Orientation",
+        icon: CheckCircle,
+        status: "Direction of Front Door 27° NE, Direction of Windows in Living Room 27° NE",
+        type: "success",
+      },
+      {
+        name: "External Shading",
+        icon: CheckCircle,
+        status: "Yes, Window shades on Northern side, Shaded deck on Western Side",
+        type: "success",
+      },
+      {
+        name: "Efficient Lighting",
+        icon: CheckCircle,
+        status: "Yes, LEDs present",
+        type: "success",
+      },
+      {
+        name: "Efficient Cooking",
+        icon: CheckCircle,
+        status: "Yes- Induction",
+        type: "success",
+      },
+      {
+        name: "All Electric Home",
+        icon: CheckCircle,
+        status: "Yes, No Gas Present",
+        type: "success",
+      },
+    ],
+    failingFeatures: [
       {
         name: "Optimal Layout",
-        icon: AlertTriangle,
-        status: "Top Floor- Open Plan",
-        type: "warning",
+        icon: XCircle,
+        status: "No. Top Floor- Open Plan",
+        type: "error",
       },
       {
         name: "Efficient Windows",
@@ -49,7 +96,7 @@ export function EnergyEfficiency() {
       {
         name: "Efficient Window Coverings",
         icon: XCircle,
-        status: "No- only blinds downstairs- refer to images",
+        status: "No- only blinds downstairs",
         type: "error",
       },
       {
@@ -61,55 +108,34 @@ export function EnergyEfficiency() {
       {
         name: "Efficient Hot Water",
         icon: AlertTriangle,
-        status: "Hot water tank and power box present",
+        status: "Moderate- Hot water tank present, no solar",
         type: "warning",
       },
       {
         name: "Energy Generation",
         icon: XCircle,
-        status: "No",
+        status: "No Solar (PV) System or Solar Power System",
         type: "error",
       },
       {
         name: "Energy Storage",
         icon: XCircle,
-        status: "No",
+        status: "No Household Battery Storage",
         type: "error",
       },
       {
         name: "Electric Vehicle Charging",
         icon: XCircle,
-        status: "No",
+        status: "No EV charging port",
         type: "error",
-      },
-      {
-        name: "Efficient Pool Pump",
-        icon: XCircle,
-        status: "No",
-        type: "error",
-      },
-      {
-        name: "EER (Score 0-6 stars)",
-        icon: AlertTriangle,
-        status: "Pending",
-        type: "warning",
       },
     ],
   }
 
-  const getStatusBadgeVariant = (type: string) => {
-    switch (type) {
-      case "error":
-        return "destructive"
-      case "warning":
-        return "secondary"
-      default:
-        return "outline"
-    }
-  }
-
   const getStatusBadgeClass = (type: string) => {
     switch (type) {
+      case "success":
+        return "bg-green-50 text-green-700 border-green-200"
       case "error":
         return "bg-red-50 text-red-700 border-red-200"
       case "warning":
@@ -127,25 +153,34 @@ export function EnergyEfficiency() {
             <Zap className="h-6 w-6 text-green-600" />
             Energy Efficiency Assessment
             <Badge variant="outline" className="ml-2">
-              5/11
+              {energyData.passedFeatures} of {energyData.totalFeatures} Features
             </Badge>
           </CardTitle>
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Overall Rating & Climate Zone */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-green-50 p-4 rounded-lg text-center">
-            <div className="text-3xl font-bold text-green-700 mb-2">{energyData.overallRating}</div>
-            <div className="text-sm text-green-600">Overall Energy Rating</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-orange-50 p-4 rounded-lg text-center">
+            <div className="text-3xl font-bold text-orange-700 mb-2">{energyData.overallRating}</div>
+            <div className="text-sm text-orange-600">Score</div>
+            <div className="text-xs text-orange-500 mt-1">
+              ({energyData.passedFeatures} of {energyData.totalFeatures} Features)
+            </div>
           </div>
           <div className="bg-blue-50 p-4 rounded-lg text-center">
             <div className="text-3xl font-bold text-blue-700 mb-2">{energyData.climateZone}</div>
             <div className="text-sm text-blue-600">Climate Zone</div>
           </div>
+          <div className="bg-gray-50 p-4 rounded-lg text-center">
+            <div className="text-lg font-bold text-gray-700 mb-2">{energyData.eerScore}</div>
+            <div className="text-sm text-gray-600">EER (Score 0-6 stars)</div>
+          </div>
+          <div className="bg-gray-50 p-4 rounded-lg text-center">
+            <div className="text-lg font-bold text-gray-700 mb-2">{energyData.homeEnergyRating}</div>
+            <div className="text-sm text-gray-600">Home Energy Rating (Score 0-100)</div>
+          </div>
         </div>
 
-        {/* Heating & Cooling Systems */}
         <div>
           <Button
             variant="ghost"
@@ -216,23 +251,51 @@ export function EnergyEfficiency() {
           )}
         </div>
 
-        {/* Energy Features */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <Leaf className="h-5 w-5 text-green-600" />
-            Energy Features
-          </h3>
-          <div className="space-y-3">
-            {energyData.features.map((feature, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <feature.icon className="h-4 w-4 text-gray-600" />
-                  <span className="text-sm font-medium">{feature.name}</span>
+          <Button
+            variant="ghost"
+            onClick={() => setIsEnergyFeaturesOpen(!isEnergyFeaturesOpen)}
+            className="w-full justify-between p-0 h-auto hover:bg-transparent"
+          >
+            <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+              <Leaf className="h-5 w-5 text-green-600" />
+              Energy Features
+            </h3>
+            {isEnergyFeaturesOpen ? (
+              <ChevronUp className="h-5 w-5 text-gray-500" />
+            ) : (
+              <ChevronDown className="h-5 w-5 text-gray-500" />
+            )}
+          </Button>
+
+          {isEnergyFeaturesOpen && (
+            <div className="mt-4 space-y-3">
+              {energyData.passingFeatures.map((feature, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200"
+                >
+                  <div className="flex items-center gap-3">
+                    <feature.icon className="h-4 w-4 text-green-600" />
+                    <span className="text-sm font-medium">{feature.name}</span>
+                  </div>
+                  <Badge className={getStatusBadgeClass(feature.type)}>{feature.status}</Badge>
                 </div>
-                <Badge className={getStatusBadgeClass(feature.type)}>{feature.status}</Badge>
+              ))}
+
+              <div className="space-y-3 mt-6">
+                {energyData.failingFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <feature.icon className="h-4 w-4 text-gray-600" />
+                      <span className="text-sm font-medium">{feature.name}</span>
+                    </div>
+                    <Badge className={getStatusBadgeClass(feature.type)}>{feature.status}</Badge>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

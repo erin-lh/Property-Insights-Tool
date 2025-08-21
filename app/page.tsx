@@ -176,11 +176,11 @@ export default function PropertyInsightsTool() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Bath className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-700">3 bath</span>
+                    <span className="text-gray-700">{propertyData.bathrooms} bath</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Car className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-700">1 car</span>
+                    <span className="text-gray-700">{propertyData.cars} car</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Ruler className="h-5 w-5 text-gray-600" />
@@ -188,15 +188,13 @@ export default function PropertyInsightsTool() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Package className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-700">13 rooms</span>
+                    <span className="text-gray-700">{propertyData.rooms.length} rooms</span>
                   </div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-gray-900">$1,340,589</div>
                   <div className="text-sm text-gray-500">Est. Value</div>
-                  <div className="text-sm text-gray-400 mt-1">
-                    Last Sale: ${propertyData.lastSalePrice.toLocaleString()}
-                  </div>
+                  <div className="text-sm text-gray-400 mt-1">Last Sale: $375,000</div>
                 </div>
               </div>
             </CardContent>
@@ -247,7 +245,7 @@ export default function PropertyInsightsTool() {
           </TabsContent>
 
           <TabsContent value="room-insights">
-            <RoomInsightsTab />
+            <RoomInsightsTab rooms={propertyData.rooms} />
           </TabsContent>
 
           <TabsContent value="assets">
@@ -255,7 +253,7 @@ export default function PropertyInsightsTool() {
           </TabsContent>
 
           <TabsContent value="reports">
-            <ReportsTab />
+            <ReportsTab propertyData={propertyData} />
           </TabsContent>
         </Tabs>
 
@@ -268,9 +266,9 @@ export default function PropertyInsightsTool() {
                   name: selectedRoom.name || "Unknown Room",
                   type: selectedRoom.type,
                   area: selectedRoom.area,
-                  condition: "Good", // Default value since RoomData doesn't have condition
-                  features: [], // Default empty array since RoomData doesn't have features
-                  hasSheetData: false,
+                  condition: selectedRoom.condition || "Good", // Default value since RoomData doesn't have condition
+                  features: selectedRoom.features || [], // Default empty array since RoomData doesn't have features
+                  hasSheetData: selectedRoom.hasSheetData || false,
                 }
               : null
           }
