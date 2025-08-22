@@ -4,8 +4,8 @@ import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, MapPin, Home, Bed, Bath, Car, TrendingUp } from 'lucide-react'
-import Image from 'next/image'
+import { Search, MapPin, Home, Bed, Bath, Car, TrendingUp } from "lucide-react"
+import Image from "next/image"
 
 interface SearchPageProps {
   onPropertySelect: (address: string) => void
@@ -16,7 +16,7 @@ const sampleProperties = [
     address: "3 Bellavista Terrace, Paddington, QLD",
     price: "$1,340,589",
     bedrooms: 3,
-    bathrooms: 2,
+    bathrooms: 3,
     carSpaces: 1,
     propertyType: "House",
     lastScanned: "2 days ago",
@@ -48,7 +48,7 @@ export function SearchPage({ onPropertySelect }: SearchPageProps) {
   const [searchQuery, setSearchQuery] = useState("")
 
   const filteredProperties = sampleProperties.filter((property) =>
-    property.address.toLowerCase().includes(searchQuery.toLowerCase())
+    property.address.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
   return (
@@ -66,9 +66,7 @@ export function SearchPage({ onPropertySelect }: SearchPageProps) {
             />
             <h1 className="text-3xl font-bold text-gray-900">Little Hinges Property Insights</h1>
           </div>
-          <p className="text-gray-600 text-lg">
-            Advanced property analysis and data visualisation platform
-          </p>
+          <p className="text-gray-600 text-lg">Advanced property analysis and data visualisation platform</p>
         </div>
 
         {/* Search Bar */}
@@ -164,9 +162,7 @@ export function SearchPage({ onPropertySelect }: SearchPageProps) {
                   <Search className="h-12 w-12 mx-auto" />
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 mb-2">No properties found</h3>
-                <p className="text-gray-600">
-                  Try adjusting your search terms or browse our recent properties above.
-                </p>
+                <p className="text-gray-600">Try adjusting your search terms or browse our recent properties above.</p>
               </CardContent>
             </Card>
           )}
